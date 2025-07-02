@@ -7,3 +7,174 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  name     String   @default("Имя не указано")
+  email    String   @unique
+  password String?
+  role     UserRole @default(USER)
+
+  favorites Sneaker[]
+
+  reviews Review[]
+  orders  Order[]
+
+  @@map("user")
+}
+
+model Sneaker {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  title       String
+  price       Int
+  images      String[]
+  description String
+
+  stocks SneakerSizeStock[]
+
+  sneakerInfo SneakerInfo?
+
+  color   Color  @relation(fields: [colorId], references: [id])
+  colorId String @map("color_id")
+
+  users User[]
+
+  reviews Review[]
+
+  @@map("sneaker")
+}
+
+model SneakerInfo {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  gender       String
+  season       String
+  protection   String?
+  warranty     String?
+  warrantyTime String?
+  country      String?
+  code         String?
+
+  sneaker   Sneaker @relation(fields: [sneakerId], references: [id])
+  sneakerId String  @unique @map("sneaker_id")
+
+  @@map("sneaker_info")
+}
+
+model Size {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  value String
+  type  SizeType
+
+  stocks SneakerSizeStock[]
+
+  @@map("size")
+}
+
+model SneakerSizeStock {
+  sneaker   Sneaker @relation(fields: [sneakerId], references: [id])
+  sneakerId String
+
+  size   Size   @relation(fields: [sizeId], references: [id])
+  sizeId String
+
+  quantity Int @default(0)
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  orderItems OrderItem[]
+
+  @@id([sneakerId, sizeId])
+  @@map("sneaker_size_stock")
+}
+
+model Color {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  value String
+  hex   String
+
+  sneakers Sneaker[]
+
+  @@map("color")
+}
+
+model Order {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  status      OrderStatus @default(PENDING)
+  items       OrderItem[]
+  totalAmount Int
+
+  user   User?   @relation(fields: [userId], references: [id])
+  userId String? @map("user_id")
+
+  @@map("order")
+}
+
+model OrderItem {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  quantity Int
+  price    Int
+
+  order   Order?  @relation(fields: [orderId], references: [id])
+  orderId String? @map("order_id")
+
+  sneakerSizeStock SneakerSizeStock @relation(fields: [sneakerId, sizeId], references: [sneakerId, sizeId])
+  sneakerId        String
+  sizeId           String
+
+  @@map("item")
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  text   String
+  rating Int
+
+  user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String? @map("user_id")
+
+  sneaker   Sneaker? @relation(fields: [sneakerId], references: [id])
+  sneakerId String   @map("sneaker_id")
+
+  @@map("review")
+}
+
+enum SizeType {
+  RU
+  EU
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+enum OrderStatus {
+  PENDING
+  SUCCESS
+  CANCELLED
+}
