@@ -31,7 +31,7 @@ model Sneaker {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  title       String
+  name        String
   price       Int
   images      String[]
   description String
@@ -46,6 +46,9 @@ model Sneaker {
   users User[]
 
   reviews Review[]
+
+  brand   Brand?  @relation(fields: [brandId], references: [id])
+  brandId String?
 
   @@map("sneaker")
 }
@@ -62,11 +65,23 @@ model SneakerInfo {
   warrantyTime String?
   country      String?
   code         String?
+  slug         String
 
   sneaker   Sneaker @relation(fields: [sneakerId], references: [id])
   sneakerId String  @unique @map("sneaker_id")
 
   @@map("sneaker_info")
+}
+
+model Brand {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  name     String    @unique
+  sneakers Sneaker[]
+
+  @@map("brand")
 }
 
 model Size {
