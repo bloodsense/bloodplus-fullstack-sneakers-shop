@@ -9,7 +9,6 @@ import { getJwtConfig } from 'src/config/jwt.config';
 import { PrismaService } from 'src/prisma.service';
 import { UserService } from 'src/user/user.service';
 import { GoogleStrategy } from './strategies/google.strategy';
-import { GithubStrategy } from './strategies/github.strategy';
 import { YandexStrategy } from './strategies/yandex.strategy';
 
 @Module({
@@ -29,7 +28,6 @@ import { YandexStrategy } from './strategies/yandex.strategy';
     UserService,
     JwtStrategy,
     GoogleStrategy,
-    GithubStrategy,
     YandexStrategy,
   ],
 })

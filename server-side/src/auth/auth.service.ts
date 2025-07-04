@@ -69,7 +69,6 @@ export class AuthService {
       email: string;
       name: string;
       picture?: string;
-      githubId?: string;
     };
   }) {
     let user = await this.userService.getByEmail(req.user.email);
