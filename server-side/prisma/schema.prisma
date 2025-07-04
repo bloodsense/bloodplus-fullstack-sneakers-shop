@@ -16,7 +16,7 @@ model User {
   name     String   @default("Имя не указано")
   email    String   @unique
   password String?
-  avatar   String   @default("/uploads/no-user-image.png")
+  picture  String   @default("/uploads/no-user-image.png")
   role     UserRole @default(USER)
 
   favorites Sneaker[]
