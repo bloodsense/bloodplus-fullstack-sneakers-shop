@@ -148,7 +148,7 @@ export class AuthService {
     });
   }
 
-  removeRefreshTokenToResponse(res: Response) {
+  removeRefreshTokenFromResponse(res: Response) {
     res.cookie(this.REFRESH_TOKEN_NAME, '', {
       httpOnly: true,
       domain: this.configService.get('SERVER_DOMAIN'),
