@@ -96,7 +96,9 @@ export class AuthService {
     const userExist = await this.userService.getByEmail(dto.email);
 
     if (userExist)
-      throw new BadRequestException('Пользователь уже зарегистрирован');
+      throw new BadRequestException(
+        'Пользователь с таким email уже зарегистрирован',
+      );
 
     const user = await this.userService.create(dto);
     const tokens = this.issueTokens(user.id);
