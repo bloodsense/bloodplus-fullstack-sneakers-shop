@@ -10,6 +10,7 @@ import { FileService } from './file.service';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { Auth } from 'src/decorators/auth.decorator';
 import { MaxFilesValidationPipe } from './pipes/max-files.validation.pipe';
+import { UserRole } from 'generated/prisma';
 
 @Controller('files')
 export class FileController {
@@ -17,7 +18,7 @@ export class FileController {
 
   @HttpCode(200)
   @UseInterceptors(FilesInterceptor('files'))
-  @Auth()
+  @Auth(UserRole.ADMIN)
   @Post()
   async savingFiles(
     @UploadedFiles(new MaxFilesValidationPipe(3))

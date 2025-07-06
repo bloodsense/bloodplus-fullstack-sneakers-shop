@@ -13,6 +13,7 @@ import {
 import { Auth } from 'src/decorators/auth.decorator';
 import { BrandService } from './brand.service';
 import { BrandDto } from './dto/brand.dto';
+import { UserRole } from 'generated/prisma';
 
 @Controller('brands')
 export class BrandController {
@@ -28,6 +29,7 @@ export class BrandController {
   @Auth()
   @HttpCode(200)
   @Post('/create')
+  @Auth(UserRole.ADMIN)
   async createBrand(@Body() dto: BrandDto) {
     return this.brandService.createBrand(dto);
   }
@@ -36,6 +38,7 @@ export class BrandController {
   @Auth()
   @HttpCode(200)
   @Put('/update/:id')
+  @Auth(UserRole.ADMIN)
   async updateBrand(@Param('id') id: string, @Body() dto: BrandDto) {
     return this.brandService.updateBrand(id, dto);
   }
@@ -44,6 +47,7 @@ export class BrandController {
   @Auth()
   @HttpCode(200)
   @Delete(':id')
+  @Auth(UserRole.ADMIN)
   async deleteBrand(@Param('id') id: string) {
     return this.brandService.deleteBrand(id);
   }
