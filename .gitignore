@@ -83,6 +83,7 @@ server-side/pids
 server-side/*.pid
 server-side/*.seed
 server-side/*.pid.lock
+server-side/uploads
 
 # Diagnostic reports (https://nodejs.org/api/report.html) server
 server-side/report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
