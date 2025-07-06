@@ -9,6 +9,7 @@ import {
 import { FileService } from './file.service';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { Auth } from 'src/decorators/auth.decorator';
+import { MaxFilesValidationPipe } from './pipes/max-files.validation.pipe';
 
 @Controller('files')
 export class FileController {
@@ -19,7 +20,8 @@ export class FileController {
   @Auth()
   @Post()
   async savingFiles(
-    @UploadedFiles() files: Express.Multer.File[],
+    @UploadedFiles(new MaxFilesValidationPipe(3))
+    files: Express.Multer.File[],
     @Query('folder') folder?: string,
   ) {
     return this.fileService.savingFiles(files, folder);
