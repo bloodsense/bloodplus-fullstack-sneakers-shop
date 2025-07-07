@@ -21,11 +21,13 @@ export class SizeController {
   constructor(private readonly sizeService: SizeService) {}
 
   @Get()
+  @Auth(UserRole.ADMIN)
   async getAllSizes() {
     return this.sizeService.getAllSizes();
   }
 
   @Get(':id')
+  @Auth(UserRole.ADMIN)
   async getById(@Param('id') id: string) {
     return this.sizeService.getById(id);
   }

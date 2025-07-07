@@ -24,7 +24,7 @@ export class SizeService {
     });
 
     if (!size) {
-      throw new NotFoundException('Размер не найден.');
+      throw new NotFoundException('Размер не найден');
     }
     return size;
   }
@@ -43,7 +43,7 @@ export class SizeService {
     const existingSize = await this.getByValueAndType(dto.value, dto.type);
     if (existingSize) {
       throw new ConflictException(
-        `Размер "${dto.value}" типа "${dto.type}" уже существует.`,
+        `Размер "${dto.value}" типа "${dto.type}" уже существует`,
       );
     }
 
