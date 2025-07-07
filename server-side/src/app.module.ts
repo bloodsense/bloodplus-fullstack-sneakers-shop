@@ -7,6 +7,7 @@ import { BrandModule } from './brand/brand.module';
 import { FileModule } from './file/file.module';
 import { SneakerModule } from './sneaker/sneaker.module';
 import { SizeModule } from './size/size.module';
+import { ReviewModule } from './review/review.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -17,6 +18,7 @@ import { SizeModule } from './size/size.module';
     FileModule,
     SneakerModule,
     SizeModule,
+    ReviewModule,
   ],
 })
 export class AppModule {}
