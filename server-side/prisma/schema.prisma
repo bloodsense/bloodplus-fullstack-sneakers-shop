@@ -48,8 +48,8 @@ model Sneaker {
 
   reviews Review[]
 
-  brand   Brand?  @relation(fields: [brandId], references: [id])
-  brandId String?
+  brand   Brand  @relation(fields: [brandId], references: [id])
+  brandId String
 
   @@map("sneaker")
 }
@@ -68,7 +68,7 @@ model SneakerInfo {
   code         String?
   slug         String
 
-  sneaker   Sneaker @relation(fields: [sneakerId], references: [id])
+  sneaker   Sneaker @relation(fields: [sneakerId], references: [id], onDelete: Cascade)
   sneakerId String  @unique @map("sneaker_id")
 
   @@map("sneaker_info")
