@@ -26,7 +26,6 @@ export class ColorController {
   }
 
   @UsePipes(new ValidationPipe())
-  @Auth()
   @HttpCode(200)
   @Post('/create')
   @Auth(UserRole.ADMIN)
@@ -35,7 +34,6 @@ export class ColorController {
   }
 
   @UsePipes(new ValidationPipe())
-  @Auth()
   @HttpCode(200)
   @Put('/update/:id')
   @Auth(UserRole.ADMIN)
@@ -44,7 +42,6 @@ export class ColorController {
   }
 
   @UsePipes(new ValidationPipe())
-  @Auth()
   @HttpCode(200)
   @Delete(':id')
   @Auth(UserRole.ADMIN)
