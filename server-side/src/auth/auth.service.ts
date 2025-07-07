@@ -11,6 +11,7 @@ import { AuthDto } from './dto/auth.dto';
 import { Response } from 'express';
 import { ConfigService } from '@nestjs/config';
 import { verify } from 'argon2';
+import { UserRole } from 'generated/prisma';
 
 interface AuthTokens {
   accessToken: string;
@@ -30,8 +31,8 @@ export class AuthService {
     private configService: ConfigService,
   ) {}
 
-  issueTokens(userId: string): AuthTokens {
-    const data = { id: userId };
+  issueTokens(userId: string, userRole: UserRole): AuthTokens {
+    const data = { id: userId, role: userRole };
 
     const accessToken = this.jwt.sign(data, {
       expiresIn: this.ACCESS_TOKEN_EXPIRY_IN_MINUTES,
@@ -87,7 +88,7 @@ export class AuthService {
       });
     }
 
-    const tokens = this.issueTokens(user.id);
+    const tokens = this.issueTokens(user.id, user.role);
 
     return { user, ...tokens };
   }
@@ -101,7 +102,7 @@ export class AuthService {
       );
 
     const user = await this.userService.create(dto);
-    const tokens = this.issueTokens(user.id);
+    const tokens = this.issueTokens(user.id, user.role);
 
     return { user, ...tokens };
   }
@@ -123,14 +124,14 @@ export class AuthService {
       throw new BadRequestException('Пользователь не найден');
     }
 
-    const tokens = this.issueTokens(user.id);
+    const tokens = this.issueTokens(user.id, user.role);
 
     return { user, ...tokens };
   }
 
   async login(dto: AuthDto) {
     const user = await this.validateUser(dto);
-    const tokens = this.issueTokens(user.id);
+    const tokens = this.issueTokens(user.id, user.role);
 
     return { user, ...tokens };
   }
