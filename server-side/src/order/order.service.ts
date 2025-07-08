@@ -85,6 +85,7 @@ export class OrderService {
 
       return checkout.capturePayment(dto.object.id, capturePayment);
     }
+
     if (dto.event === 'payment.succeeded') {
       const orderId = dto.object.description.split('#')[1];
 
@@ -94,6 +95,21 @@ export class OrderService {
         },
         data: {
           status: OrderStatus.SUCCESS,
+        },
+      });
+
+      return true;
+    }
+
+    if (dto.event === 'payment_cancelled') {
+      const orderId = dto.object.description.split('#')[1];
+
+      await this.prisma.order.update({
+        where: {
+          id: orderId,
+        },
+        data: {
+          status: OrderStatus.CANCELLED,
         },
       });
 
