@@ -8,6 +8,7 @@ import { FileModule } from './file/file.module';
 import { SneakerModule } from './sneaker/sneaker.module';
 import { SizeModule } from './size/size.module';
 import { ReviewModule } from './review/review.module';
+import { OrderModule } from './order/order.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -19,6 +20,7 @@ import { ReviewModule } from './review/review.module';
     SneakerModule,
     SizeModule,
     ReviewModule,
+    OrderModule,
   ],
 })
 export class AppModule {}
