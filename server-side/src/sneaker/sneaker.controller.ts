@@ -46,7 +46,7 @@ export class SneakerController {
 
   @UsePipes(new ValidationPipe())
   @HttpCode(200)
-  @Post()
+  @Post('/')
   @Auth(UserRole.ADMIN)
   async createSneaker(@Body() dto: CreateSneakerDto) {
     return this.sneakerService.createSneaker(dto);
