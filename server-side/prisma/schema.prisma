@@ -124,6 +124,7 @@ model Color {
 
   value String
   hex   String
+  slug  String @unique
 
   sneakers Sneaker[]
 

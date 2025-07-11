@@ -19,7 +19,11 @@ import { CurrentUser } from 'src/user/decorators/user.decorator';
 export class ReviewController {
   constructor(private readonly reviewService: ReviewService) {}
 
-  @Auth()
+  @Get(':sneakerSlug')
+  async getReviewsBySneakerSlug(@Param('sneakerSlug') sneakerSlug: string) {
+    return this.reviewService.getReviewsBySneakerSlug(sneakerSlug);
+  }
+
   @Get('/:id')
   async getByIdReview(
     @Param('id') id: string,

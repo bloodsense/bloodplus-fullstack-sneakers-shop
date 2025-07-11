@@ -6,10 +6,10 @@ import { ColorDto } from './dto/color.dto';
 export class ColorService {
   constructor(private prisma: PrismaService) {}
 
-  async getByIdColor(id: string) {
+  async getBySlugColor(slug: string) {
     const color = await this.prisma.color.findUnique({
       where: {
-        id,
+        slug,
       },
     });
 
@@ -25,27 +25,28 @@ export class ColorService {
       data: {
         value: dto.value,
         hex: dto.hex,
+        slug: dto.slug,
       },
     });
   }
 
-  async updateColor(id: string, dto: ColorDto) {
-    await this.getByIdColor(id);
+  async updateColor(slug: string, dto: ColorDto) {
+    await this.getBySlugColor(slug);
 
     return this.prisma.color.update({
       where: {
-        id,
+        slug,
       },
       data: dto,
     });
   }
 
-  async deleteColor(id: string) {
-    await this.getByIdColor(id);
+  async deleteColor(slug: string) {
+    await this.getBySlugColor(slug);
 
     return this.prisma.color.delete({
       where: {
-        id,
+        slug,
       },
     });
   }

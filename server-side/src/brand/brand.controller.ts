@@ -27,7 +27,7 @@ export class BrandController {
 
   @UsePipes(new ValidationPipe())
   @HttpCode(200)
-  @Post()
+  @Post('/')
   @Auth(UserRole.ADMIN)
   async createBrand(@Body() dto: BrandDto) {
     return this.brandService.createBrand(dto);

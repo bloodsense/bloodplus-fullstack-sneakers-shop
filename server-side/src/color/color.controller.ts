@@ -19,15 +19,15 @@ import { UserRole } from 'generated/prisma';
 export class ColorController {
   constructor(private readonly colorService: ColorService) {}
 
-  @Get('/:id')
+  @Get(':slug')
   @Auth(UserRole.ADMIN)
-  async getByIdColor(@Param('id') id: string) {
-    return this.colorService.getByIdColor(id);
+  async getBySlugColor(@Param('slug') slug: string) {
+    return this.colorService.getBySlugColor(slug);
   }
 
   @UsePipes(new ValidationPipe())
   @HttpCode(200)
-  @Post('/create')
+  @Post('/')
   @Auth(UserRole.ADMIN)
   async createColor(@Body() dto: ColorDto) {
     return this.colorService.createColor(dto);
@@ -35,17 +35,17 @@ export class ColorController {
 
   @UsePipes(new ValidationPipe())
   @HttpCode(200)
-  @Put('/update/:id')
+  @Put(':slug')
   @Auth(UserRole.ADMIN)
-  async updateColor(@Param('id') id: string, @Body() dto: ColorDto) {
-    return this.colorService.updateColor(id, dto);
+  async updateColor(@Param('slug') slug: string, @Body() dto: ColorDto) {
+    return this.colorService.updateColor(slug, dto);
   }
 
   @UsePipes(new ValidationPipe())
   @HttpCode(200)
-  @Delete(':id')
+  @Delete(':slug')
   @Auth(UserRole.ADMIN)
-  async deleteColor(@Param('id') id: string) {
-    return this.colorService.deleteColor(id);
+  async deleteColor(@Param('slug') slug: string) {
+    return this.colorService.deleteColor(slug);
   }
 }

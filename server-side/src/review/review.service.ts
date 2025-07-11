@@ -1,10 +1,46 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 import { ReviewDto } from './dto/review.dto';
+import { UserRole } from 'generated/prisma';
 
 @Injectable()
 export class ReviewService {
   constructor(private prisma: PrismaService) {}
+
+  async getReviewsBySneakerSlug(sneakerSlug: string) {
+    const sneaker = await this.prisma.sneaker.findUnique({
+      where: { slug: sneakerSlug },
+      select: { id: true },
+    });
+
+    if (!sneaker) {
+      throw new NotFoundException('Кроссовки с таким слагом не найдены');
+    }
+
+    const reviews = await this.prisma.review.findMany({
+      where: { sneakerId: sneaker.id },
+      include: {
+        user: {
+          select: {
+            id: true,
+            email: true,
+            name: true,
+            picture: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+
+    return reviews;
+  }
 
   async getByIdReview(id: string, userId: string) {
     const review = await this.prisma.review.findUnique({
@@ -52,6 +88,17 @@ export class ReviewService {
   }
 
   async createReview(userId: string, sneakerId: string, dto: ReviewDto) {
+    const existingReview = await this.prisma.review.findFirst({
+      where: {
+        userId,
+        sneakerId,
+      },
+    });
+
+    if (existingReview) {
+      throw new BadRequestException('Вы уже оставили отзыв на эти кроссовки');
+    }
+
     return this.prisma.review.create({
       data: {
         ...dto,
@@ -78,14 +125,32 @@ export class ReviewService {
     });
   }
 
-  async updateReview(id: string, userId: string, dto: ReviewDto) {
-    await this.getByIdReview(id, userId);
+  async updateReview(reviewId: string, userId: string, dto: ReviewDto) {
+    const review = await this.prisma.review.findUnique({
+      where: { id: reviewId },
+      include: { user: true },
+    });
+
+    if (!review) {
+      throw new NotFoundException('Отзыв не найден');
+    }
+
+    const currentUser = await this.prisma.user.findUnique({
+      where: { id: userId },
+    });
+
+    if (!currentUser) {
+      throw new NotFoundException('Пользователь не найден');
+    }
+
+    if (review.userId !== userId && currentUser.role !== UserRole.ADMIN) {
+      throw new ForbiddenException(
+        'У вас нет прав для обновления этого отзыва',
+      );
+    }
 
     return this.prisma.review.update({
-      where: {
-        id,
-        userId,
-      },
+      where: { id: reviewId },
       data: dto,
     });
   }
