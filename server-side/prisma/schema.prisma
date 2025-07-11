@@ -36,6 +36,7 @@ model Sneaker {
   price       Int
   images      String[]
   description String
+  slug        String   @unique
 
   stocks SneakerSizeStock[]
 
@@ -66,7 +67,6 @@ model SneakerInfo {
   warrantyTime String?
   country      String?
   code         String?
-  slug         String
 
   sneaker   Sneaker @relation(fields: [sneakerId], references: [id], onDelete: Cascade)
   sneakerId String  @unique @map("sneaker_id")
@@ -80,6 +80,7 @@ model Brand {
   updatedAt DateTime @updatedAt @map("updated_at")
 
   name     String    @unique
+  slug     String    @unique
   sneakers Sneaker[]
 
   @@map("brand")
@@ -99,7 +100,7 @@ model Size {
 }
 
 model SneakerSizeStock {
-  sneaker   Sneaker @relation(fields: [sneakerId], references: [id])
+  sneaker   Sneaker @relation(fields: [sneakerId], references: [id], onDelete: Cascade)
   sneakerId String
 
   size   Size   @relation(fields: [sizeId], references: [id])

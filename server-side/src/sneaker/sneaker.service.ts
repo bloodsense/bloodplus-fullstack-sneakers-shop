@@ -27,10 +27,10 @@ export class SneakerService {
     return sneakers;
   }
 
-  async getByIdSneaker(id: string) {
+  async getBySlugSneaker(slug: string) {
     const sneaker = await this.prisma.sneaker.findUnique({
       where: {
-        id,
+        slug,
       },
       include: {
         brand: true,
@@ -42,16 +42,16 @@ export class SneakerService {
     });
 
     if (!sneaker)
-      throw new NotFoundException('Кроссовки с таким ID не найдены');
+      throw new NotFoundException('Кроссовки с таким URL не найдены');
 
     return sneaker;
   }
 
-  async getByBrand(brandId: string) {
+  async getByBrandSlug(brandSlug: string) {
     const sneakers = await this.prisma.sneaker.findMany({
       where: {
         brand: {
-          id: brandId,
+          slug: brandSlug,
         },
       },
       include: {
@@ -65,8 +65,8 @@ export class SneakerService {
     return sneakers;
   }
 
-  async getMostPopularSneakers() {
-    const mostPopularSneakers = await this.prisma.orderItem.groupBy({
+  async getPopularSneakers() {
+    const PopularSneakers = await this.prisma.orderItem.groupBy({
       by: ['sneakerId'],
       _sum: {
         quantity: true,
@@ -78,7 +78,7 @@ export class SneakerService {
       },
     });
 
-    const sneakerIds = mostPopularSneakers.map(item => item.sneakerId);
+    const sneakerIds = PopularSneakers.map(item => item.sneakerId);
 
     const sneakers = await this.prisma.sneaker.findMany({
       where: {
@@ -100,8 +100,8 @@ export class SneakerService {
     return sortedSneakers;
   }
 
-  async getSimilarSneakers(id: string) {
-    const currentSneaker = await this.getByIdSneaker(id);
+  async getSimilarSneakers(slug: string) {
+    const currentSneaker = await this.getBySlugSneaker(slug);
 
     if (!currentSneaker.brand) {
       throw new NotFoundException(
@@ -152,6 +152,7 @@ export class SneakerService {
           price: dto.price,
           images: dto.images,
           description: dto.description,
+          slug: dto.slug,
           color: { connect: { id: dto.colorId } },
           brand: { connect: { id: dto.brandId } },
         },
@@ -179,14 +180,11 @@ export class SneakerService {
       return sneaker;
     });
 
-    return this.getByIdSneaker(newSneaker.id);
+    return this.getBySlugSneaker(newSneaker.slug);
   }
 
-  async updateSneaker(id: string, dto: CreateSneakerDto) {
-    const sneakerExists = await this.prisma.sneaker.count({ where: { id } });
-    if (sneakerExists === 0) {
-      throw new NotFoundException('Кроссовки с таким ID не найдены');
-    }
+  async updateSneaker(slug: string, dto: CreateSneakerDto) {
+    const existingSneaker = await this.getBySlugSneaker(slug);
 
     const sizeIds = dto.stocks.map(stock => stock.sizeId);
     const existingSizes = await this.prisma.size.findMany({
@@ -202,28 +200,23 @@ export class SneakerService {
 
     const updatedSneaker = await this.prisma.$transaction(async prisma => {
       const sneaker = await prisma.sneaker.update({
-        where: { id },
+        where: { id: existingSneaker.id },
         data: {
           name: dto.name,
           price: dto.price,
           images: dto.images,
           description: dto.description,
+          slug: dto.slug,
           colorId: dto.colorId,
           brandId: dto.brandId,
-        },
-      });
-
-      await prisma.sneakerInfo.upsert({
-        where: { sneakerId: id },
-        update: { ...dto.sneakerInfo },
-        create: {
-          ...dto.sneakerInfo,
-          sneaker: { connect: { id } },
+          sneakerInfo: {
+            update: dto.sneakerInfo,
+          },
         },
       });
 
       await prisma.sneakerSizeStock.deleteMany({
-        where: { sneakerId: id },
+        where: { sneakerId: existingSneaker.id },
       });
       await Promise.all(
         dto.stocks.map(stock =>
@@ -239,15 +232,15 @@ export class SneakerService {
       return sneaker;
     });
 
-    return this.getByIdSneaker(updatedSneaker.id);
+    return this.getBySlugSneaker(updatedSneaker.slug);
   }
 
-  async deleteSneaker(id: string) {
-    await this.getByIdSneaker(id);
+  async deleteSneaker(slug: string) {
+    await this.getBySlugSneaker(slug);
 
     return this.prisma.sneaker.delete({
       where: {
-        id,
+        slug,
       },
     });
   }

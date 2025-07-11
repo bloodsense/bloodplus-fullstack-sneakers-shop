@@ -15,7 +15,7 @@ import { CreateSneakerDto } from './dto/sneaker.dto';
 import { Auth } from 'src/decorators/auth.decorator';
 import { UserRole } from 'generated/prisma';
 
-@Controller('sneakers')
+@Controller()
 export class SneakerController {
   constructor(private readonly sneakerService: SneakerService) {}
 
@@ -24,24 +24,24 @@ export class SneakerController {
     return this.sneakerService.getAllSneakers();
   }
 
-  @Get(':id')
-  async getByIdSneaker(@Param('id') id: string) {
-    return this.sneakerService.getByIdSneaker(id);
+  @Get(':slug')
+  async getBySlugSneaker(@Param('slug') slug: string) {
+    return this.sneakerService.getBySlugSneaker(slug);
   }
 
-  @Get('brand/:brandId')
-  async getByBrand(@Param('brandId') brandId: string) {
-    return this.sneakerService.getByBrand(brandId);
+  @Get(':brand/:brandSlug')
+  async getByBrand(@Param('brandSlug') brandSlug: string) {
+    return this.sneakerService.getByBrandSlug(brandSlug);
   }
 
-  @Get('most-popular')
-  async getMostPopularSneakers() {
-    return this.sneakerService.getMostPopularSneakers();
+  @Get('popular')
+  async getPopularSneakers() {
+    return this.sneakerService.getPopularSneakers();
   }
 
-  @Get(':id/similar')
-  async getSimilarSneakers(@Param('id') id: string) {
-    return this.sneakerService.getSimilarSneakers(id);
+  @Get(':slug/similar')
+  async getSimilarSneakersBySlug(@Param('slug') slug: string) {
+    return this.sneakerService.getSimilarSneakers(slug);
   }
 
   @UsePipes(new ValidationPipe())
@@ -54,16 +54,19 @@ export class SneakerController {
 
   @UsePipes(new ValidationPipe())
   @HttpCode(200)
-  @Put(':id')
+  @Put(':slug')
   @Auth(UserRole.ADMIN)
-  async updateSneaker(@Param('id') id: string, @Body() dto: CreateSneakerDto) {
-    return this.sneakerService.updateSneaker(id, dto);
+  async updateSneaker(
+    @Param('slug') slug: string,
+    @Body() dto: CreateSneakerDto,
+  ) {
+    return this.sneakerService.updateSneaker(slug, dto);
   }
 
   @HttpCode(200)
-  @Delete(':id')
+  @Delete(':slug')
   @Auth(UserRole.ADMIN)
-  async deleteSneaker(@Param('id') id: string) {
-    return this.sneakerService.deleteSneaker(id);
+  async deleteSneaker(@Param('slug') slug: string) {
+    return this.sneakerService.deleteSneaker(slug);
   }
 }

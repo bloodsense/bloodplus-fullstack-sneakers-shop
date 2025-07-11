@@ -39,6 +39,10 @@ export class CreateSneakerDto {
   @IsNotEmpty({ message: 'Выберите бренд' })
   brandId: string;
 
+  @IsString({ message: 'URL (slug) должен быть строкой' })
+  @IsNotEmpty({ message: 'URL (slug) не может быть пустым' })
+  slug: string;
+
   @ValidateNested()
   @Type(() => SneakerInfoCUDto)
   sneakerInfo: SneakerInfoCUDto;

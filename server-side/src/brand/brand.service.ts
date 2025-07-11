@@ -6,10 +6,10 @@ import { BrandDto } from './dto/brand.dto';
 export class BrandService {
   constructor(private prisma: PrismaService) {}
 
-  async getByIdBrand(id: string) {
+  async getBySlugBrand(slug: string) {
     const brand = await this.prisma.brand.findUnique({
       where: {
-        id,
+        slug,
       },
     });
 
@@ -24,27 +24,28 @@ export class BrandService {
     return this.prisma.brand.create({
       data: {
         name: dto.name,
+        slug: dto.slug,
       },
     });
   }
 
-  async updateBrand(id: string, dto: BrandDto) {
-    await this.getByIdBrand(id);
+  async updateBrand(slug: string, dto: BrandDto) {
+    await this.getBySlugBrand(slug);
 
     return this.prisma.brand.update({
       where: {
-        id,
+        slug,
       },
       data: dto,
     });
   }
 
-  async deleteBrand(id: string) {
-    await this.getByIdBrand(id);
+  async deleteBrand(slug: string) {
+    await this.getBySlugBrand(slug);
 
     return this.prisma.brand.delete({
       where: {
-        id,
+        slug,
       },
     });
   }

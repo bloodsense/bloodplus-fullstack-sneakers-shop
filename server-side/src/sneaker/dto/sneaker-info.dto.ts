@@ -28,8 +28,4 @@ export class SneakerInfoCUDto {
   @IsOptional()
   @IsString({ message: 'Код должен быть строкой' })
   code?: string;
-
-  @IsString({ message: 'Слаг должен быть строкой' })
-  @IsNotEmpty({ message: 'Слаг не может быть пустым' })
-  slug: string;
 }

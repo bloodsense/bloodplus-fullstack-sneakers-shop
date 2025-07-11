@@ -19,15 +19,15 @@ import { UserRole } from 'generated/prisma';
 export class BrandController {
   constructor(private readonly brandService: BrandService) {}
 
-  @Get('/:id')
+  @Get('/:slug')
   @Auth(UserRole.ADMIN)
-  async getByIdBrand(@Param('id') id: string) {
-    return this.brandService.getByIdBrand(id);
+  async getBySlugBrand(@Param('slug') slug: string) {
+    return this.brandService.getBySlugBrand(slug);
   }
 
   @UsePipes(new ValidationPipe())
   @HttpCode(200)
-  @Post('/create')
+  @Post()
   @Auth(UserRole.ADMIN)
   async createBrand(@Body() dto: BrandDto) {
     return this.brandService.createBrand(dto);
@@ -35,17 +35,17 @@ export class BrandController {
 
   @UsePipes(new ValidationPipe())
   @HttpCode(200)
-  @Put('/update/:id')
+  @Put(':slug')
   @Auth(UserRole.ADMIN)
-  async updateBrand(@Param('id') id: string, @Body() dto: BrandDto) {
-    return this.brandService.updateBrand(id, dto);
+  async updateBrand(@Param('slug') slug: string, @Body() dto: BrandDto) {
+    return this.brandService.updateBrand(slug, dto);
   }
 
   @UsePipes(new ValidationPipe())
   @HttpCode(200)
-  @Delete(':id')
+  @Delete(':slug')
   @Auth(UserRole.ADMIN)
-  async deleteBrand(@Param('id') id: string) {
-    return this.brandService.deleteBrand(id);
+  async deleteBrand(@Param('slug') slug: string) {
+    return this.brandService.deleteBrand(slug);
   }
 }
