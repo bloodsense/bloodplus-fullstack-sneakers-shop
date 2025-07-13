@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { Montserrat } from 'next/font/google'
 import './globals.css'
-import { SITE_DESCRIPTION, SITE_NAME } from '../../constants/seo-constants'
+import { SITE_DESCRIPTION, SITE_NAME } from '../constants/seo-constants'
 import { Providers } from './providers'
 
 const montserrat = Montserrat({
