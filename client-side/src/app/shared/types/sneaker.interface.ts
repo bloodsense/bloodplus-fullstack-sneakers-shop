@@ -8,7 +8,6 @@ import {
 import { ISneakerInfo, ISneakerInfoCreate } from './sneaker-info.interface'
 
 export interface ISneaker {
-	id: string
 	name: string
 	price: number
 	images: string[]

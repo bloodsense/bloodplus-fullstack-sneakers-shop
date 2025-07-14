@@ -6,8 +6,6 @@ export interface ISneakerSizeStock {
 	sneakerId: string
 	sizeId: string
 	quantity: number
-	createdAt: string
-	updatedAt: string
 	sneaker: ISneaker
 	size: ISize
 	orderItems?: IOrderItem[]

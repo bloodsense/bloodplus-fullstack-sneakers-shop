@@ -1,6 +1,5 @@
 export interface IBrand {
 	id: string
-	createdAt: string
 	name: string
 	slug: string
 }

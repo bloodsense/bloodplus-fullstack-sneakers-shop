@@ -1,5 +1,4 @@
 export interface ISneakerInfo {
-	id: string
 	gender: string
 	season: string
 	protection?: string
@@ -9,5 +8,7 @@ export interface ISneakerInfo {
 	code?: string
 }
 
-export interface ISneakerInfoCreate
-	extends Omit<ISneakerInfo, 'id' | 'sneakerId' | 'sneaker'> {}
+export interface ISneakerInfoCreate extends ISneakerInfo {
+	sneakerId: string
+	sneaker: string
+}

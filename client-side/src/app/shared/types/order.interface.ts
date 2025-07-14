@@ -40,8 +40,6 @@ export enum OrderStatus {
 }
 
 export interface IOrder {
-	id: string
-	createdAt: string
 	items: IOrderItem[]
 	status: OrderStatus
 	user?: IUser

@@ -1,6 +1,4 @@
 export interface IColor {
-	id: string
-	createdAt: string
 	value: string
 	hex: string
 	slug: string
