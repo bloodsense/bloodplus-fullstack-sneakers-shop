@@ -27,6 +27,75 @@ export class SneakerService {
     return sneakers;
   }
 
+  async getSneakersByGender(gender: string) {
+    const sneakers = await this.prisma.sneaker.findMany({
+      where: {
+        sneakerInfo: {
+          gender: gender,
+        },
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+      include: {
+        brand: true,
+        color: true,
+        reviews: true,
+        stocks: { include: { size: true } },
+        sneakerInfo: true,
+      },
+    });
+
+    if (sneakers.length === 0) {
+      throw new NotFoundException(``);
+    }
+
+    return sneakers;
+  }
+
+  async getSneakersBySeason(season: string) {
+    const sneakers = await this.prisma.sneaker.findMany({
+      where: {
+        sneakerInfo: {
+          season: season,
+        },
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+      include: {
+        brand: true,
+        color: true,
+        reviews: true,
+        stocks: { include: { size: true } },
+        sneakerInfo: true,
+      },
+    });
+
+    if (sneakers.length === 0) {
+      throw new NotFoundException(
+        `Кроссовки для сезона "${season}" не найдены`,
+      );
+    }
+
+    return sneakers;
+  }
+
+  async getSneakersWithBrand(brandSlug: string, sneakerSlug: string) {
+    const sneakers = await this.prisma.sneaker.findMany({
+      where: {
+        slug: sneakerSlug,
+        brand: {
+          slug: brandSlug,
+        },
+      },
+    });
+
+    if (sneakers.length == 0) return new NotFoundException('Не найдено');
+
+    return sneakers;
+  }
+
   async getBySlugSneaker(slug: string) {
     const sneaker = await this.prisma.sneaker.findUnique({
       where: {

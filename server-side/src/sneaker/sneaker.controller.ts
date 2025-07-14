@@ -24,6 +24,29 @@ export class SneakerController {
     return this.sneakerService.getAllSneakers();
   }
 
+  @Get('men')
+  getMenSneakers() {
+    return this.sneakerService.getSneakersByGender('Мужской');
+  }
+
+  @Get('women')
+  getWomenSneakers() {
+    return this.sneakerService.getSneakersByGender('Женский');
+  }
+
+  @Get('season/:seasonValue')
+  getSneakersBySeason(@Param('seasonValue') seasonValue: string) {
+    return this.sneakerService.getSneakersBySeason(seasonValue);
+  }
+
+  @Get(':brandSlug/:sneakerSlug')
+  async getSneakersWithBrand(
+    @Param('brandSlug') brandSlug: string,
+    @Param('sneakerSlug') sneakerSlug: string,
+  ) {
+    return this.sneakerService.getSneakersWithBrand(brandSlug, sneakerSlug);
+  }
+
   @Get(':slug')
   async getBySlugSneaker(@Param('slug') slug: string) {
     return this.sneakerService.getBySlugSneaker(slug);
