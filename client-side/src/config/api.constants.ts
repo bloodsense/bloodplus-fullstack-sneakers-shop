@@ -1,0 +1,97 @@
+export const SERVER_URL = process.env.SERVER_URL as string
+
+export const API_PREFIX = 'api'
+
+export const API_URL = {
+	root: (path = '') => `/${API_PREFIX}${path}`,
+
+	auth: {
+		login: () => API_URL.root('/login'),
+		register: () => API_URL.root('/register'),
+		logout: () => API_URL.root('/logout'),
+		accessToken: () => API_URL.root('/login/access-token'),
+	},
+
+	users: {
+		profile: () => API_URL.root('/profile'),
+		favorites: (sneakerSlug: string) =>
+			API_URL.root(`/profile/favorites/${sneakerSlug}`),
+	},
+
+	sneakers: {
+		all: () => API_URL.root('/'),
+
+		similar: (slug: string) => API_URL.root(`/similar/${slug}`),
+
+		browse: {
+			men: () => API_URL.root('/browse/men'),
+			women: () => API_URL.root('/browse/women'),
+			brand: (brandSlug: string) => API_URL.root(`/browse/brand/${brandSlug}`),
+			season: (seasonSlug: string) =>
+				API_URL.root(`/browse/season/${seasonSlug}`),
+		},
+
+		watch: {
+			getWithBrand: (brandSlug: string, sneakerSlug: string) =>
+				API_URL.root(`/watch/${brandSlug}/${sneakerSlug}`),
+			popular: () => API_URL.root('/watch/popular'),
+		},
+
+		admin: {
+			create: () => API_URL.root('/admin/sneakers/create'),
+			update: (slug: string) => API_URL.root(`/admin/sneakers/put/${slug}`),
+			delete: (slug: string) => API_URL.root(`/admin/sneakers/delete/${slug}`),
+		},
+	},
+
+	brands: {
+		admin: {
+			getBySlug: (slug: string) =>
+				API_URL.root(`/admin/brands/getBySlug/${slug}`),
+			create: () => API_URL.root('/admin/brands/create'),
+			update: (slug: string) => API_URL.root(`/admin/brands/put/${slug}`),
+			delete: (slug: string) => API_URL.root(`/admin/brands/delete/${slug}`),
+		},
+	},
+
+	colors: {
+		admin: {
+			getBySlug: (slug: string) =>
+				API_URL.root(`/admin/colors/getBySlug/${slug}`),
+			create: () => API_URL.root('/admin/colors/create'),
+			update: (slug: string) => API_URL.root(`/admin/colors/put/${slug}`),
+			delete: (slug: string) => API_URL.root(`/admin/colors/delete/${slug}`),
+		},
+	},
+
+	sizes: {
+		admin: {
+			getAll: () => API_URL.root('/admin/sizes/getAll'),
+			getById: (id: string) => API_URL.root(`/admin/sizes/getById/${id}`),
+			create: () => API_URL.root('/admin/sizes/create'),
+			update: (id: string) => API_URL.root(`/admin/sizes/put/${id}`),
+			delete: (id: string) => API_URL.root(`/admin/sizes/delete/${id}`),
+		},
+	},
+
+	orders: {
+		checkout: () => API_URL.root('/orders/create'),
+		updateStatus: () => API_URL.root('/orders/status'),
+	},
+
+	reviews: {
+		root: (path = '') => API_URL.root(`/reviews${path}`),
+		getBySneakerSlug: (sneakerSlug: string) =>
+			API_URL.root(`/reviews/${sneakerSlug}`),
+		getById: (id: string) => API_URL.root(`/reviews/${id}`),
+		create: (sneakerId: string) => API_URL.root(`/reviews/create/${sneakerId}`),
+		update: (id: string) => API_URL.root(`/reviews/put/${id}`),
+		delete: (id: string) => API_URL.root(`/reviews/delete/${id}`),
+	},
+
+	files: {
+		root: (path = '') => API_URL.root(`/files${path}`),
+		upload: (folder?: string) =>
+			API_URL.root(`/files${folder ? `?folder=${folder}` : ''}`),
+	},
+}
