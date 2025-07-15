@@ -15,16 +15,16 @@ import { Auth } from 'src/decorators/auth.decorator';
 import { ReviewDto } from './dto/review.dto';
 import { CurrentUser } from 'src/user/decorators/user.decorator';
 
-@Controller('reviews')
+@Controller('/')
 export class ReviewController {
   constructor(private readonly reviewService: ReviewService) {}
 
-  @Get(':sneakerSlug')
+  @Get('reviews/:sneakerSlug')
   async getReviewsBySneakerSlug(@Param('sneakerSlug') sneakerSlug: string) {
     return this.reviewService.getReviewsBySneakerSlug(sneakerSlug);
   }
 
-  @Get('/:id')
+  @Get('reviews/:id')
   async getByIdReview(
     @Param('id') id: string,
     @CurrentUser('id') userId: string,
@@ -35,7 +35,7 @@ export class ReviewController {
   @UsePipes(new ValidationPipe())
   @HttpCode(200)
   @Auth()
-  @Post('/:sneakerId')
+  @Post('reviews/create/:sneakerId')
   async createReview(
     @CurrentUser('id') userId: string,
     @Param('sneakerId') sneakerId: string,
@@ -47,7 +47,7 @@ export class ReviewController {
   @UsePipes(new ValidationPipe())
   @HttpCode(200)
   @Auth()
-  @Put('/:id')
+  @Put('reviews/put/:id')
   async updateReview(
     @CurrentUser('id') userId: string,
     @Param('id') reviewId: string,
@@ -58,7 +58,7 @@ export class ReviewController {
 
   @HttpCode(200)
   @Auth()
-  @Delete('/:id')
+  @Delete('reviews/delete/:id')
   async deleteReview(
     @Param('id') id: string,
     @CurrentUser('id') userId: string,

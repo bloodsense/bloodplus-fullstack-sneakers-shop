@@ -19,7 +19,7 @@ export class ReviewService {
     });
 
     if (!sneaker) {
-      throw new NotFoundException('Кроссовки с таким слагом не найдены');
+      throw new NotFoundException('Кроссовок не существует');
     }
 
     const reviews = await this.prisma.review.findMany({
@@ -38,6 +38,9 @@ export class ReviewService {
         createdAt: 'desc',
       },
     });
+
+    if (reviews.length == 0)
+      throw new NotFoundException('У этих кроссовок пока нет отзывов');
 
     return reviews;
   }
