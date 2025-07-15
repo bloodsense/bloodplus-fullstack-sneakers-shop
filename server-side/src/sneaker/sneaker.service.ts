@@ -27,6 +27,21 @@ export class SneakerService {
     return sneakers;
   }
 
+  async getSneakersByBrand(brandSlug: string) {
+    const sneakers = await this.prisma.sneaker.findMany({
+      where: {
+        brand: {
+          slug: brandSlug,
+        },
+      },
+    });
+
+    if (sneakers.length === 0)
+      throw new NotFoundException('Кроссовки этого бренда отсутствуют');
+
+    return sneakers;
+  }
+
   async getSneakersByGender(gender: string) {
     const sneakers = await this.prisma.sneaker.findMany({
       where: {
@@ -47,7 +62,7 @@ export class SneakerService {
     });
 
     if (sneakers.length === 0) {
-      throw new NotFoundException(``);
+      throw new NotFoundException(`Кроссовки такого пола не найдены`);
     }
 
     return sneakers;
@@ -89,11 +104,20 @@ export class SneakerService {
           slug: brandSlug,
         },
       },
+      include: {
+        brand: true,
+        color: true,
+        reviews: true,
+        stocks: { include: { size: true } },
+        sneakerInfo: true,
+      },
     });
 
-    if (sneakers.length == 0) return new NotFoundException('Не найдено');
+    if (sneakers.length === 0) {
+      throw new NotFoundException('Кроссовки не найдены');
+    }
 
-    return sneakers;
+    return sneakers[0];
   }
 
   async getBySlugSneaker(slug: string) {
@@ -110,8 +134,7 @@ export class SneakerService {
       },
     });
 
-    if (!sneaker)
-      throw new NotFoundException('Кроссовки с таким URL не найдены');
+    if (!sneaker) throw new NotFoundException(`Кроссовки с ${slug} не найдены`);
 
     return sneaker;
   }
@@ -125,6 +148,10 @@ export class SneakerService {
       },
       include: {
         brand: true,
+        color: true,
+        reviews: true,
+        stocks: { include: { size: true } },
+        sneakerInfo: true,
       },
     });
 
@@ -149,6 +176,10 @@ export class SneakerService {
 
     const sneakerIds = PopularSneakers.map(item => item.sneakerId);
 
+    if (sneakerIds.length === 0) {
+      return [];
+    }
+
     const sneakers = await this.prisma.sneaker.findMany({
       where: {
         id: {
@@ -159,6 +190,8 @@ export class SneakerService {
         brand: true,
         color: true,
         reviews: true,
+        stocks: { include: { size: true } },
+        sneakerInfo: true,
       },
     });
 
@@ -171,12 +204,6 @@ export class SneakerService {
 
   async getSimilarSneakers(slug: string) {
     const currentSneaker = await this.getBySlugSneaker(slug);
-
-    if (!currentSneaker.brand) {
-      throw new NotFoundException(
-        'У текущих кроссовок отсутствует информация о бренде для поиска похожих',
-      );
-    }
 
     const sneakers = await this.prisma.sneaker.findMany({
       where: {
@@ -194,18 +221,32 @@ export class SneakerService {
         brand: true,
         color: true,
         reviews: true,
+        stocks: { include: { size: true } },
+        sneakerInfo: true,
       },
+      take: 5,
     });
+
+    if (sneakers.length == 0)
+      throw new NotFoundException('Похожие кроссовки отсутствуют');
 
     return sneakers;
   }
 
   async createSneaker(dto: CreateSneakerDto) {
+    const existingSneakerBySlug = await this.prisma.sneaker.findUnique({
+      where: { slug: dto.slug },
+    });
+    if (existingSneakerBySlug) {
+      throw new BadRequestException(
+        `Кроссовки с URL "${dto.slug}" уже существуют. Пожалуйста, используйте другой URL`,
+      );
+    }
+
     const sizeIds = dto.stocks.map(stock => stock.sizeId);
     const existingSizes = await this.prisma.size.findMany({
       where: { id: { in: sizeIds } },
     });
-
     if (existingSizes.length !== sizeIds.length) {
       const foundSizeIds = existingSizes.map(s => s.id);
       const missingSizeIds = sizeIds.filter(id => !foundSizeIds.includes(id));
@@ -255,6 +296,17 @@ export class SneakerService {
   async updateSneaker(slug: string, dto: CreateSneakerDto) {
     const existingSneaker = await this.getBySlugSneaker(slug);
 
+    if (dto.slug !== existingSneaker.slug) {
+      const existingSneakerWithNewSlug = await this.prisma.sneaker.findUnique({
+        where: { slug: dto.slug },
+      });
+      if (existingSneakerWithNewSlug) {
+        throw new BadRequestException(
+          `Кроссовки с URL "${dto.slug}" уже существуют. Пожалуйста, используйте другой URL`,
+        );
+      }
+    }
+
     const sizeIds = dto.stocks.map(stock => stock.sizeId);
     const existingSizes = await this.prisma.size.findMany({
       where: { id: { in: sizeIds } },
@@ -284,20 +336,75 @@ export class SneakerService {
         },
       });
 
-      await prisma.sneakerSizeStock.deleteMany({
-        where: { sneakerId: existingSneaker.id },
+      const currentStocksInDb = await prisma.sneakerSizeStock.findMany({
+        where: { sneakerId: sneaker.id },
+        select: { sizeId: true, quantity: true },
       });
-      await Promise.all(
-        dto.stocks.map(stock =>
-          prisma.sneakerSizeStock.create({
+
+      const newStocksMap = new Map(dto.stocks.map(s => [s.sizeId, s.quantity]));
+
+      const currentStocksInDbMap = new Map(
+        currentStocksInDb.map(s => [s.sizeId, s.quantity]),
+      );
+
+      for (const newStockDto of dto.stocks) {
+        if (currentStocksInDbMap.has(newStockDto.sizeId)) {
+          await prisma.sneakerSizeStock.update({
+            where: {
+              sneakerId_sizeId: {
+                sneakerId: sneaker.id,
+                sizeId: newStockDto.sizeId,
+              },
+            },
+            data: {
+              quantity: newStockDto.quantity,
+            },
+          });
+        } else {
+          await prisma.sneakerSizeStock.create({
             data: {
               sneaker: { connect: { id: sneaker.id } },
-              size: { connect: { id: stock.sizeId } },
-              quantity: stock.quantity,
+              size: { connect: { id: newStockDto.sizeId } },
+              quantity: newStockDto.quantity,
             },
-          }),
-        ),
-      );
+          });
+        }
+      }
+
+      for (const existingStockInDb of currentStocksInDb) {
+        if (!newStocksMap.has(existingStockInDb.sizeId)) {
+          const hasOrderItems = await prisma.orderItem.count({
+            where: {
+              sneakerId: sneaker.id,
+              sizeId: existingStockInDb.sizeId,
+            },
+          });
+
+          if (hasOrderItems === 0) {
+            await prisma.sneakerSizeStock.delete({
+              where: {
+                sneakerId_sizeId: {
+                  sneakerId: sneaker.id,
+                  sizeId: existingStockInDb.sizeId,
+                },
+              },
+            });
+          } else {
+            await prisma.sneakerSizeStock.update({
+              where: {
+                sneakerId_sizeId: {
+                  sneakerId: sneaker.id,
+                  sizeId: existingStockInDb.sizeId,
+                },
+              },
+              data: {
+                quantity: 0,
+              },
+            });
+          }
+        }
+      }
+
       return sneaker;
     });
 
@@ -305,12 +412,26 @@ export class SneakerService {
   }
 
   async deleteSneaker(slug: string) {
-    await this.getBySlugSneaker(slug);
+    const sneakerToDelete = await this.getBySlugSneaker(slug);
 
-    return this.prisma.sneaker.delete({
-      where: {
-        slug,
-      },
+    await this.prisma.$transaction(async prisma => {
+      await prisma.orderItem.deleteMany({
+        where: { sneakerId: sneakerToDelete.id },
+      });
+
+      await prisma.sneakerSizeStock.deleteMany({
+        where: { sneakerId: sneakerToDelete.id },
+      });
+
+      await prisma.sneakerInfo.delete({
+        where: { sneakerId: sneakerToDelete.id },
+      });
+
+      await prisma.sneaker.delete({
+        where: { slug: slug },
+      });
     });
+
+    return { message: 'Кроссовки успешно удалены' };
   }
 }

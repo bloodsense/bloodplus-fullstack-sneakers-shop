@@ -15,7 +15,7 @@ import { CreateSneakerDto } from './dto/sneaker.dto';
 import { Auth } from 'src/decorators/auth.decorator';
 import { UserRole } from 'generated/prisma';
 
-@Controller()
+@Controller('/')
 export class SneakerController {
   constructor(private readonly sneakerService: SneakerService) {}
 
@@ -24,22 +24,27 @@ export class SneakerController {
     return this.sneakerService.getAllSneakers();
   }
 
-  @Get('men')
-  getMenSneakers() {
+  @Get('browse/brand/:brandSlug')
+  async getSneakersByBrand(@Param('brandSlug') brandSlug: string) {
+    return this.sneakerService.getSneakersByBrand(brandSlug);
+  }
+
+  @Get('browse/men')
+  async getMenSneakers() {
     return this.sneakerService.getSneakersByGender('Мужской');
   }
 
-  @Get('women')
-  getWomenSneakers() {
+  @Get('browse/women')
+  async getWomenSneakers() {
     return this.sneakerService.getSneakersByGender('Женский');
   }
 
-  @Get('season/:seasonValue')
-  getSneakersBySeason(@Param('seasonValue') seasonValue: string) {
-    return this.sneakerService.getSneakersBySeason(seasonValue);
+  @Get('browse/season/:seasonSlug')
+  async getSneakersBySeason(@Param('seasonSlug') seasonSlug: string) {
+    return this.sneakerService.getSneakersBySeason(seasonSlug);
   }
 
-  @Get(':brandSlug/:sneakerSlug')
+  @Get('watch/:brandSlug/:sneakerSlug')
   async getSneakersWithBrand(
     @Param('brandSlug') brandSlug: string,
     @Param('sneakerSlug') sneakerSlug: string,
@@ -47,29 +52,19 @@ export class SneakerController {
     return this.sneakerService.getSneakersWithBrand(brandSlug, sneakerSlug);
   }
 
-  @Get(':slug')
-  async getBySlugSneaker(@Param('slug') slug: string) {
-    return this.sneakerService.getBySlugSneaker(slug);
-  }
-
-  @Get(':brand/:brandSlug')
-  async getByBrand(@Param('brandSlug') brandSlug: string) {
-    return this.sneakerService.getByBrandSlug(brandSlug);
-  }
-
-  @Get('popular')
+  @Get('watch/popular')
   async getPopularSneakers() {
     return this.sneakerService.getPopularSneakers();
   }
 
-  @Get(':slug/similar')
+  @Get('similar/:slug')
   async getSimilarSneakersBySlug(@Param('slug') slug: string) {
     return this.sneakerService.getSimilarSneakers(slug);
   }
 
   @UsePipes(new ValidationPipe())
   @HttpCode(200)
-  @Post('/')
+  @Post('admin/sneakers/create')
   @Auth(UserRole.ADMIN)
   async createSneaker(@Body() dto: CreateSneakerDto) {
     return this.sneakerService.createSneaker(dto);
@@ -77,7 +72,7 @@ export class SneakerController {
 
   @UsePipes(new ValidationPipe())
   @HttpCode(200)
-  @Put(':slug')
+  @Put('admin/sneakers/put/:slug')
   @Auth(UserRole.ADMIN)
   async updateSneaker(
     @Param('slug') slug: string,
@@ -87,7 +82,7 @@ export class SneakerController {
   }
 
   @HttpCode(200)
-  @Delete(':slug')
+  @Delete('admin/sneakers/delete/:slug')
   @Auth(UserRole.ADMIN)
   async deleteSneaker(@Param('slug') slug: string) {
     return this.sneakerService.deleteSneaker(slug);
