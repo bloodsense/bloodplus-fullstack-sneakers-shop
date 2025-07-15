@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 import { hash } from 'argon2';
 import { AuthDto } from 'src/auth/dto/auth.dto';
@@ -35,19 +35,33 @@ export class UserService {
     return user;
   }
 
-  async addFavorites(userId: string, sneakerId: string) {
+  async addFavorites(userId: string, sneakerSlug: string) {
     const user = await this.getById(userId);
 
-    const isExists = user!.favorites.some(sneaker => sneaker.id === sneakerId);
+    if (!user) {
+      throw new NotFoundException(`Пользователь с таким ID не найден`);
+    }
+
+    const sneaker = await this.prisma.sneaker.findUnique({
+      where: { slug: sneakerSlug },
+    });
+
+    if (!sneaker) {
+      throw new NotFoundException(`Кроссовки не найдены`);
+    }
+
+    const isExists = user.favorites.some(
+      favSneaker => favSneaker.id === sneaker.id,
+    );
 
     await this.prisma.user.update({
       where: {
-        id: user!.id,
+        id: user.id,
       },
       data: {
         favorites: {
           [isExists ? 'disconnect' : 'connect']: {
-            id: sneakerId,
+            id: sneaker.id,
           },
         },
       },

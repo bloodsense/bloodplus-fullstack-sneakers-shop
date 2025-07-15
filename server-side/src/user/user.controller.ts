@@ -3,7 +3,7 @@ import { UserService } from './user.service';
 import { Auth } from 'src/decorators/auth.decorator';
 import { CurrentUser } from './decorators/user.decorator';
 
-@Controller('user')
+@Controller('/')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
@@ -14,11 +14,11 @@ export class UserController {
   }
 
   @Auth()
-  @Patch('profile/favorites:sneakerId')
+  @Patch('profile/favorites/:sneakerSlug')
   async addFavorites(
     @CurrentUser('id') userId: string,
-    @Param('sneakerId') sneakerId: string,
+    @Param('sneakerSlug') sneakerSlug: string,
   ) {
-    return this.userService.addFavorites(sneakerId, userId);
+    return this.userService.addFavorites(userId, sneakerSlug);
   }
 }
