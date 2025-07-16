@@ -19,9 +19,9 @@ export const API_URL = {
 	},
 
 	sneakers: {
-		all: () => API_URL.root('/'),
+		getAll: () => API_URL.root('/'),
 
-		similar: (slug: string) => API_URL.root(`/similar/${slug}`),
+		getSimilar: (slug: string) => API_URL.root(`/similar/${slug}`),
 
 		browse: {
 			men: () => API_URL.root('/browse/men'),
@@ -75,7 +75,7 @@ export const API_URL = {
 	},
 
 	orders: {
-		checkout: () => API_URL.root('/orders/create'),
+		create: () => API_URL.root('/orders/create'),
 		updateStatus: () => API_URL.root('/orders/status'),
 	},
 
