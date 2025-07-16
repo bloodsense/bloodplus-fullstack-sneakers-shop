@@ -1,4 +1,5 @@
 import { IOrderItem } from './order-item.interface'
+import { ISneakerSizeStock } from './sneaker-size-stock.interface'
 import { IUser } from './user.interface'
 
 interface IAmount {
@@ -40,9 +41,24 @@ export enum OrderStatus {
 }
 
 export interface IOrder {
+	id: string
+	createdAt: string
+	updatedAt: string
 	items: IOrderItem[]
 	status: OrderStatus
 	user?: IUser
 	userId?: string
 	totalAmount: number
+}
+
+export interface IOrderItemCreateData {
+	quantity: number
+	price: number
+	sneakerId: string
+	sizeId: string
+}
+
+export interface IOrderCreateData {
+	status?: OrderStatus
+	items: IOrderItemCreateData[]
 }

@@ -3,5 +3,3 @@ export interface IColor {
 	hex: string
 	slug: string
 }
-
-export interface IColorCreate extends Pick<IColor, 'value' | 'hex' | 'slug'> {}

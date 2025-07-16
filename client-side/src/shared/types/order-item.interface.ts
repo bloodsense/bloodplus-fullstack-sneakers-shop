@@ -7,4 +7,7 @@ export interface IOrderItem {
 	sneakerSizeStock: ISneakerSizeStock
 	sneakerId: string
 	sizeId: string
+	id: string
+	createdAt: string
+	updatedAt: string
 }
