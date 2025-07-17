@@ -2,9 +2,9 @@ import type { Metadata } from 'next'
 import { Montserrat } from 'next/font/google'
 import './globals.css'
 import { SITE_DESCRIPTION, SITE_NAME } from '../constants/seo-constants'
-import { Providers } from '../providers/query-client-provider'
-import { Toaster } from 'sonner'
-import { ThemeProvider } from '@/providers/theme-provider'
+import { Providers } from '../components/providers/query-provider'
+import { ThemeProvider } from '@/components/providers/theme-provider'
+import { Toaster } from '@/components/ui/sonner'
 
 const montserrat = Montserrat({
 	variable: '--font-geist-sans',
@@ -34,9 +34,9 @@ export default function RootLayout({
 						disableTransitionOnChange
 					>
 						{children}
+						<Toaster />
 					</ThemeProvider>
 				</Providers>
-				<Toaster />
 			</body>
 		</html>
 	)
