@@ -1,14 +1,13 @@
-import { UserRole } from './../../server-side/generated/prisma/index.d'
 import { NextResponse, type NextRequest } from 'next/server'
 import { Tokens } from './services/auth/access-token.service'
-import { PUBLIC_URL, ADMIN_URL, APP_URL } from './config/urls.constants'
+import { PUBLIC_URL, ADMIN_URL } from './config/urls.constants'
 import { jwtDecode } from 'jwt-decode'
-import { API_URL } from './config/api.constants'
+import { API_URL, SERVER_URL } from './config/api.constants'
 
 interface JwtPayload {
 	userId: string
 	email: string
-	role: UserRole
+	role: 'USER' | 'ADMIN'
 	exp: number
 	iat: number
 }
@@ -34,7 +33,7 @@ export async function middleware(req: NextRequest) {
 		return NextResponse.next()
 	}
 
-	let userRole: UserRole | null = null
+	let userRole: 'USER' | 'ADMIN' | null = null
 
 	if (accessToken) {
 		try {
@@ -44,7 +43,7 @@ export async function middleware(req: NextRequest) {
 				userRole = decodedToken.role
 			}
 		} catch (error) {
-			console.error('Ошибка декодирования access token:', error)
+			console.error('Ошибка декодирования accessToken:', error)
 		}
 	}
 
@@ -52,7 +51,7 @@ export async function middleware(req: NextRequest) {
 		if (refreshToken) {
 			try {
 				const refreshResponse = await fetch(
-					`${APP_URL}${API_URL.auth.accessToken()}`,
+					`${SERVER_URL}${API_URL.auth.accessToken()}`,
 					{
 						method: 'POST',
 						headers: {
@@ -83,7 +82,7 @@ export async function middleware(req: NextRequest) {
 						userRole = newDecodedToken.role
 					} catch (decodeError) {
 						console.error(
-							'Ошибка декодирования нового access token:',
+							'Ошибка декодирования нового accessToken:',
 							decodeError
 						)
 						userRole = null
