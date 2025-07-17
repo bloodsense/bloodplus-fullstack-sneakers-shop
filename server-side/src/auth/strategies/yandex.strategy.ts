@@ -19,7 +19,7 @@ export class YandexStrategy extends PassportStrategy(Strategy, 'yandex') {
     super({
       clientID: clientID,
       clientSecret: clientSecret,
-      callbackURL: serverUrl + '/auth/yandex/callback',
+      callbackURL: serverUrl + '/api/auth/yandex/callback',
     });
   }
 
