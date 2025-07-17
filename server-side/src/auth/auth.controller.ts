@@ -91,7 +91,7 @@ export class AuthController {
     this.authService.addRefreshTokenToResponse(res, refreshToken);
 
     return res.redirect(
-      `${process.env['CLIENT_URL']}/accessToken=${response.accessToken}`,
+      `${process.env['CLIENT_URL']}?accessToken=${response.accessToken}`,
     );
   }
 
@@ -111,7 +111,7 @@ export class AuthController {
     this.authService.addRefreshTokenToResponse(res, refreshToken);
 
     return res.redirect(
-      `${process.env['CLIENT_URL']}/accessToken=${response.accessToken}`,
+      `${process.env['CLIENT_URL']}?accessToken=${response.accessToken}`,
     );
   }
 }
