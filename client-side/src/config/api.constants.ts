@@ -6,10 +6,10 @@ export const API_URL = {
 	root: (path = '') => `/${API_PREFIX}${path}`,
 
 	auth: {
-		login: () => API_URL.root('/login'),
-		register: () => API_URL.root('/register'),
-		logout: () => API_URL.root('/logout'),
-		accessToken: () => API_URL.root('/login/access-token'),
+		login: () => API_URL.root('/auth/login'),
+		register: () => API_URL.root('/auth/register'),
+		logout: () => API_URL.root('/auth/logout'),
+		accessToken: () => API_URL.root('/auth/login/access-token'),
 	},
 
 	users: {
