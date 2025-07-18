@@ -1,14 +1,14 @@
 'use client'
 
+import { BrowseSneakers } from '@/components/browse-sneakers'
+import { Footer } from '@/components/footer'
+import { Header } from '@/components/header'
+import { TopBar } from '@/components/top-bar'
 import { saveTokenInStorage } from '@/services/auth/access-token.service'
 import { useSearchParams } from 'next/navigation'
 import React from 'react'
 
-interface Props {
-	className?: string
-}
-
-export const Home: React.FC<Props> = ({ className }) => {
+export const Home = () => {
 	const searchParams = useSearchParams()
 
 	React.useEffect(() => {
@@ -17,5 +17,12 @@ export const Home: React.FC<Props> = ({ className }) => {
 		if (accessToken) saveTokenInStorage(accessToken)
 	}, [searchParams])
 
-	return <div className={className}>Home Component</div>
+	return (
+		<>
+			<Header />
+			<TopBar />
+			<BrowseSneakers />
+			<Footer />
+		</>
+	)
 }

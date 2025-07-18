@@ -1,5 +1,5 @@
 import { PropsWithChildren } from 'react'
 
-export default function Layout({ children }: PropsWithChildren<unknown>) {
+export default function HomeLayout({ children }: PropsWithChildren<unknown>) {
 	return <div>{children}</div>
 }
