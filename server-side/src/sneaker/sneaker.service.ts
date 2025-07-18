@@ -68,30 +68,17 @@ export class SneakerService {
     return sneakers;
   }
 
-  async getSneakersBySeason(season: string) {
+  async getSneakersBySeason(seasonSlug: string) {
     const sneakers = await this.prisma.sneaker.findMany({
       where: {
-        sneakerInfo: {
-          season: season,
+        season: {
+          slug: seasonSlug,
         },
-      },
-      orderBy: {
-        createdAt: 'desc',
-      },
-      include: {
-        brand: true,
-        color: true,
-        reviews: true,
-        stocks: { include: { size: true } },
-        sneakerInfo: true,
       },
     });
 
-    if (sneakers.length === 0) {
-      throw new NotFoundException(
-        `Кроссовки для сезона "${season}" не найдены`,
-      );
-    }
+    if (sneakers.length === 0)
+      throw new NotFoundException('Кроссовки с таким сезоном отсутствуют');
 
     return sneakers;
   }
@@ -265,6 +252,7 @@ export class SneakerService {
           slug: dto.slug,
           color: { connect: { id: dto.colorId } },
           brand: { connect: { id: dto.brandId } },
+          season: { connect: { id: dto.seasonId } },
         },
       });
 

@@ -5,10 +5,6 @@ export class SneakerInfoCUDto {
   @IsNotEmpty({ message: 'Пол не может быть пустым' })
   gender: string;
 
-  @IsString({ message: 'Сезон должен быть указан' })
-  @IsNotEmpty({ message: 'Сезон не может быть пустым' })
-  season: string;
-
   @IsOptional()
   @IsString({ message: 'Защита должна быть строкой' })
   protection?: string;

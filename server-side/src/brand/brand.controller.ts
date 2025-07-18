@@ -19,6 +19,11 @@ import { UserRole } from 'generated/prisma';
 export class BrandController {
   constructor(private readonly brandService: BrandService) {}
 
+  @Get('/brands/all')
+  async getAllBrands() {
+    return this.brandService.getAllBrands();
+  }
+
   @Get('admin/brands/getBySlug/:slug')
   @Auth(UserRole.ADMIN)
   async getBySlugBrand(@Param('slug') slug: string) {

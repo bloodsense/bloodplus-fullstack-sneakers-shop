@@ -20,6 +20,10 @@ export class BrandService {
     return brand;
   }
 
+  async getAllBrands() {
+    return this.prisma.brand.findMany();
+  }
+
   async createBrand(dto: BrandDto) {
     return this.prisma.brand.create({
       data: {

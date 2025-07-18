@@ -9,6 +9,7 @@ import { SneakerModule } from './sneaker/sneaker.module';
 import { SizeModule } from './size/size.module';
 import { ReviewModule } from './review/review.module';
 import { OrderModule } from './order/order.module';
+import { SeasonModule } from './season/season.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -16,6 +17,7 @@ import { OrderModule } from './order/order.module';
     UserModule,
     ColorModule,
     BrandModule,
+    SeasonModule,
     FileModule,
     SneakerModule,
     SizeModule,
