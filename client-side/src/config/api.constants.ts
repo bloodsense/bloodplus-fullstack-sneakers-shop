@@ -45,12 +45,24 @@ export const API_URL = {
 	},
 
 	brands: {
+		getAll: () => API_URL.root('/brands/all'),
 		admin: {
 			getBySlug: (slug: string) =>
 				API_URL.root(`/admin/brands/getBySlug/${slug}`),
 			create: () => API_URL.root('/admin/brands/create'),
 			update: (slug: string) => API_URL.root(`/admin/brands/put/${slug}`),
 			delete: (slug: string) => API_URL.root(`/admin/brands/delete/${slug}`),
+		},
+	},
+
+	seasons: {
+		getAll: () => API_URL.root('/seasons/all'),
+		admin: {
+			getBySlug: (slug: string) =>
+				API_URL.root(`/admin/seasons/getBySlug/${slug}`),
+			create: () => API_URL.root('/admin/seasons/create'),
+			update: (slug: string) => API_URL.root(`/admin/seasons/put/${slug}`),
+			delete: (slug: string) => API_URL.root(`/admin/seasons/delete/${slug}`),
 		},
 	},
 
