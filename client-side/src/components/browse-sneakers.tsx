@@ -20,7 +20,7 @@ export const BrowseSneakers: React.FC<Props> = ({ className }) => {
 					? Array.from({ length: numberOfSkeletons }).map((_, index) => (
 							<div
 								key={index}
-								className="flex flex-col items-center rounded-xl shadow-md"
+								className="flex flex-col items-center rounded-xl"
 							>
 								<Skeleton className="w-[200px] h-[180px] mb-3 rounded-lg" />
 								<Skeleton className="w-3/4 h-2 mb-3 " />

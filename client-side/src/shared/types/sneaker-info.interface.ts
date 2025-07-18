@@ -1,6 +1,5 @@
 export interface ISneakerInfo {
 	gender: string
-	season: string
 	protection?: string
 	warranty?: string
 	warrantyTime?: string
@@ -13,7 +12,6 @@ export interface ISneakerInfo {
 
 export interface ISneakerInfoCreate {
 	gender: string
-	season: string
 	protection?: string
 	warranty?: string
 	warrantyTime?: string

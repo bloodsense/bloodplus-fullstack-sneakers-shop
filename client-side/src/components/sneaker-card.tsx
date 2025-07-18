@@ -1,18 +1,10 @@
 import { PUBLIC_URL } from '@/config/urls.constants'
+import { ISneaker } from '@/shared/types/sneaker.interface'
 import Image from 'next/image'
 import Link from 'next/link'
 
-interface SneakerData {
-	id: string
-	slug: string
-	images: string[]
-	name: string
-	brand: { slug: string }
-	price: number
-}
-
 interface SneakerCardProps {
-	sneaker: SneakerData
+	sneaker: ISneaker
 }
 
 export const SneakerCard: React.FC<SneakerCardProps> = ({ sneaker }) => {

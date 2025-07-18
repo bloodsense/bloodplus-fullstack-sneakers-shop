@@ -57,7 +57,7 @@ export const Auth: React.FC = ({}) => {
 									isRegistration={isRegistration}
 								/>
 								<Button disabled={isPending} className="w-full h-10">
-									Продолжить
+									{isRegistration ? 'Зарегистрироваться' : 'Войти'}
 								</Button>
 							</form>
 						</Form>

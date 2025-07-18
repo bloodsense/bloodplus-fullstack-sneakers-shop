@@ -6,6 +6,7 @@ import {
 	ISneakerSizeStockCreate,
 } from './sneaker-size-stock.interface'
 import { ISneakerInfo, ISneakerInfoCreate } from './sneaker-info.interface'
+import { ISeason } from './season.interface'
 
 export interface ISneaker {
 	id: string
@@ -17,6 +18,7 @@ export interface ISneaker {
 	description: string
 	slug: string
 	brand: IBrand
+	season: ISeason
 	reviews?: IReview[]
 	color: IColor
 	stocks: ISneakerSizeStock[]
@@ -30,6 +32,7 @@ export interface ISneakerCreate {
 	description: string
 	slug: string
 	brandId: string
+	seasonId: string
 	colorId: string
 	sneakerInfo?: ISneakerInfoCreate
 	stocks: ISneakerSizeStockCreate[]
