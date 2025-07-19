@@ -67,6 +67,7 @@ export const API_URL = {
 	},
 
 	colors: {
+		getAll: () => API_URL.root('/colors/all'),
 		admin: {
 			getBySlug: (slug: string) =>
 				API_URL.root(`/admin/colors/getBySlug/${slug}`),

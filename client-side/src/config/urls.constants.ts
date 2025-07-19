@@ -30,7 +30,6 @@ export const PUBLIC_URL = {
 
 export const ADMIN_URL = {
 	brands: {
-		root: () => '/admin/brands/all',
 		create: () => '/admin/brands/create',
 		put: (slug: string) => `/admin/brands/put/${slug}`,
 		delete: (slug: string) => `/admin/brands/delete/${slug}`,
@@ -38,14 +37,12 @@ export const ADMIN_URL = {
 	},
 
 	seasons: {
-		root: () => '/admin/seasons/all',
 		create: () => '/admin/seasons/create',
 		delete: (slug: string) => `/admin/seasons/delete/${slug}`,
 		getBySlug: (slug: string) => `/admin/seasons/getBySlug/${slug}`,
 	},
 
 	colors: {
-		root: () => '/admin/colors',
 		create: () => '/admin/colors/create',
 		put: (slug: string) => `/admin/colors/put/${slug}`,
 		delete: (slug: string) => `/admin/colors/delete/${slug}`,
@@ -53,7 +50,6 @@ export const ADMIN_URL = {
 	},
 
 	sizes: {
-		root: () => '/admin/sizes',
 		getAll: () => '/admin/sizes/getAll',
 		create: () => '/admin/sizes/create',
 		put: (id: string) => `/admin/sizes/put/${id}`,
