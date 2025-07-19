@@ -36,7 +36,7 @@ export const BrowseSneakersList: React.FC<BrowseSneakersListProps> = ({
 				)}
 				<div
 					className={cn(
-						'grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 justify-items-center',
+						'grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-8 justify-items-center',
 						gridColsClass
 					)}
 				>
