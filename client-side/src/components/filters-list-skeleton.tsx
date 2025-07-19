@@ -1,0 +1,18 @@
+import React from 'react'
+import { Skeleton } from './ui/skeleton'
+
+interface FilterListSkeletonProps {
+	count?: number
+}
+
+export const FilterListSkeleton: React.FC<FilterListSkeletonProps> = ({
+	count = 6,
+}) => {
+	return (
+		<div className="flex flex-col gap-4 py-2 ">
+			{Array.from({ length: count }).map((_, index) => (
+				<Skeleton key={index} className="h-3 w-30 rounded-md" />
+			))}
+		</div>
+	)
+}

@@ -54,7 +54,7 @@ export const TopBar: React.FC<Props> = ({ className }) => {
 						notFoundMessage="Список кроссовок по брендам не найден"
 					/>
 					<SheetButtonFilter<ISeason>
-						queryKey={['seasons']} // Передаем queryKey
+						queryKey={['seasons']}
 						queryFn={seasonService.getAllSeasons}
 						text="Сезон"
 						link={season => PUBLIC_URL.browse.season(season.slug)}
