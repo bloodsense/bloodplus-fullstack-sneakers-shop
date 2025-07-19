@@ -20,6 +20,10 @@ export class ColorService {
     return color;
   }
 
+  async getAllColors() {
+    return this.prisma.color.findMany();
+  }
+
   async createColor(dto: ColorDto) {
     return this.prisma.color.create({
       data: {

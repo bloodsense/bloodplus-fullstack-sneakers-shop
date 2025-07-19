@@ -19,6 +19,11 @@ import { UserRole } from 'generated/prisma';
 export class ColorController {
   constructor(private readonly colorService: ColorService) {}
 
+  @Get('/colors/all')
+  async getAllColors() {
+    return this.colorService.getAllColors();
+  }
+
   @Get('admin/colors/getBySlug/:slug')
   @Auth(UserRole.ADMIN)
   async getBySlugColor(@Param('slug') slug: string) {
