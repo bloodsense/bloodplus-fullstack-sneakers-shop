@@ -1,15 +1,21 @@
+'use client'
+
 import { cn } from '@/lib/utils'
 import { Container } from './container'
 import { SneakerCard } from './sneaker-card'
-import { useAllSneakers } from '@/hooks/useAllSneakers'
 import { Skeleton } from './ui/skeleton'
+import { useSneakers } from '@/hooks/useSneakers'
 
-interface Props {
+interface BrowseSneakersListProps {
+	gender?: 'all' | 'men' | 'women'
 	className?: string
 }
 
-export const BrowseSneakers: React.FC<Props> = ({ className }) => {
-	const { sneakers, isLoading } = useAllSneakers()
+export const BrowseSneakersList: React.FC<BrowseSneakersListProps> = ({
+	gender = 'all',
+	className,
+}) => {
+	const { sneakers, isLoading } = useSneakers(gender)
 
 	const numberOfSkeletons = 20
 

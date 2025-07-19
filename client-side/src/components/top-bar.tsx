@@ -1,3 +1,5 @@
+'use client'
+
 import { cn } from '@/lib/utils'
 import Link from 'next/link'
 import { Container } from './container'
@@ -7,6 +9,7 @@ import { PUBLIC_URL } from '@/config/urls.constants'
 import { IBrand } from '@/shared/types/brand.interface'
 import { ISeason } from '@/shared/types/season.interface'
 import { SheetButtonFilter } from './sheet-filters-button'
+import { CaretRightIcon } from '@radix-ui/react-icons'
 
 interface Props {
 	className?: string
@@ -14,8 +17,8 @@ interface Props {
 
 export const TopBar: React.FC<Props> = ({ className }) => {
 	const browseLinks = [
-		{ id: 1, link: '/browse/men', category: 'Мужское' },
-		{ id: 2, link: '/browse/women', category: 'Женское' },
+		{ id: 1, link: '/browse/men', category: 'Мужчинам' },
+		{ id: 2, link: '/browse/women', category: 'Женщинам' },
 	]
 
 	const { brands, isLoading: isLoadingBrands } = useFilterBrands()
@@ -32,8 +35,15 @@ export const TopBar: React.FC<Props> = ({ className }) => {
 							key={id}
 							className="flex items-center justify-center w-40 h-11"
 						>
-							<Link href={link} className="text-xs">
+							<Link
+								href={link}
+								className="flex items-center text-xs gap-1 group"
+							>
 								<p>{category}</p>
+								<CaretRightIcon
+									className="opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+									aria-hidden="true"
+								/>
 							</Link>
 						</div>
 					))}

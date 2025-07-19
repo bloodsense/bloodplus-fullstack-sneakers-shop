@@ -12,6 +12,7 @@ import { cn } from '@/lib/utils'
 import Link from 'next/link'
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden'
 import React from 'react'
+import { CaretDownIcon } from '@radix-ui/react-icons'
 
 interface SheetButtonFilterProps<T> {
 	text: string
@@ -40,11 +41,15 @@ export const SheetButtonFilter = <T extends { id: string | number }>({
 				<Button
 					variant="button"
 					className={cn(
-						'text-xs w-40 h-11 flex items-center justify-center',
+						'text-xs w-40 h-11 flex items-center justify-center relative group gap-1',
 						className
 					)}
 				>
 					<p>{text}</p>
+					<CaretDownIcon
+						className="opacity-0 transition-opacity duration-00 group-hover:opacity-100"
+						aria-hidden="true"
+					/>
 				</Button>
 			</SheetTrigger>
 			<SheetContent side="top">

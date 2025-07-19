@@ -1,9 +1,6 @@
 'use client'
 
-import { BrowseSneakers } from '@/components/browse-sneakers'
-import { Footer } from '@/components/footer'
-import { Header } from '@/components/header'
-import { TopBar } from '@/components/top-bar'
+import { BrowseSneakersList } from '@/components/browse-sneakers-list'
 import { saveTokenInStorage } from '@/services/auth/access-token.service'
 import { useSearchParams } from 'next/navigation'
 import React from 'react'
@@ -19,10 +16,7 @@ export const Home = () => {
 
 	return (
 		<>
-			<Header />
-			<TopBar />
-			<BrowseSneakers />
-			<Footer />
+			<BrowseSneakersList gender="all" />
 		</>
 	)
 }
