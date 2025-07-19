@@ -1,4 +1,3 @@
-// components/sheet-button-filter.tsx
 import { Button } from './ui/button'
 import {
 	Sheet,
@@ -13,11 +12,12 @@ import Link from 'next/link'
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden'
 import React from 'react'
 import { CaretDownIcon } from '@radix-ui/react-icons'
+import { useQuery } from '@tanstack/react-query'
 
 interface SheetButtonFilterProps<T> {
 	text: string
-	isLoading: boolean
-	items?: T[]
+	queryKey: string[]
+	queryFn: () => Promise<T[]>
 	link: (item: T) => string
 	getItemName: (item: T) => string
 	loadingMessage: string
@@ -27,16 +27,25 @@ interface SheetButtonFilterProps<T> {
 
 export const SheetButtonFilter = <T extends { id: string | number }>({
 	text,
-	isLoading,
-	items,
+	queryKey,
+	queryFn,
 	link,
 	getItemName,
 	loadingMessage,
 	notFoundMessage,
 	className,
 }: SheetButtonFilterProps<T>) => {
+	const [isOpen, setIsOpen] = React.useState(false)
+
+	const { data: items, isLoading } = useQuery<T[]>({
+		queryKey: queryKey,
+		queryFn: queryFn,
+		enabled: isOpen,
+		staleTime: Infinity,
+	})
+
 	return (
-		<Sheet>
+		<Sheet open={isOpen} onOpenChange={setIsOpen}>
 			<SheetTrigger asChild>
 				<Button
 					variant="button"

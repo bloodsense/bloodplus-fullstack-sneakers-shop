@@ -3,13 +3,13 @@
 import { cn } from '@/lib/utils'
 import Link from 'next/link'
 import { Container } from './container'
-import { useFilterBrands } from '@/hooks/filters/useFilterBrands'
-import { useFilterSeasons } from '@/hooks/filters/useFilterSeasons'
 import { PUBLIC_URL } from '@/config/urls.constants'
 import { IBrand } from '@/shared/types/brand.interface'
 import { ISeason } from '@/shared/types/season.interface'
 import { SheetButtonFilter } from './sheet-filters-button'
 import { CaretRightIcon } from '@radix-ui/react-icons'
+import { brandService } from '@/services/brand.service'
+import { seasonService } from '@/services/season.service'
 
 interface Props {
 	className?: string
@@ -20,9 +20,6 @@ export const TopBar: React.FC<Props> = ({ className }) => {
 		{ id: 1, link: '/browse/men', category: 'Мужчинам' },
 		{ id: 2, link: '/browse/women', category: 'Женщинам' },
 	]
-
-	const { brands, isLoading: isLoadingBrands } = useFilterBrands()
-	const { seasons, isLoading: isLoadingSeasons } = useFilterSeasons()
 
 	return (
 		<div className="sticky top-[69px] z-20 border-b bg-background/60 backdrop-blur-xl">
@@ -48,18 +45,18 @@ export const TopBar: React.FC<Props> = ({ className }) => {
 						</div>
 					))}
 					<SheetButtonFilter<IBrand>
+						queryKey={['brands']}
+						queryFn={brandService.getAllBrands}
 						text="Бренд"
-						isLoading={isLoadingBrands}
-						items={brands}
 						link={brand => PUBLIC_URL.browse.brand(brand.slug)}
 						getItemName={brand => brand.name}
 						loadingMessage="Загрузка списка брендов"
 						notFoundMessage="Список кроссовок по брендам не найден"
 					/>
 					<SheetButtonFilter<ISeason>
+						queryKey={['seasons']} // Передаем queryKey
+						queryFn={seasonService.getAllSeasons}
 						text="Сезон"
-						isLoading={isLoadingSeasons}
-						items={seasons}
 						link={season => PUBLIC_URL.browse.season(season.slug)}
 						getItemName={season => season.name}
 						loadingMessage="Загрузка списка сезонов"
