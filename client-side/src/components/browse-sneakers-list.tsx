@@ -6,6 +6,7 @@ import { SneakerCard } from './sneaker-card'
 import { Skeleton } from './ui/skeleton'
 import { useSneakers } from '@/hooks/useSneakers'
 import { FiltersAccordion } from './filters-accordion'
+import { gridVariants } from '@/shared/grid-variants'
 
 interface BrowseSneakersListProps {
 	gender?: 'all' | 'men' | 'women'
@@ -19,10 +20,8 @@ export const BrowseSneakersList: React.FC<BrowseSneakersListProps> = ({
 	gridCols = 5,
 }) => {
 	const { sneakers, isLoading } = useSneakers(gender)
-
 	const numberOfSkeletons = 20
-
-	const gridColsClass = `xl:grid-cols-${gridCols}`
+	const gridColsVariants = gridVariants
 
 	return (
 		<Container className={cn('pt-10 mb-10', className)}>
@@ -36,8 +35,9 @@ export const BrowseSneakersList: React.FC<BrowseSneakersListProps> = ({
 				)}
 				<div
 					className={cn(
-						'grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-8 justify-items-center',
-						gridColsClass
+						`grid grid-cols-2 sm:grid-cols- gap-x-10 gap-y-8 justify-items-center`,
+						gridColsVariants[gridCols],
+						className
 					)}
 				>
 					{isLoading
