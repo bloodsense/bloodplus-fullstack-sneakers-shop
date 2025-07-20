@@ -6,12 +6,12 @@ interface FilterListSkeletonProps {
 }
 
 export const FilterListSkeleton: React.FC<FilterListSkeletonProps> = ({
-	count = 6,
+	count = 4,
 }) => {
 	return (
 		<div className="flex flex-col gap-4 py-2 ">
 			{Array.from({ length: count }).map((_, index) => (
-				<Skeleton key={index} className="h-3 w-30 rounded-md" />
+				<Skeleton key={index} className="h-3 w-40 rounded-md" />
 			))}
 		</div>
 	)

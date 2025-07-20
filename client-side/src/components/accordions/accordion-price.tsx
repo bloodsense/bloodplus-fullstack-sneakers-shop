@@ -13,7 +13,7 @@ export const AccordionPrice: React.FC<Props> = ({ className }) => {
 		<AccordionItem value="price">
 			<AccordionTrigger>Цена</AccordionTrigger>
 			<AccordionContent>
-				<div className="flex flex-col gap-2 overflow-y-scroll h-40">Slider</div>
+				<div className="flex flex-col gap-2 overflow-y-scroll h-27">Slider</div>
 			</AccordionContent>
 		</AccordionItem>
 	)

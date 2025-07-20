@@ -1,3 +1,4 @@
+import { useFilters } from '@/hooks/filters/useClientFilters'
 import { AccordionBrand } from './accordions/accordion-brand'
 import { AccordionColor } from './accordions/accordion-color'
 import { AccordionGender } from './accordions/accordion-gender'
@@ -19,6 +20,17 @@ export const FiltersAccordion: React.FC<Props> = ({ className }) => {
 	const isSeasonsAccordionOpen = openAccordionItems.includes('season')
 	const isColorsAccordionOpen = openAccordionItems.includes('color')
 
+	const {
+		selectedBrands,
+		selectedSeasons,
+		selectedColors,
+		selectedGenders,
+		handleBrandChange,
+		handleSeasonChange,
+		handleColorChange,
+		handleGenderChange,
+	} = useFilters()
+
 	return (
 		<Accordion
 			type="multiple"
@@ -26,10 +38,25 @@ export const FiltersAccordion: React.FC<Props> = ({ className }) => {
 			onValueChange={setOpenAccordionItems}
 			className="w-[260px] mr-10"
 		>
-			<AccordionBrand isEnabled={isBrandsAccordionOpen} />
-			<AccordionSeason isEnabled={isSeasonsAccordionOpen} />
-			<AccordionColor isEnabled={isColorsAccordionOpen} />
-			<AccordionGender />
+			<AccordionBrand
+				isEnabled={isBrandsAccordionOpen}
+				selectedItems={selectedBrands}
+				onItemChange={handleBrandChange}
+			/>
+			<AccordionSeason
+				isEnabled={isSeasonsAccordionOpen}
+				selectedItems={selectedSeasons}
+				onItemChange={handleSeasonChange}
+			/>
+			<AccordionColor
+				isEnabled={isColorsAccordionOpen}
+				selectedItems={selectedColors}
+				onItemChange={handleColorChange}
+			/>
+			<AccordionGender
+				selectedItems={selectedGenders}
+				onItemChange={handleGenderChange}
+			/>
 			<AccordionPrice />
 		</Accordion>
 	)

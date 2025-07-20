@@ -7,13 +7,19 @@ import { FilterListSkeleton } from '../filters-list-skeleton'
 import { useFilterBrands } from '@/hooks/filters/useFilterBrands'
 import { Checkbox } from '../ui/checkbox'
 
-
 interface Props {
 	className?: string
 	isEnabled: boolean
+	selectedItems: string[]
+	onItemChange: (brandId: string) => void
 }
 
-export const AccordionBrand: React.FC<Props> = ({ className, isEnabled }) => {
+export const AccordionBrand: React.FC<Props> = ({
+	className,
+	isEnabled,
+	selectedItems,
+	onItemChange,
+}) => {
 	const { brands, isLoading: isLoadingBrands } = useFilterBrands(isEnabled)
 
 	return (
@@ -23,12 +29,21 @@ export const AccordionBrand: React.FC<Props> = ({ className, isEnabled }) => {
 				{isLoadingBrands ? (
 					<FilterListSkeleton />
 				) : (
-					<div className="flex flex-col gap-2 overflow-y-scroll h-40">
+					<div className="flex flex-col gap-2 overflow-y-scroll h-27">
 						{brands?.length ? (
 							brands.map(brand => (
-								<p key={brand.id} className="hover:underline">
-									{brand.name}
-								</p>
+								<label
+									key={brand.id}
+									htmlFor={`brand-${brand.id}`}
+									className="flex items-center gap-2 cursor-pointer" //
+								>
+									<Checkbox
+										id={`brand-${brand.id}`}
+										checked={selectedItems.includes(brand.id)}
+										onCheckedChange={() => onItemChange(brand.id)}
+									/>
+									<span>{brand.name}</span>
+								</label>
 							))
 						) : (
 							<p>Бренды не найдены</p>

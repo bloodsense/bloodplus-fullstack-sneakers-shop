@@ -5,13 +5,21 @@ import {
 } from '../ui/accordion'
 import { FilterListSkeleton } from '../filters-list-skeleton'
 import { useFilterColors } from '@/hooks/filters/useFilterColors'
+import { Checkbox } from '../ui/checkbox'
 
 interface Props {
 	className?: string
 	isEnabled: boolean
+	selectedItems: string[]
+	onItemChange: (colorId: string) => void
 }
 
-export const AccordionColor: React.FC<Props> = ({ className, isEnabled }) => {
+export const AccordionColor: React.FC<Props> = ({
+	className,
+	isEnabled,
+	selectedItems,
+	onItemChange,
+}) => {
 	const { colors, isLoading: isLoadingColors } = useFilterColors(isEnabled)
 
 	return (
@@ -21,12 +29,21 @@ export const AccordionColor: React.FC<Props> = ({ className, isEnabled }) => {
 				{isLoadingColors ? (
 					<FilterListSkeleton />
 				) : (
-					<div className="flex flex-col gap-2 overflow-y-scroll h-40">
+					<div className="flex flex-col gap-2 overflow-y-scroll h-27">
 						{colors?.length ? (
 							colors.map(color => (
-								<p key={color.id} className="hover:underline">
-									{color.value}
-								</p>
+								<label
+									key={color.id}
+									htmlFor={`brand-${color.id}`}
+									className="flex items-center gap-2 cursor-pointer" //
+								>
+									<Checkbox
+										id={`brand-${color.id}`}
+										checked={selectedItems.includes(color.id)}
+										onCheckedChange={() => onItemChange(color.id)}
+									/>
+									<span>{color.value}</span>
+								</label>
 							))
 						) : (
 							<p>Бренды не найдены</p>
