@@ -19,6 +19,7 @@ export class SneakerService {
         brand: true,
         color: true,
         reviews: true,
+        season: true,
         stocks: { include: { size: true } },
         sneakerInfo: true,
       },
@@ -33,6 +34,14 @@ export class SneakerService {
         brand: {
           slug: brandSlug,
         },
+      },
+      include: {
+        brand: true,
+        season: true,
+        color: true,
+        reviews: true,
+        stocks: { include: { size: true } },
+        sneakerInfo: true,
       },
     });
 
@@ -49,13 +58,11 @@ export class SneakerService {
           gender: gender,
         },
       },
-      orderBy: {
-        createdAt: 'desc',
-      },
       include: {
         brand: true,
         color: true,
         reviews: true,
+        season: true,
         stocks: { include: { size: true } },
         sneakerInfo: true,
       },
@@ -74,6 +81,14 @@ export class SneakerService {
         season: {
           slug: seasonSlug,
         },
+      },
+      include: {
+        brand: true,
+        season: true,
+        color: true,
+        reviews: true,
+        stocks: { include: { size: true } },
+        sneakerInfo: true,
       },
     });
 
@@ -95,6 +110,7 @@ export class SneakerService {
         brand: true,
         color: true,
         reviews: true,
+        season: true,
         stocks: { include: { size: true } },
         sneakerInfo: true,
       },
@@ -115,6 +131,7 @@ export class SneakerService {
       include: {
         brand: true,
         color: true,
+        season: true,
         reviews: true,
         stocks: { include: { size: true } },
         sneakerInfo: true,
@@ -136,6 +153,7 @@ export class SneakerService {
       include: {
         brand: true,
         color: true,
+        season: true,
         reviews: true,
         stocks: { include: { size: true } },
         sneakerInfo: true,
@@ -176,6 +194,7 @@ export class SneakerService {
       include: {
         brand: true,
         color: true,
+        season: true,
         reviews: true,
         stocks: { include: { size: true } },
         sneakerInfo: true,
@@ -207,6 +226,7 @@ export class SneakerService {
       include: {
         brand: true,
         color: true,
+        season: true,
         reviews: true,
         stocks: { include: { size: true } },
         sneakerInfo: true,
