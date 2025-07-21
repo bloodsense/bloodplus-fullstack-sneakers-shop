@@ -21,7 +21,11 @@ export class ColorService {
   }
 
   async getAllColors() {
-    return this.prisma.color.findMany();
+    return this.prisma.color.findMany({
+      orderBy: {
+        value: 'asc',
+      },
+    });
   }
 
   async createColor(dto: ColorDto) {

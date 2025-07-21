@@ -21,7 +21,11 @@ export class BrandService {
   }
 
   async getAllBrands() {
-    return this.prisma.brand.findMany();
+    return this.prisma.brand.findMany({
+      orderBy: {
+        name: 'asc',
+      },
+    });
   }
 
   async createBrand(dto: BrandDto) {

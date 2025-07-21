@@ -21,7 +21,11 @@ export class SeasonService {
   }
 
   async getAllSeasons() {
-    return this.prisma.season.findMany();
+    return this.prisma.season.findMany({
+      orderBy: {
+        name: 'asc',
+      },
+    });
   }
 
   async createSeason(dto: SeasonDto) {
