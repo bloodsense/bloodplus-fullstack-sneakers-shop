@@ -43,7 +43,7 @@ export function RangeSlider({
 	}
 
 	return (
-		<div className={cn('relative w-full pb-8', className)}>
+		<div className={cn('relative w-full pb-8 cursor-pointer', className)}>
 			<Slider
 				value={values}
 				onValueChange={newValues =>

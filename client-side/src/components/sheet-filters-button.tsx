@@ -78,6 +78,7 @@ export const SheetButtonFilter = <T extends { id: string | number }>({
 							<div
 								className="flex justify-center items-center hover:bg-foreground/10"
 								key={item.id}
+								onClick={() => setIsOpen(false)}
 							>
 								<Link
 									href={link(item)}
