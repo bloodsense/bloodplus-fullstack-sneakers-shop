@@ -9,7 +9,9 @@ interface SneakerCardProps {
 
 export const SneakerCard: React.FC<SneakerCardProps> = ({ sneaker }) => {
 	return (
-		<Link href={PUBLIC_URL.sneakers.watch(sneaker.brand.slug, sneaker.slug)}>
+		<Link
+			href={PUBLIC_URL.browse.sneakersByBrand(sneaker.brand.slug, sneaker.slug)}
+		>
 			<div className="flex flex-col items-center rounded-xl">
 				<div className="relative w-[200px] h-[180px]">
 					<Image

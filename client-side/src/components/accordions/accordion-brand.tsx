@@ -4,7 +4,7 @@ import {
 	AccordionTrigger,
 } from '../ui/accordion'
 import { FilterListSkeleton } from '../filters-list-skeleton'
-import { useFilterBrands } from '@/hooks/filters/useFilterBrands'
+import { useFilterBrands } from '@/hooks/accordion-filters/useFilterBrands'
 import { Checkbox } from '../ui/checkbox'
 
 interface Props {
@@ -39,8 +39,8 @@ export const AccordionBrand: React.FC<Props> = ({
 								>
 									<Checkbox
 										id={`brand-${brand.id}`}
-										checked={selectedItems.includes(brand.id)}
-										onCheckedChange={() => onItemChange(brand.id)}
+										checked={selectedItems.includes(brand.slug)}
+										onCheckedChange={() => onItemChange(brand.slug)}
 									/>
 									<span>{brand.name}</span>
 								</label>

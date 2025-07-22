@@ -18,11 +18,11 @@ export const PUBLIC_URL = {
 		women: () => '/browse/women',
 		season: (seasonSlug: string) => `/browse/season/${seasonSlug}`,
 		brand: (brandSlug: string) => `/browse/brand/${brandSlug}`,
+		sneakersByBrand: (brandSlug: string, sneakerSlug: string) =>
+			`/browse/brand/${brandSlug}/${sneakerSlug}`,
 	},
 
 	sneakers: {
-		watch: (brandSlug: string, sneakerSlug: string) =>
-			`/watch/${brandSlug}/${sneakerSlug}`,
 		popular: () => '/watch/popular',
 		similar: (slug: string) => `/similar/${slug}`,
 	},

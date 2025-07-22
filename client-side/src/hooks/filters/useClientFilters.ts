@@ -1,43 +1,37 @@
+import { useSearchParams } from 'next/navigation'
 import React from 'react'
 
-function toggleArrayItem<T>(array: T[], item: T): T[] {
-	if (array.includes(item)) {
-		return array.filter(i => i !== item)
-	} else {
-		return [...array, item]
-	}
-}
+const MIN_PRICE = 0
+const MAX_PRICE = 100000
 
-export const useFilters = () => {
-	const [selectedBrands, setSelectedBrands] = React.useState<string[]>([])
-	const [selectedSeasons, setSelectedSeasons] = React.useState<string[]>([])
-	const [selectedColors, setSelectedColors] = React.useState<string[]>([])
-	const [selectedGenders, setSelectedGenders] = React.useState<string[]>([])
+export function useFilters() {
+	const searchParams = useSearchParams()
 
-	const handleBrandChange = (brandId: string) => {
-		setSelectedBrands(prev => toggleArrayItem(prev, brandId))
-	}
+	const selectedBrands = React.useMemo(
+		() => searchParams.get('brands')?.split(',') || [],
+		[searchParams]
+	)
 
-	const handleSeasonChange = (seasonId: string) => {
-		setSelectedSeasons(prev => toggleArrayItem(prev, seasonId))
-	}
+	const selectedSeasons = React.useMemo(
+		() => searchParams.get('seasons')?.split(',') || [],
+		[searchParams]
+	)
 
-	const handleColorChange = (colorId: string) => {
-		setSelectedColors(prev => toggleArrayItem(prev, colorId))
-	}
+	const selectedColors = React.useMemo(
+		() => searchParams.get('colors')?.split(',') || [],
+		[searchParams]
+	)
 
-	const handleGenderChange = (gender: string) => {
-		setSelectedGenders(prev => toggleArrayItem(prev, gender))
-	}
+	const priceRange = React.useMemo((): [number, number] => {
+		const min = searchParams.get('minPrice')
+		const max = searchParams.get('maxPrice')
+		return [min ? Number(min) : MIN_PRICE, max ? Number(max) : MAX_PRICE]
+	}, [searchParams])
 
 	return {
 		selectedBrands,
 		selectedSeasons,
 		selectedColors,
-		selectedGenders,
-		handleBrandChange,
-		handleSeasonChange,
-		handleColorChange,
-		handleGenderChange,
+		priceRange,
 	}
 }

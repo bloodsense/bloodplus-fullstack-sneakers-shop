@@ -4,7 +4,7 @@ import {
 	AccordionTrigger,
 } from '../ui/accordion'
 import { FilterListSkeleton } from '../filters-list-skeleton'
-import { useFilterColors } from '@/hooks/filters/useFilterColors'
+import { useFilterColors } from '@/hooks/accordion-filters/useFilterColors'
 import { Checkbox } from '../ui/checkbox'
 
 interface Props {
@@ -39,8 +39,8 @@ export const AccordionColor: React.FC<Props> = ({
 								>
 									<Checkbox
 										id={`brand-${color.id}`}
-										checked={selectedItems.includes(color.id)}
-										onCheckedChange={() => onItemChange(color.id)}
+										checked={selectedItems.includes(color.slug)}
+										onCheckedChange={() => onItemChange(color.slug)}
 									/>
 									<span>{color.value}</span>
 								</label>

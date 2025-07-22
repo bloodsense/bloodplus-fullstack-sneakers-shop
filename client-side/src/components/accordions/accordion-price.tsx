@@ -5,23 +5,33 @@ import {
 	AccordionItem,
 	AccordionTrigger,
 } from '../ui/accordion'
+import { useDebounce } from '@/hooks/useDebounce'
+import { MAX_PRICE, MIN_PRICE } from '@/constants/filter-price-constants'
 
 interface Props {
 	className?: string
+	values: [number, number]
+	onPriceChange: (newValues: [number, number]) => void
 }
 
-export const AccordionPrice: React.FC<Props> = ({ className }) => {
-	const MIN_PRICE = 0
-	const MAX_PRICE = 25000
+export const AccordionPrice: React.FC<Props> = ({
+	className,
+	values,
+	onPriceChange,
+}) => {
+	const [localValues, setLocalValues] = React.useState<[number, number]>(values)
 
-	const [priceValues, setPriceValues] = React.useState<[number, number]>([
-		MIN_PRICE,
-		MAX_PRICE,
-	])
+	const debouncedValues = useDebounce(localValues, 400)
 
-	const handlePriceChange = (newValues: [number, number]) => {
-		setPriceValues(newValues)
-	}
+	React.useEffect(() => {
+		setLocalValues(values)
+	}, [values])
+
+	React.useEffect(() => {
+		if (debouncedValues[0] !== values[0] || debouncedValues[1] !== values[1]) {
+			onPriceChange(debouncedValues)
+		}
+	}, [debouncedValues, onPriceChange])
 
 	return (
 		<AccordionItem value="price">
@@ -29,8 +39,8 @@ export const AccordionPrice: React.FC<Props> = ({ className }) => {
 			<AccordionContent>
 				<div className="pt-2 px-2">
 					<RangeSlider
-						values={priceValues}
-						onValueChange={handlePriceChange}
+						values={localValues}
+						onValueChange={setLocalValues}
 						min={MIN_PRICE}
 						max={MAX_PRICE}
 						step={50}
