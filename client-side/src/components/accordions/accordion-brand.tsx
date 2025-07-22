@@ -29,7 +29,7 @@ export const AccordionBrand: React.FC<Props> = ({
 				{isLoadingBrands ? (
 					<FilterListSkeleton />
 				) : (
-					<div className="flex flex-col gap-2 overflow-y-scroll h-27">
+					<div className="flex flex-col gap-2 overflow-y-scroll h-35 text-foreground/80">
 						{brands?.length ? (
 							brands.map(brand => (
 								<label

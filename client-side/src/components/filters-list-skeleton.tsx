@@ -6,7 +6,7 @@ interface FilterListSkeletonProps {
 }
 
 export const FilterListSkeleton: React.FC<FilterListSkeletonProps> = ({
-	count = 4,
+	count = 5,
 }) => {
 	return (
 		<div className="flex flex-col gap-4 py-2 ">

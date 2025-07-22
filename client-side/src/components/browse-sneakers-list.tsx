@@ -29,13 +29,14 @@ export const BrowseSneakersList: React.FC<BrowseSneakersListProps> = ({
 	const filters = useProductFilters()
 	const filteredSneakers = useFilteredSneakers(sneakers, filters)
 	const hasFilters = gender === 'men' || gender === 'women'
+	const isListEmpty = !isLoading && filteredSneakers.length === 0
 
 	return (
 		<Container className={cn('pt-10 mb-10', className)}>
 			<div
 				className={cn(
 					hasFilters
-						? 'grid grid-cols-[auto_1fr] gap-x-10 items-start'
+						? 'grid grid-cols-[auto_1fr] gap-x-10'
 						: 'flex justify-center'
 				)}
 			>
@@ -44,10 +45,14 @@ export const BrowseSneakersList: React.FC<BrowseSneakersListProps> = ({
 						<FiltersAccordion {...filters} />
 					</div>
 				)}
+
 				<div
 					className={cn(
-						`grid grid-cols-2 sm:grid-cols-3 gap-x-10 gap-y-8 justify-items-center`,
-						gridColsVariants[gridCols],
+						!isListEmpty && 'self-start',
+						'justify-items-center',
+						isListEmpty
+							? 'flex items-center justify-center'
+							: `grid grid-cols-2 sm:grid-cols-3 gap-x-10 gap-y-8 ${gridColsVariants[gridCols]}`,
 						className
 					)}
 				>
@@ -62,15 +67,12 @@ export const BrowseSneakersList: React.FC<BrowseSneakersListProps> = ({
 								<Skeleton className="w-1/2 h-2" />
 							</div>
 						))
-					) : filteredSneakers.length > 0 ? (
+					) : isListEmpty ? (
+						<NoResultsFound onReset={filters.resetFilters} />
+					) : (
 						filteredSneakers.map(sneaker => (
 							<SneakerCard key={sneaker.id} sneaker={sneaker} />
 						))
-					) : (
-						<NoResultsFound
-							className="col-span-full"
-							onReset={filters.resetFilters}
-						/>
 					)}
 				</div>
 			</div>
