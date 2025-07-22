@@ -5,10 +5,10 @@ import { PropsWithChildren } from 'react'
 
 export default function HomeLayout({ children }: PropsWithChildren<unknown>) {
 	return (
-		<div>
+		<div className="flex flex-col min-h-screen">
 			<Header />
 			<TopBar />
-			{children}
+			<main className="flex-grow">{children}</main>
 			<Footer />
 		</div>
 	)

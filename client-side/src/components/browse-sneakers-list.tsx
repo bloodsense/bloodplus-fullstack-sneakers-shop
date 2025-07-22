@@ -35,7 +35,7 @@ export const BrowseSneakersList: React.FC<BrowseSneakersListProps> = ({
 			<div
 				className={cn(
 					hasFilters
-						? 'grid grid-cols-[auto_1fr] gap-x-10'
+						? 'grid grid-cols-[auto_1fr] gap-x-10 items-start'
 						: 'flex justify-center'
 				)}
 			>
