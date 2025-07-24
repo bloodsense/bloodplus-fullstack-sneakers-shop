@@ -12,7 +12,7 @@ export const SneakerCard: React.FC<SneakerCardProps> = ({ sneaker }) => {
 		<Link
 			href={PUBLIC_URL.browse.sneakersByBrand(sneaker.brand.slug, sneaker.slug)}
 		>
-			<div className="flex flex-col items-center rounded-xl">
+			<div className="flex flex-col items-center rounded-xl transition-transform duration-500 ease-in-out hover:scale-102">
 				<div className="relative w-[200px] h-[180px]">
 					<Image
 						src={sneaker.images[0]}

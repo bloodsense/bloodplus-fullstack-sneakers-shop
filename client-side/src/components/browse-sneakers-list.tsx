@@ -11,6 +11,7 @@ import { gridConstants } from '@/constants/grid-constants'
 import { useProductFilters } from '@/hooks/filters/useProductFilters'
 import { useFilteredSneakers } from '@/hooks/filters/useFilteredSneakers'
 import { FiltersSidebar } from './filters-sidebar'
+import { InvalidUrlError } from './invalid-url-error'
 
 interface BrowseSneakersListProps {
 	gender?: 'all' | 'men' | 'women'
@@ -42,6 +43,10 @@ export const BrowseSneakersList: React.FC<BrowseSneakersListProps> = ({
 
 	const [areFiltersVisible, setAreFiltersVisible] = React.useState(true)
 	const currentGridCols = areFiltersVisible ? gridCols : 5
+
+	if (isError) {
+		return <InvalidUrlError />
+	}
 
 	return (
 		<Container className={cn('pt-10 mb-10', className)}>
