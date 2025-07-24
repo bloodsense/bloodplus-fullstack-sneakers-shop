@@ -22,7 +22,7 @@ export const NoResultsFound: React.FC<NoResultsFoundProps> = ({
 				className
 			)}
 		>
-			<h3 className="text-xl font-bold mb-1">{title}</h3>
+			<h3 className="text-2xl font-bold mb-1">{title}</h3>
 			<p className="text-muted-foreground mb-6">{description}</p>
 			{onReset && (
 				<Button variant="default" onClick={onReset}>

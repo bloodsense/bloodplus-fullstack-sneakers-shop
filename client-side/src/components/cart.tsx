@@ -16,7 +16,7 @@ export const Cart: React.FC<Props> = ({ itemCount, totalPrice }) => {
 			variant="outline"
 			className="group relative flex items-center justify-between"
 		>
-			<span className="mr-2">{itemCount}</span>
+			<span className="mr-2">{itemCount} т.</span>
 			<div className="h-full w-px bg-foreground/50" />
 			<div className="relative flex items-center justify-center overflow-hidden pl-2">
 				<span className="transition-opacity duration-300 group-hover:opacity-0">

@@ -11,38 +11,52 @@ import { NoResultsFound } from './no-results-found'
 import { gridConstants } from '@/constants/grid-constants'
 import { useProductFilters } from '@/hooks/filters/useProductFilters'
 import { useFilteredSneakers } from '@/hooks/filters/useFilteredSneakers'
+import { InvalidUrlError } from './invalid-url-error'
 
 interface BrowseSneakersListProps {
 	gender?: 'all' | 'men' | 'women'
 	className?: string
 	gridCols?: 4 | 5 | 6 | 7 | 8
+	brandSlug?: string
+	seasonSlug?: string
 }
 
 export const BrowseSneakersList: React.FC<BrowseSneakersListProps> = ({
 	gender = 'all',
 	className,
 	gridCols = 5,
+	brandSlug,
+	seasonSlug,
 }) => {
-	const { sneakers, isLoading } = useSneakers(gender)
+	const { sneakers, isLoading, isError } = useSneakers(
+		gender,
+		brandSlug,
+		seasonSlug
+	)
 	const numberOfSkeletons = 20
 	const gridColsVariants = gridConstants
 	const filters = useProductFilters()
 	const filteredSneakers = useFilteredSneakers(sneakers, filters)
-	const hasFilters = gender === 'men' || gender === 'women'
-	const isListEmpty = !isLoading && filteredSneakers.length === 0
+	const hasFilters =
+		gender === 'men' || gender === 'women' || brandSlug || seasonSlug
+	const isListEmpty = !isLoading && !isError && filteredSneakers.length === 0
 
 	return (
 		<Container className={cn('pt-10 mb-10', className)}>
 			<div
 				className={cn(
-					hasFilters
+					hasFilters && !isError
 						? 'grid grid-cols-[auto_1fr] gap-x-10'
 						: 'flex justify-center'
 				)}
 			>
-				{hasFilters && (
+				{hasFilters && !isError && (
 					<div className="sticky top-38.5 self-start">
-						<FiltersAccordion {...filters} />
+						<FiltersAccordion
+							{...filters}
+							isBrandFilterDisabled={!!brandSlug}
+							isSeasonFilterDisabled={!!seasonSlug}
+						/>
 					</div>
 				)}
 
@@ -50,7 +64,7 @@ export const BrowseSneakersList: React.FC<BrowseSneakersListProps> = ({
 					className={cn(
 						!isListEmpty && 'self-start',
 						'justify-items-center',
-						isListEmpty
+						isListEmpty || isError
 							? 'flex items-center justify-center'
 							: `grid grid-cols-2 sm:grid-cols-3 gap-x-10 gap-y-8 ${gridColsVariants[gridCols]}`,
 						className
@@ -67,6 +81,8 @@ export const BrowseSneakersList: React.FC<BrowseSneakersListProps> = ({
 								<Skeleton className="w-1/2 h-2" />
 							</div>
 						))
+					) : isError ? (
+						<InvalidUrlError />
 					) : isListEmpty ? (
 						<NoResultsFound onReset={filters.resetFilters} />
 					) : (

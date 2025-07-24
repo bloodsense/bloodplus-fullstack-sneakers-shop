@@ -12,6 +12,7 @@ interface Props {
 	isEnabled: boolean
 	selectedItems: string[]
 	onItemChange: (seasonId: string) => void
+	isDisabled?: boolean
 }
 
 export const AccordionSeason: React.FC<Props> = ({
@@ -19,11 +20,12 @@ export const AccordionSeason: React.FC<Props> = ({
 	isEnabled,
 	selectedItems,
 	onItemChange,
+	isDisabled = false,
 }) => {
 	const { seasons, isLoading: isLoadingSeasons } = useFilterSeasons(isEnabled)
 
 	return (
-		<AccordionItem value="season">
+		<AccordionItem value="season" disabled={isDisabled}>
 			<AccordionTrigger>Сезон</AccordionTrigger>
 			<AccordionContent>
 				{isLoadingSeasons ? (

@@ -12,6 +12,7 @@ interface Props {
 	isEnabled: boolean
 	selectedItems: string[]
 	onItemChange: (brandId: string) => void
+	isDisabled?: boolean
 }
 
 export const AccordionBrand: React.FC<Props> = ({
@@ -19,11 +20,12 @@ export const AccordionBrand: React.FC<Props> = ({
 	isEnabled,
 	selectedItems,
 	onItemChange,
+	isDisabled = false,
 }) => {
 	const { brands, isLoading: isLoadingBrands } = useFilterBrands(isEnabled)
 
 	return (
-		<AccordionItem value="brand">
+		<AccordionItem value="brand" disabled={isDisabled}>
 			<AccordionTrigger>Бренд</AccordionTrigger>
 			<AccordionContent>
 				{isLoadingBrands ? (
