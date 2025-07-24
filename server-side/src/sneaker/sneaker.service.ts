@@ -28,6 +28,42 @@ export class SneakerService {
     return sneakers;
   }
 
+  async searchSneakers(searchTerm: string) {
+    const sneakers = await this.prisma.sneaker.findMany({
+      where: {
+        OR: [
+          {
+            name: {
+              contains: searchTerm,
+              mode: 'insensitive', // Поиск без учета регистра
+            },
+          },
+          {
+            description: {
+              contains: searchTerm,
+              mode: 'insensitive',
+            },
+          },
+        ],
+      },
+      include: {
+        brand: true,
+        color: true,
+        season: true,
+        stocks: { include: { size: true } },
+      },
+      take: 10, // Ограничим количество для быстрого выпадающего списка
+    });
+
+    if (sneakers.length === 0) {
+      // Не выбрасываем ошибку, а возвращаем пустой массив,
+      // чтобы фронтенд мог обработать "ничего не найдено"
+      return [];
+    }
+
+    return sneakers;
+  }
+
   async getSneakersByBrand(brandSlug: string) {
     const sneakers = await this.prisma.sneaker.findMany({
       where: {

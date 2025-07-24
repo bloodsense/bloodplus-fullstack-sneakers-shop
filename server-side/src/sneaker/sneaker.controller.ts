@@ -7,6 +7,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -22,6 +23,11 @@ export class SneakerController {
   @Get()
   async getAllSneakers() {
     return this.sneakerService.getAllSneakers();
+  }
+
+  @Get('search')
+  async searchSneakers(@Query('q') searchTerm: string) {
+    return this.sneakerService.searchSneakers(searchTerm);
   }
 
   @Get('browse/brand/:brandSlug')
