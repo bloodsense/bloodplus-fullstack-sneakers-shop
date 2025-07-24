@@ -22,7 +22,7 @@ export const InvalidUrlError: React.FC<InvalidUrlErrorProps> = ({
 	return (
 		<div
 			className={cn(
-				'flex flex-col items-center justify-center h-full w-full p-8 text-center',
+				'flex flex-col items-center justify-center h-full w-full p-8 text-center pt-65',
 				className
 			)}
 		>
