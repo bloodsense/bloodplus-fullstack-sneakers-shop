@@ -14,12 +14,19 @@ type RangeSliderProps = Omit<
 	max?: number
 }
 
+const PriceLabel: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+	<div className="flex items-center">
+		<span>{children}</span>
+		<span className="ml-1">₽</span>
+	</div>
+)
+
 export function RangeSlider({
 	className,
 	values,
 	onValueChange,
 	min = 0,
-	max = 25000,
+	max = 99999,
 	...props
 }: RangeSliderProps) {
 	const calculatePosition = (value: number) => {
@@ -33,18 +40,12 @@ export function RangeSlider({
 	const positionDifference = position2 - position1
 
 	const MERGE_THRESHOLD = 20
-
 	const showMergedLabel = positionDifference < MERGE_THRESHOLD
 
-	const getLabelTransform = (position: number) => {
-		if (position < 5) return 'translateX(0%)'
-		if (position > 95) return 'translateX(-100%)'
-		return 'translateX(-50%)'
-	}
-
 	return (
-		<div className={cn('relative w-full pb-8 cursor-pointer', className)}>
+		<div className={cn('relative w-full', className)}>
 			<Slider
+				className="cursor-pointer"
 				value={values}
 				onValueChange={newValues =>
 					onValueChange(newValues as [number, number])
@@ -54,36 +55,38 @@ export function RangeSlider({
 				{...props}
 			/>
 
-			<div className="relative h-4 pt-2">
+			<div className="relative mt-4 h-5">
 				{showMergedLabel ? (
 					<div
-						className="absolute text-sm text-muted-foreground text-center whitespace-nowrap"
+						className="absolute text-sm text-muted-foreground whitespace-nowrap"
 						style={{
 							left: `${(position1 + position2) / 2}%`,
 							transform: 'translateX(-50%)',
 						}}
 					>
-						{values[0]} - {values[1]}
+						<PriceLabel>
+							{values[0]} - {values[1]}
+						</PriceLabel>
 					</div>
 				) : (
 					<>
 						<div
-							className="absolute text-sm text-muted-foreground text-center"
+							className="absolute text-sm text-muted-foreground whitespace-nowrap"
 							style={{
 								left: `${position1}%`,
-								transform: getLabelTransform(position1),
+								transform: `translateX(-${position1}%)`,
 							}}
 						>
-							{values[0]}
+							<PriceLabel>{values[0]}</PriceLabel>
 						</div>
 						<div
-							className="absolute text-sm text-muted-foreground text-center"
+							className="absolute text-sm text-muted-foreground whitespace-nowrap"
 							style={{
 								left: `${position2}%`,
-								transform: getLabelTransform(position2),
+								transform: `translateX(-${position2}%)`,
 							}}
 						>
-							{values[1]}
+							<PriceLabel>{values[1]}</PriceLabel>
 						</div>
 					</>
 				)}
