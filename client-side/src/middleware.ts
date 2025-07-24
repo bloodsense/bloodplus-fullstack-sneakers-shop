@@ -18,9 +18,7 @@ export async function middleware(req: NextRequest) {
 
 	const isAuthPage = req.url.includes(PUBLIC_URL.auth.auth())
 	const isLogoutPage = req.url.includes(PUBLIC_URL.auth.logout())
-	const isAdminPage = req.url.includes(
-		ADMIN_URL.brands.root().split('/brands')[0]
-	)
+	const isAdminPage = req.url.includes('/admin')
 
 	if (isLogoutPage) {
 		return NextResponse.next()

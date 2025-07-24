@@ -9,7 +9,7 @@ export const Login: React.FC<Props> = ({ className }) => {
 	return (
 		<div className={className}>
 			<Button variant="outline">
-				<Link href="/">Войти</Link>
+				<Link href="/">Профиль</Link>
 			</Button>
 		</div>
 	)

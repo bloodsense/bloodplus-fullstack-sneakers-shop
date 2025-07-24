@@ -70,7 +70,7 @@ export const SheetButtonFilter = <T extends { id: string | number }>({
 						<SheetDescription />
 					</VisuallyHidden.Root>
 				</SheetHeader>
-				<div className="overflow-y-scroll h-full mb-4">
+				<div className="overflow-y-scroll h-50 mb-4">
 					{isLoading ? (
 						<div>{loadingMessage}</div>
 					) : items && items.length > 0 ? (

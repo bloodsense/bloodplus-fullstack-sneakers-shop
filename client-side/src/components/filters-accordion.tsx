@@ -1,4 +1,3 @@
-import { MAX_PRICE, MIN_PRICE } from '@/constants/filter-price-constants'
 import { AccordionBrand } from './accordions/accordion-brand'
 import { AccordionColor } from './accordions/accordion-color'
 import { AccordionPrice } from './accordions/accordion-price'
