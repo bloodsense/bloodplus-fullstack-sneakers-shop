@@ -14,7 +14,7 @@ export const Header: React.FC<Props> = ({ className }) => {
 	const cartItemCount = 2
 	const cartTotalPrice = 25000
 	return (
-		<div className="sticky top-0 z-10 border-b bg-background/85 backdrop-blur-xl">
+		<div className="sticky top-0 z-20 border-b bg-background/85 backdrop-blur-xl">
 			<Container>
 				<div className="flex items-center justify-center py-4">
 					<Logo />

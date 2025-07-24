@@ -23,6 +23,8 @@ export const API_URL = {
 
 		getSimilar: (slug: string) => API_URL.root(`/similar/${slug}`),
 
+		search: (query: string) => API_URL.root(`/search?q=${query}`),
+
 		browse: {
 			men: () => API_URL.root('/browse/men'),
 			women: () => API_URL.root('/browse/women'),

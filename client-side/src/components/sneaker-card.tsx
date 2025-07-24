@@ -12,18 +12,22 @@ export const SneakerCard: React.FC<SneakerCardProps> = ({ sneaker }) => {
 		<Link
 			href={PUBLIC_URL.browse.sneakersByBrand(sneaker.brand.slug, sneaker.slug)}
 		>
-			<div className="flex flex-col items-center rounded-xl transition-transform duration-500 ease-in-out hover:scale-102">
-				<div className="relative w-[200px] h-[180px]">
+			<div className="flex flex-col items-center rounded-xl transition-transform duration-500 ease-in-out hover:scale-102 w-[200px]">
+				<div className="relative w-full h-[180px]">
 					<Image
 						src={sneaker.images[0]}
 						alt={sneaker.name}
 						fill
-						objectFit="cover"
+						style={{ objectFit: 'cover' }}
 						className="rounded-lg"
 					/>
 				</div>
-				<h3 className="text-xs pt-2.5">{sneaker.name}</h3>
-				<p className="text-xs pt-2.5">{sneaker.price} ₽</p>
+				<h3 className="text-xs pt-2.5 text-center w-full truncate">
+					{sneaker.name}
+				</h3>
+				<p className="text-xs pt-2.5">
+					{sneaker.price.toLocaleString('ru-RU')} ₽
+				</p>
 			</div>
 		</Link>
 	)

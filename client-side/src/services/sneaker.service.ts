@@ -12,6 +12,15 @@ class SneakerService {
 		return getAllSneakers
 	}
 
+	async searchSneakers(query: string) {
+		const { data: searchedSneakers } = await axiosDefault<ISneaker[]>({
+			url: API_URL.sneakers.search(query),
+			method: 'GET',
+		})
+
+		return searchedSneakers
+	}
+
 	async getSimilarSneakers(slug: string) {
 		const { data: getSimilarSneakers } = await axiosDefault<ISneaker[]>({
 			url: API_URL.sneakers.getSimilar(slug),

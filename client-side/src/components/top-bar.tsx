@@ -22,7 +22,7 @@ export const TopBar: React.FC<Props> = ({ className }) => {
 	]
 
 	return (
-		<div className="sticky top-[69px] z-20 border-b bg-background/60 backdrop-blur-xl">
+		<div className="sticky top-[69px] z-10 border-b bg-background/60 backdrop-blur-xl">
 			<Container>
 				<div
 					className={cn('flex justify-center items-center gap-10 ', className)}

@@ -7,7 +7,7 @@ import { FiltersAccordion } from './filters-accordion'
 import { useProductFilters } from '@/hooks/filters/useProductFilters'
 import useLocalStorageState from '@/hooks/useLocalStorage'
 import { MAX_PRICE, MIN_PRICE } from '@/constants/filter-price-constants'
-import { ChevronLeft, Tag, Palette, SunSnow, DollarSign } from 'lucide-react'
+import { ChevronLeft, Tag, Palette, SunSnow, RussianRuble } from 'lucide-react'
 import { FiltersShowSkeleton } from './skeletons/filters-show-skeleton'
 
 interface Props {
@@ -97,7 +97,7 @@ export const FiltersSidebar: React.FC<Props> = ({
 								<Tag className="text-muted-foreground" />
 								<SunSnow className="text-muted-foreground" />
 								<Palette className="text-muted-foreground" />
-								<DollarSign className="text-muted-foreground" />
+								<RussianRuble className="text-muted-foreground" />
 							</div>
 						</div>
 					</div>
