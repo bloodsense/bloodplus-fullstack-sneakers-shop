@@ -16,7 +16,7 @@ export const Home = () => {
 
 	return (
 		<>
-			<BrowseSneakersList gender="all" />
+			<BrowseSneakersList gender="all" gridCols={5}/>
 		</>
 	)
 }

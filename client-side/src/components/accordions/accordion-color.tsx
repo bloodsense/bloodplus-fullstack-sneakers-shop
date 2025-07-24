@@ -3,9 +3,9 @@ import {
 	AccordionItem,
 	AccordionTrigger,
 } from '../ui/accordion'
-import { FilterListSkeleton } from '../filters-list-skeleton'
 import { useFilterColors } from '@/hooks/accordion-filters/useFilterColors'
 import { Checkbox } from '../ui/checkbox'
+import { FiltersListSkeleton } from '../skeletons/filters-list-skeleton'
 
 interface Props {
 	className?: string
@@ -27,7 +27,7 @@ export const AccordionColor: React.FC<Props> = ({
 			<AccordionTrigger>Цвет</AccordionTrigger>
 			<AccordionContent>
 				{isLoadingColors ? (
-					<FilterListSkeleton />
+					<FiltersListSkeleton />
 				) : (
 					<div className="flex flex-col gap-2 overflow-y-scroll h-35 text-foreground/80">
 						{colors?.length ? (

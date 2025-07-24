@@ -5,13 +5,12 @@ import { Container } from './container'
 import { SneakerCard } from './sneaker-card'
 import { Skeleton } from './ui/skeleton'
 import { useSneakers } from '@/hooks/useSneakers'
-import { FiltersAccordion } from './filters-accordion'
 import React from 'react'
 import { NoResultsFound } from './no-results-found'
 import { gridConstants } from '@/constants/grid-constants'
 import { useProductFilters } from '@/hooks/filters/useProductFilters'
 import { useFilteredSneakers } from '@/hooks/filters/useFilteredSneakers'
-import { InvalidUrlError } from './invalid-url-error'
+import { FiltersSidebar } from './filters-sidebar'
 
 interface BrowseSneakersListProps {
 	gender?: 'all' | 'men' | 'women'
@@ -24,7 +23,7 @@ interface BrowseSneakersListProps {
 export const BrowseSneakersList: React.FC<BrowseSneakersListProps> = ({
 	gender = 'all',
 	className,
-	gridCols = 5,
+	gridCols = 4,
 	brandSlug,
 	seasonSlug,
 }) => {
@@ -41,32 +40,33 @@ export const BrowseSneakersList: React.FC<BrowseSneakersListProps> = ({
 		gender === 'men' || gender === 'women' || brandSlug || seasonSlug
 	const isListEmpty = !isLoading && !isError && filteredSneakers.length === 0
 
+	const [areFiltersVisible, setAreFiltersVisible] = React.useState(true)
+	const currentGridCols = areFiltersVisible ? gridCols : 5
+
 	return (
 		<Container className={cn('pt-10 mb-10', className)}>
 			<div
 				className={cn(
-					hasFilters && !isError
+					hasFilters
 						? 'grid grid-cols-[auto_1fr] gap-x-10'
 						: 'flex justify-center'
 				)}
 			>
-				{hasFilters && !isError && (
-					<div className="sticky top-38.5 self-start">
-						<FiltersAccordion
-							{...filters}
-							isBrandFilterDisabled={!!brandSlug}
-							isSeasonFilterDisabled={!!seasonSlug}
-						/>
-					</div>
+				{hasFilters && (
+					<FiltersSidebar
+						filters={filters}
+						isBrandFilterDisabled={!!brandSlug}
+						isSeasonFilterDisabled={!!seasonSlug}
+						onVisibilityChange={setAreFiltersVisible}
+					/>
 				)}
-
 				<div
 					className={cn(
 						!isListEmpty && 'self-start',
 						'justify-items-center',
-						isListEmpty || isError
+						isListEmpty
 							? 'flex items-center justify-center'
-							: `grid grid-cols-2 sm:grid-cols-3 gap-x-10 gap-y-8 ${gridColsVariants[gridCols]}`,
+							: `grid grid-cols-2 sm:grid-cols-3 gap-x-10 gap-y-8 ${gridColsVariants[currentGridCols]}`,
 						className
 					)}
 				>
@@ -81,8 +81,6 @@ export const BrowseSneakersList: React.FC<BrowseSneakersListProps> = ({
 								<Skeleton className="w-1/2 h-2" />
 							</div>
 						))
-					) : isError ? (
-						<InvalidUrlError />
 					) : isListEmpty ? (
 						<NoResultsFound onReset={filters.resetFilters} />
 					) : (

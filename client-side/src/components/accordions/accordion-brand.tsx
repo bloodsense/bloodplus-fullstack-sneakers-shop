@@ -3,9 +3,9 @@ import {
 	AccordionItem,
 	AccordionTrigger,
 } from '../ui/accordion'
-import { FilterListSkeleton } from '../filters-list-skeleton'
 import { useFilterBrands } from '@/hooks/accordion-filters/useFilterBrands'
 import { Checkbox } from '../ui/checkbox'
+import {  FiltersListSkeleton } from '../skeletons/filters-list-skeleton'
 
 interface Props {
 	className?: string
@@ -29,7 +29,7 @@ export const AccordionBrand: React.FC<Props> = ({
 			<AccordionTrigger>Бренд</AccordionTrigger>
 			<AccordionContent>
 				{isLoadingBrands ? (
-					<FilterListSkeleton />
+					<FiltersListSkeleton />
 				) : (
 					<div className="flex flex-col gap-2 overflow-y-scroll h-35 text-foreground/80">
 						{brands?.length ? (

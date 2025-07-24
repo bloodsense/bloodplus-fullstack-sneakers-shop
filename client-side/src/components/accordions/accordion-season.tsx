@@ -3,9 +3,9 @@ import {
 	AccordionItem,
 	AccordionTrigger,
 } from '../ui/accordion'
-import { FilterListSkeleton } from '../filters-list-skeleton'
 import { useFilterSeasons } from '@/hooks/accordion-filters/useFilterSeasons'
 import { Checkbox } from '../ui/checkbox'
+import { FiltersListSkeleton } from '../skeletons/filters-list-skeleton'
 
 interface Props {
 	className?: string
@@ -29,7 +29,7 @@ export const AccordionSeason: React.FC<Props> = ({
 			<AccordionTrigger>Сезон</AccordionTrigger>
 			<AccordionContent>
 				{isLoadingSeasons ? (
-					<FilterListSkeleton />
+					<FiltersListSkeleton />
 				) : (
 					<div className="flex flex-col gap-2 overflow-y-scroll h-35 text-foreground/80">
 						{seasons?.length ? (

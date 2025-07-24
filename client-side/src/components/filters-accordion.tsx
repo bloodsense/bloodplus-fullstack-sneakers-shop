@@ -17,6 +17,8 @@ interface Props {
 	handlePriceChange: (values: [number, number]) => void
 	isBrandFilterDisabled?: boolean
 	isSeasonFilterDisabled?: boolean
+	openAccordionItems: string[]
+	onOpenChange: (items: string[]) => void
 }
 
 export const FiltersAccordion: React.FC<Props> = ({
@@ -30,33 +32,14 @@ export const FiltersAccordion: React.FC<Props> = ({
 	handlePriceChange,
 	isBrandFilterDisabled,
 	isSeasonFilterDisabled,
+	openAccordionItems,
+	onOpenChange,
 }) => {
-	const [openAccordionItems, setOpenAccordionItems] = React.useState<string[]>(
-		() => {
-			const defaultOpen: string[] = []
-
-			if (selectedBrands.length > 0) {
-				defaultOpen.push('brand')
-			}
-			if (selectedSeasons.length > 0) {
-				defaultOpen.push('season')
-			}
-			if (selectedColors.length > 0) {
-				defaultOpen.push('color')
-			}
-			if (priceRange[0] !== MIN_PRICE || priceRange[1] !== MAX_PRICE) {
-				defaultOpen.push('price')
-			}
-
-			return defaultOpen
-		}
-	)
-
 	return (
 		<Accordion
 			type="multiple"
 			value={openAccordionItems}
-			onValueChange={setOpenAccordionItems}
+			onValueChange={onOpenChange}
 			className="w-[320px]"
 		>
 			<AccordionBrand

@@ -1,11 +1,11 @@
 import React from 'react'
-import { Skeleton } from './ui/skeleton'
+import { Skeleton } from '../ui/skeleton'
 
-interface FilterListSkeletonProps {
+interface FiltersListSkeletonProps {
 	count?: number
 }
 
-export const FilterListSkeleton: React.FC<FilterListSkeletonProps> = ({
+export const FiltersListSkeleton: React.FC<FiltersListSkeletonProps> = ({
 	count = 5,
 }) => {
 	return (
