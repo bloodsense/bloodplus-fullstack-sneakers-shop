@@ -1,10 +1,8 @@
 import type { Metadata } from 'next'
 import { Sneaker } from './sneakerSlug'
 
-// TODO: Поменять title
-
 export const metadata: Metadata = {
-	title: 'Кроссовки по бренду',
+	title: 'Просмотр',
 }
 
 export default function Page() {
