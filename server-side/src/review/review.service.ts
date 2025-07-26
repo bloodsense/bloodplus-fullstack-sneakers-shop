@@ -39,9 +39,6 @@ export class ReviewService {
       },
     });
 
-    if (reviews.length == 0)
-      throw new NotFoundException('У этих кроссовок пока нет отзывов');
-
     return reviews;
   }
 
@@ -104,7 +101,8 @@ export class ReviewService {
 
     return this.prisma.review.create({
       data: {
-        ...dto,
+        rating: dto.rating,
+        text: dto.text,
         sneaker: {
           connect: {
             id: sneakerId,
