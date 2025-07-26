@@ -2,7 +2,7 @@
 
 import * as React from 'react'
 import { ArrowRight } from 'lucide-react'
-import { Button } from './ui/button'
+import { Button } from '../ui/button'
 import { formatPriceWithK } from '@/lib/formatters'
 import { cn } from '@/lib/utils'
 
@@ -22,6 +22,7 @@ export const CartButton = React.forwardRef<HTMLButtonElement, CartButtonProps>(
 				variant="outline"
 				className={cn(
 					'group relative flex items-center justify-between',
+					'min-w-[128px]',
 					className
 				)}
 				{...props}

@@ -1,5 +1,5 @@
 import { axiosWithAuth } from '@/api/api.interceptors'
-import { IBrand, IBrandCreate } from './../../shared/types/brand.interface'
+import { IBrand, IBrandCreate } from '../../shared/types/brand.interface'
 import { API_URL } from '@/config/api.constants'
 
 class AdminBrandService {

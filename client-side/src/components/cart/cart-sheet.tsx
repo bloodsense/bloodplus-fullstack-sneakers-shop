@@ -10,17 +10,21 @@ import {
 	SheetTitle,
 	SheetTrigger,
 } from '@/components/ui/sheet'
-import { Button } from './ui/button'
+import { Button } from '@/components/ui/button'
 import { formatFullPrice } from '@/lib/formatters'
 import { Separator } from '@/components/ui/separator'
+import type { CartItem as CartItemType } from '@/stores/cart-store'
 import { CartButton } from './cart-button'
+import { CartItem } from './cart-item'
 
 interface CartSheetProps {
+	items: CartItemType[]
 	itemCount: number
 	totalPrice: number
 }
 
 export const CartSheet: React.FC<CartSheetProps> = ({
+	items,
 	itemCount,
 	totalPrice,
 }) => {
@@ -42,12 +46,18 @@ export const CartSheet: React.FC<CartSheetProps> = ({
 
 				{itemCount > 0 ? (
 					<>
-						<div className="flex-1 w-full flex-col overflow-y-auto">
-							<div className="space-y-5">Товары</div>
+						<div className="flex-1 w-full flex-col overflow-y-auto py-4">
+							<div className="space-y-5">
+								{items.map(item => (
+									<CartItem
+										key={`${item.id}-${item.selectedSize}`}
+										item={item}
+									/>
+								))}
+							</div>
 						</div>
-
 						<div className="mt-auto border-t pt-5">
-							<div className="space-y-1.5 text-sm">
+							<div className="space-y-2 text-sm">
 								<div className="flex">
 									<span className="flex-1">Товары ({itemCount})</span>
 									<span>{formatFullPrice(totalPrice)} ₽</span>
@@ -71,6 +81,7 @@ export const CartSheet: React.FC<CartSheetProps> = ({
 					<div className="flex h-full flex-col items-center justify-center space-y-2">
 						<ShoppingCart
 							className="h-16 w-16 text-muted-foreground"
+							strokeWidth={1}
 							aria-hidden="true"
 						/>
 						<span className="text-lg font-medium text-muted-foreground">

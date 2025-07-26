@@ -1,7 +1,7 @@
 import {
 	IOrderCreateData,
 	IPaymentResponse,
-} from './../shared/types/order.interface'
+} from '../shared/types/order.interface'
 import { axiosWithAuth } from '@/api/api.interceptors'
 import { API_URL } from '@/config/api.constants'
 

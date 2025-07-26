@@ -1,5 +1,5 @@
 import { axiosWithAuth } from '@/api/api.interceptors'
-import { IFile } from './../shared/types/file.interface'
+import { IFile } from '../shared/types/file.interface'
 import { API_URL } from '@/config/api.constants'
 
 class FileService {

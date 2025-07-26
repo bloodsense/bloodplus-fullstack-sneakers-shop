@@ -6,13 +6,14 @@ import {
 	PopoverContent,
 	PopoverTrigger,
 } from '@/components/ui/popover'
-import { BadgeAlert, BadgeCheck, ChevronDown } from 'lucide-react'
+import { BadgeAlert, BadgeCheck, ChevronDown, Loader2 } from 'lucide-react'
 import type { ISneaker } from '@/shared/types/sneaker.interface'
 import type { ISneakerSizeStock } from '@/shared/types/sneaker-size-stock.interface'
 import { useSneakerSizes } from '@/hooks/useSneakerSize'
 import { SneakerSizeSelector } from './sneaker-size-selector'
 import { useFavoriteStatus } from '@/hooks/useFavorite'
 import { FavoriteToggleButton } from './favorite-toggle-button'
+import { useCartStore, CartItem } from '@/stores/cart-store'
 
 interface SneakerPurchaseInfoProps {
 	sneaker: ISneaker
@@ -28,6 +29,9 @@ export const SneakerPurchaseInfo: FC<SneakerPurchaseInfoProps> = ({
 	onThumbnailClick,
 }) => {
 	const [isPopoverOpen, setIsPopoverOpen] = useState(false)
+	const [isAdding, setIsAdding] = useState(false)
+
+	const { addItem, items } = useCartStore()
 
 	const {
 		selectedStock,
@@ -44,6 +48,30 @@ export const SneakerPurchaseInfo: FC<SneakerPurchaseInfoProps> = ({
 	}
 
 	const { toggleFavorite, isPending } = useFavoriteStatus(sneaker.slug)
+
+	const handleAddToCart = () => {
+		if (!selectedStock) return
+
+		setIsAdding(true)
+
+		setTimeout(() => {
+			const itemToAdd: CartItem = {
+				...sneaker,
+				selectedSize: `${selectedStock.size.type} ${selectedStock.size.value}`,
+			}
+			addItem(itemToAdd)
+			setIsAdding(false)
+		}, 300)
+	}
+
+	const isAlreadyInCart = selectedStock
+		? items.some(
+				item =>
+					item.id === sneaker.id &&
+					item.selectedSize ===
+						`${selectedStock.size.type} ${selectedStock.size.value}`
+		  )
+		: false
 
 	return (
 		<div className="w-full bg-foreground/5 p-6 h-full rounded-lg">
@@ -88,10 +116,24 @@ export const SneakerPurchaseInfo: FC<SneakerPurchaseInfoProps> = ({
 					/>
 				</PopoverContent>
 			</Popover>
+
 			<div className="flex justify-between items-center">
 				<p className="text-xl">{sneaker.price.toLocaleString('ru-RU')} ₽</p>
-				<Button disabled={!selectedStock}>Добавить в корзину</Button>
+				<Button
+					onClick={handleAddToCart}
+					disabled={!selectedStock || isAlreadyInCart || isAdding}
+					className="min-w-[150px]"
+				>
+					{isAdding ? (
+						<Loader2 className="h-4 w-4 animate-spin" />
+					) : isAlreadyInCart ? (
+						'Товар в корзине'
+					) : (
+						'Добавить в корзину'
+					)}
+				</Button>
 			</div>
+
 			{sneaker.images.length > 1 && (
 				<div className="mt-6 flex justify-center gap-4 mb-6">
 					{sneaker.images.map((imageUrl, index) => (
