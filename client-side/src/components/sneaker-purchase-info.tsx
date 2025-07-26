@@ -58,6 +58,7 @@ export const SneakerPurchaseInfo: FC<SneakerPurchaseInfoProps> = ({
 			const itemToAdd: CartItem = {
 				...sneaker,
 				selectedSize: `${selectedStock.size.type} ${selectedStock.size.value}`,
+				sizeId: selectedStock.sizeId,
 			}
 			addItem(itemToAdd)
 			setIsAdding(false)
@@ -66,10 +67,7 @@ export const SneakerPurchaseInfo: FC<SneakerPurchaseInfoProps> = ({
 
 	const isAlreadyInCart = selectedStock
 		? items.some(
-				item =>
-					item.id === sneaker.id &&
-					item.selectedSize ===
-						`${selectedStock.size.type} ${selectedStock.size.value}`
+				item => item.id === sneaker.id && item.sizeId === selectedStock.sizeId
 		  )
 		: false
 

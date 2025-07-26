@@ -4,12 +4,17 @@ import { ISneaker } from '@/shared/types/sneaker.interface'
 
 export interface CartItem extends ISneaker {
 	selectedSize: string
+	sizeId: string
+}
+
+export interface CartItem extends ISneaker {
+	selectedSize: string
 }
 
 interface CartState {
 	items: CartItem[]
 	addItem: (item: CartItem) => void
-	removeItem: (sneakerId: string, size: string) => void
+	removeItem: (sneakerId: string, sizeId: string) => void
 	clearCart: () => void
 }
 
@@ -20,7 +25,7 @@ export const useCartStore = create<CartState>()(
 			addItem: (item: CartItem) => {
 				const currentItems = get().items
 				const existingItem = currentItems.find(
-					i => i.id === item.id && i.selectedSize === item.selectedSize
+					i => i.id === item.id && i.sizeId === item.sizeId
 				)
 
 				if (!existingItem) {

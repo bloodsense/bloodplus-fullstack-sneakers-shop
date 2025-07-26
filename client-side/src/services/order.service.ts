@@ -12,6 +12,8 @@ class OrderService {
 			method: 'POST',
 			data,
 		})
+
+		return paymentResponse
 	}
 }
 

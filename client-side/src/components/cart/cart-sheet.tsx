@@ -1,7 +1,8 @@
 'use client'
 
 import * as React from 'react'
-import { ShoppingCart } from 'lucide-react'
+import { useQuery } from '@tanstack/react-query'
+import { Loader2, ShoppingCart } from 'lucide-react'
 import {
 	Sheet,
 	SheetContent,
@@ -13,7 +14,19 @@ import {
 import { Button } from '@/components/ui/button'
 import { formatFullPrice } from '@/lib/formatters'
 import { Separator } from '@/components/ui/separator'
-import type { CartItem as CartItemType } from '@/stores/cart-store'
+import { orderService } from '@/services/order.service'
+import { userService } from '@/services/user.service'
+
+import {
+	useCartStore,
+	type CartItem as CartItemType,
+} from '@/stores/cart-store'
+
+import {
+	IOrderCreateData,
+	IOrderItemCreateData,
+	OrderStatus,
+} from '@/shared/types/order.interface'
 import { CartButton } from './cart-button'
 import { CartItem } from './cart-item'
 
@@ -28,8 +41,54 @@ export const CartSheet: React.FC<CartSheetProps> = ({
 	itemCount,
 	totalPrice,
 }) => {
+	const [isPlacingOrder, setIsPlacingOrder] = React.useState(false)
+	const { clearCart } = useCartStore()
+
+	const { data: profile, isLoading: isProfileLoading } = useQuery({
+		queryKey: ['profile'],
+		queryFn: () => userService.getProfile(),
+		retry: false,
+	})
+
 	const delivery = 350
 	const finalPrice = totalPrice + delivery
+
+	const handlePlaceOrder = async () => {
+		if (!profile) {
+			alert('Пожалуйста, войдите в систему, чтобы оформить заказ')
+			return
+		}
+
+		setIsPlacingOrder(true)
+		try {
+			const orderItems: IOrderItemCreateData[] = items.map(item => ({
+				quantity: 1,
+				price: item.price,
+				sneakerId: item.id,
+				sizeId: item.sizeId,
+			}))
+
+			const orderData: IOrderCreateData = {
+				items: orderItems,
+				status: OrderStatus.PENDING,
+			}
+
+			console.log('Отправляю на бэкенд:', JSON.stringify(orderData, null, 2))
+
+			const paymentResponse = await orderService.createOrder(orderData)
+
+			if (paymentResponse?.confirmation?.confirmation_url) {
+				clearCart()
+				window.location.href = paymentResponse.confirmation.confirmation_url
+			} else {
+				console.error('Не удалось получить ссылку на оплату от сервера')
+			}
+		} catch (error) {
+			console.error('Ошибка при создании заказа:', error)
+		} finally {
+			setIsPlacingOrder(false)
+		}
+	}
 
 	return (
 		<Sheet>
@@ -49,10 +108,7 @@ export const CartSheet: React.FC<CartSheetProps> = ({
 						<div className="flex-1 w-full flex-col overflow-y-auto py-4">
 							<div className="space-y-5">
 								{items.map(item => (
-									<CartItem
-										key={`${item.id}-${item.selectedSize}`}
-										item={item}
-									/>
+									<CartItem key={`${item.id}-${item.sizeId}`} item={item} />
 								))}
 							</div>
 						</div>
@@ -73,7 +129,19 @@ export const CartSheet: React.FC<CartSheetProps> = ({
 								<span>{formatFullPrice(finalPrice)} ₽</span>
 							</div>
 							<SheetFooter className="mt-5">
-								<Button className="w-full">Перейти к оплате</Button>
+								<Button
+									className="w-full"
+									onClick={handlePlaceOrder}
+									disabled={isPlacingOrder || isProfileLoading || !profile}
+								>
+									{isPlacingOrder || isProfileLoading ? (
+										<Loader2 className="h-4 w-4 animate-spin" />
+									) : !profile ? (
+										'Войдите для оформления'
+									) : (
+										'Перейти к оплате'
+									)}
+								</Button>
 							</SheetFooter>
 						</div>
 					</>
