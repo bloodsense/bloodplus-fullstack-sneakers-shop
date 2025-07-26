@@ -35,7 +35,7 @@ export class SneakerService {
           {
             name: {
               contains: searchTerm,
-              mode: 'insensitive', // Поиск без учета регистра
+              mode: 'insensitive',
             },
           },
           {
@@ -52,12 +52,9 @@ export class SneakerService {
         season: true,
         stocks: { include: { size: true } },
       },
-      take: 10, // Ограничим количество для быстрого выпадающего списка
     });
 
     if (sneakers.length === 0) {
-      // Не выбрасываем ошибку, а возвращаем пустой массив,
-      // чтобы фронтенд мог обработать "ничего не найдено"
       return [];
     }
 

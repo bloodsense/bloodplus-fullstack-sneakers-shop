@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 import { ICapturePayment, YooCheckout } from '@a2seven/yoo-checkout';
 import { OrderDto } from './dto/order.dto';
@@ -82,35 +82,57 @@ export class OrderService {
           currency: dto.object.amount.currency,
         },
       };
-
       return checkout.capturePayment(dto.object.id, capturePayment);
     }
 
     if (dto.event === 'payment.succeeded') {
       const orderId = dto.object.description.split('#')[1];
 
-      await this.prisma.order.update({
-        where: {
-          id: orderId,
-        },
-        data: {
-          status: OrderStatus.SUCCESS,
-        },
-      });
+      return this.prisma.$transaction(async prisma => {
+        const order = await prisma.order.findUnique({
+          where: { id: orderId },
+          include: {
+            items: true,
+          },
+        });
 
-      return true;
+        if (!order) {
+          throw new NotFoundException(`Заказ с ID ${orderId} не найден.`);
+        }
+
+        await prisma.order.update({
+          where: { id: orderId },
+          data: { status: OrderStatus.SUCCESS },
+        });
+
+        for (const item of order.items) {
+          await prisma.sneakerSizeStock.update({
+            where: {
+              sneakerId_sizeId: {
+                sneakerId: item.sneakerId,
+                sizeId: item.sizeId,
+              },
+            },
+            data: {
+              quantity: {
+                decrement: item.quantity,
+              },
+            },
+          });
+          console.log(
+            `[Stock Update] Уменьшено количество для sneakerId: ${item.sneakerId}, sizeId: ${item.sizeId}`,
+          );
+        }
+        return true;
+      });
     }
 
     if (dto.event === 'payment_cancelled') {
       const orderId = dto.object.description.split('#')[1];
 
       await this.prisma.order.update({
-        where: {
-          id: orderId,
-        },
-        data: {
-          status: OrderStatus.CANCELLED,
-        },
+        where: { id: orderId },
+        data: { status: OrderStatus.CANCELLED },
       });
 
       return true;
