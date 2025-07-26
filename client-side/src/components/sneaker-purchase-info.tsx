@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import {
@@ -8,6 +8,9 @@ import {
 } from '@/components/ui/popover'
 import { BadgeAlert, BadgeCheck, ChevronDown } from 'lucide-react'
 import type { ISneaker } from '@/shared/types/sneaker.interface'
+import type { ISneakerSizeStock } from '@/shared/types/sneaker-size-stock.interface'
+import { useSneakerSizes } from '@/hooks/useSneakerSize'
+import { SneakerSizeSelector } from './sneaker-size-selector'
 
 interface SneakerPurchaseInfoProps {
 	sneaker: ISneaker
@@ -20,6 +23,22 @@ export const SneakerPurchaseInfo: FC<SneakerPurchaseInfoProps> = ({
 	current,
 	onThumbnailClick,
 }) => {
+	const [isPopoverOpen, setIsPopoverOpen] = useState(false)
+
+	const {
+		selectedStock,
+		activeTab,
+		ruSizes,
+		euSizes,
+		handleSizeSelect,
+		setActiveTab,
+	} = useSneakerSizes(sneaker.stocks, isPopoverOpen)
+
+	const handleSelectAndClose = (stock: ISneakerSizeStock) => {
+		handleSizeSelect(stock)
+		setIsPopoverOpen(false)
+	}
+
 	return (
 		<div className="w-full bg-foreground/5 p-6 h-full rounded-lg">
 			<div className="flex items-center gap-2">
@@ -35,20 +54,37 @@ export const SneakerPurchaseInfo: FC<SneakerPurchaseInfoProps> = ({
 					/>
 				)}
 			</div>
-			<Popover>
+			<Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
 				<PopoverTrigger asChild className="mb-4">
 					<Button
 						variant="outline"
 						className="flex justify-between h-10 w-full"
+						disabled={sneaker.stocks.every(s => s.quantity === 0)}
 					>
-						Размер <ChevronDown />
+						{selectedStock
+							? `${selectedStock.size.type} ${selectedStock.size.value}`
+							: 'Размер'}
+						<ChevronDown
+							className={`transition-transform duration-200 ${
+								isPopoverOpen ? 'rotate-180' : ''
+							}`}
+						/>
 					</Button>
 				</PopoverTrigger>
-				<PopoverContent className="w-full">Выберите размер</PopoverContent>
+				<PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0">
+					<SneakerSizeSelector
+						ruSizes={ruSizes}
+						euSizes={euSizes}
+						selectedStock={selectedStock}
+						activeTab={activeTab}
+						onTabChange={setActiveTab}
+						onSizeSelect={handleSelectAndClose}
+					/>
+				</PopoverContent>
 			</Popover>
 			<div className="flex justify-between items-center">
 				<p className="text-xl">{sneaker.price.toLocaleString('ru-RU')} ₽</p>
-				<Button>Добавить в корзину</Button>
+				<Button disabled={!selectedStock}>Добавить в корзину</Button>
 			</div>
 			{sneaker.images.length > 1 && (
 				<div className="mt-6 flex justify-center gap-4 mb-10">
