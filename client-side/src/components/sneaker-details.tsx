@@ -27,7 +27,7 @@ export const SneakerDetails: FC<SneakerDetailsProps> = ({ sneaker }) => {
 				</div>
 			</section>
 
-			<section className="pt-8">
+			<section className="pt-8 mb-12">
 				<h3 className="text-xl font-semibold mb-4">Характеристики</h3>
 				<div className="mb-6">
 					<h4 className="mb-2">Общее</h4>

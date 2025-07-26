@@ -6,3 +6,7 @@ export function formatPriceWithK(price: number): string {
 	}
 	return price.toString()
 }
+
+export function formatFullPrice(price: number): string {
+	return new Intl.NumberFormat('ru-RU').format(price)
+}

@@ -1,7 +1,9 @@
+'use client'
+
 import { Container } from './container'
 import Link from 'next/link'
 import { SearchInput } from './search-input'
-import { Cart } from './cart'
+import { CartSheet } from './cart-sheet'
 import { Login } from './login'
 import { Favorites } from './favorites'
 import { Logo } from './logo'
@@ -11,8 +13,9 @@ interface Props {
 }
 
 export const Header: React.FC<Props> = ({ className }) => {
-	const cartItemCount = 2
-	const cartTotalPrice = 25000
+	const itemCount = 2
+	const totalPrice = 25000
+
 	return (
 		<div className="sticky top-0 z-20 border-b bg-background/85 backdrop-blur-xl">
 			<Container>
@@ -28,7 +31,7 @@ export const Header: React.FC<Props> = ({ className }) => {
 					<Favorites />
 					<div className="flex items-center gap-5">
 						<Login />
-						<Cart itemCount={cartItemCount} totalPrice={cartTotalPrice} />
+						<CartSheet itemCount={itemCount} totalPrice={totalPrice} />
 					</div>
 				</div>
 			</Container>
