@@ -3,6 +3,7 @@ import { IReview } from './review.interface'
 import { ISneaker } from './sneaker.interface'
 
 export interface IUser {
+	id: string
 	name: string
 	email: string
 	password?: string

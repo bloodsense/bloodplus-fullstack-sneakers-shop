@@ -17,8 +17,8 @@ import { useSneakerPage } from '@/hooks/usePageSneaker'
 import { SneakerDetails } from '@/components/sneaker-details'
 import { SneakerPurchaseInfo } from '@/components/sneaker-purchase-info'
 import { SneakerImages } from '@/components/sneaker-images'
-import { useQuery } from '@tanstack/react-query'
-import { userService } from '@/services/user.service'
+import { useProfile } from '@/hooks/useProfile'
+import { SneakerReviews } from '@/components/reviews/sneaker-reviews'
 
 export const SneakerSlug = () => {
 	const {
@@ -30,10 +30,7 @@ export const SneakerSlug = () => {
 		handleThumbnailClick,
 	} = useSneakerPage()
 
-	const { data: profile, isLoading: isProfileLoading } = useQuery({
-		queryKey: ['profile'],
-		queryFn: () => userService.getProfile(),
-	})
+	const { profile, isLoading: isProfileLoading } = useProfile()
 
 	if (isSneakerLoading || isProfileLoading) {
 		return (
@@ -85,7 +82,7 @@ export const SneakerSlug = () => {
 				</BreadcrumbList>
 			</Breadcrumb>
 
-			<div className="pt-4 grid grid-cols-1 lg:grid-cols-2 items-start gap-x-10 gap-y-10 mb-16">
+			<div className="pt-4 grid grid-cols-1 lg:grid-cols-2 items-start gap-x-10 gap-y-10 mb-8">
 				<SneakerImages
 					images={sneaker.images}
 					name={sneaker.name}
@@ -100,6 +97,7 @@ export const SneakerSlug = () => {
 			</div>
 
 			<SneakerDetails sneaker={sneaker} />
+			<SneakerReviews sneaker={sneaker} profile={profile} />
 		</Container>
 	)
 }

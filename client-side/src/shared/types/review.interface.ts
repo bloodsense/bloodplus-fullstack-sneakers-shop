@@ -12,3 +12,5 @@ export interface IReview {
 export interface IReviewCreate extends Pick<IReview, 'rating' | 'text'> {
 	sneakerId: string
 }
+
+export interface IReviewUpdate extends Pick<IReview, 'rating' | 'text'> {}

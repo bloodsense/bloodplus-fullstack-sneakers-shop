@@ -1,15 +1,6 @@
-import { FC, ReactNode } from 'react'
+import { FC } from 'react'
 import type { ISneaker } from '@/shared/types/sneaker.interface'
-
-const CharacteristicRow: FC<{ label: string; value: ReactNode }> = ({
-	label,
-	value,
-}) => (
-	<div className="grid grid-cols-2 items-center border-t border-border/60 py-3 text-sm">
-		<p className="text-foreground/60">{label}</p>
-		<p>{value || 'Отсутствует'}</p>
-	</div>
-)
+import { CharacteristicRow } from './charasteristic-row'
 
 interface SneakerDetailsProps {
 	sneaker: ISneaker
@@ -18,7 +9,7 @@ interface SneakerDetailsProps {
 export const SneakerDetails: FC<SneakerDetailsProps> = ({ sneaker }) => {
 	return (
 		<>
-			<section className="mb-12">
+			<section className="">
 				<h3 className="text-xl font-semibold mb-2">Описание модели</h3>
 				<div className="text-foreground/80 leading-relaxed space-y-4">
 					{sneaker.description.split('\n').map((paragraph, index) => (

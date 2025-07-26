@@ -1,6 +1,6 @@
 import { axiosDefault, axiosWithAuth } from '@/api/api.interceptors'
 import { API_URL } from '@/config/api.constants'
-import { IReview, IReviewCreate } from '@/shared/types/review.interface'
+import { IReview, IReviewCreate, IReviewUpdate } from '@/shared/types/review.interface'
 
 class ReviewService {
 	async getReviewsBySneakerSlug(sneakerSlug: string) {
@@ -31,7 +31,7 @@ class ReviewService {
 		return createReview
 	}
 
-	async updateReview(data: IReviewCreate, id: string) {
+	async updateReview(data: IReviewUpdate, id: string) {
 		const { data: updateReview } = await axiosWithAuth<IReview>({
 			url: API_URL.reviews.update(id),
 			method: 'PUT',
