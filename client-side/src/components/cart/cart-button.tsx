@@ -22,7 +22,7 @@ export const CartButton = React.forwardRef<HTMLButtonElement, CartButtonProps>(
 				variant="outline"
 				className={cn(
 					'group relative flex items-center justify-between',
-					'min-w-[128px]',
+					'min-w-[137px]',
 					className
 				)}
 				{...props}

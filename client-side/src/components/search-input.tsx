@@ -29,7 +29,7 @@ export const SearchInput: React.FC<Props> = ({ className }) => {
 			<form onSubmit={handleSearchSubmit} className="flex mr-10">
 				<Input
 					placeholder="Поиск по сайту"
-					className="w-156 rounded-r-none"
+					className="w-153 rounded-r-none"
 					value={searchTerm}
 					onChange={e => setSearchTerm(e.target.value)}
 					autoComplete="off"
