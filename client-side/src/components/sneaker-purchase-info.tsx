@@ -11,16 +11,20 @@ import type { ISneaker } from '@/shared/types/sneaker.interface'
 import type { ISneakerSizeStock } from '@/shared/types/sneaker-size-stock.interface'
 import { useSneakerSizes } from '@/hooks/useSneakerSize'
 import { SneakerSizeSelector } from './sneaker-size-selector'
+import { useFavoriteStatus } from '@/hooks/useFavorite'
+import { FavoriteToggleButton } from './favorite-toggle-button'
 
 interface SneakerPurchaseInfoProps {
 	sneaker: ISneaker
 	current: number
 	onThumbnailClick: (index: number) => void
+	isFavorite: boolean
 }
 
 export const SneakerPurchaseInfo: FC<SneakerPurchaseInfoProps> = ({
 	sneaker,
 	current,
+	isFavorite,
 	onThumbnailClick,
 }) => {
 	const [isPopoverOpen, setIsPopoverOpen] = useState(false)
@@ -38,6 +42,8 @@ export const SneakerPurchaseInfo: FC<SneakerPurchaseInfoProps> = ({
 		handleSizeSelect(stock)
 		setIsPopoverOpen(false)
 	}
+
+	const { toggleFavorite, isPending } = useFavoriteStatus(sneaker.slug)
 
 	return (
 		<div className="w-full bg-foreground/5 p-6 h-full rounded-lg">
@@ -87,7 +93,7 @@ export const SneakerPurchaseInfo: FC<SneakerPurchaseInfoProps> = ({
 				<Button disabled={!selectedStock}>Добавить в корзину</Button>
 			</div>
 			{sneaker.images.length > 1 && (
-				<div className="mt-6 flex justify-center gap-4 mb-10">
+				<div className="mt-6 flex justify-center gap-4 mb-6">
 					{sneaker.images.map((imageUrl, index) => (
 						<button
 							key={index}
@@ -107,6 +113,13 @@ export const SneakerPurchaseInfo: FC<SneakerPurchaseInfoProps> = ({
 					))}
 				</div>
 			)}
+			<div className="mb-6">
+				<FavoriteToggleButton
+					isFavorite={isFavorite}
+					isLoading={isPending}
+					onClick={() => toggleFavorite()}
+				/>
+			</div>
 			<div className="bg-foreground/5 rounded-lg p-2">
 				<div className="flex items-center gap-2 text-xs">
 					<BadgeCheck size={20} />

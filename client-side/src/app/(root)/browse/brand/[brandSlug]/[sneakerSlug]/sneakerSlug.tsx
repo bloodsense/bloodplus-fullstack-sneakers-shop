@@ -4,7 +4,6 @@ import { Container } from '@/components/container'
 import {
 	Breadcrumb,
 	BreadcrumbItem,
-	BreadcrumbLink,
 	BreadcrumbList,
 	BreadcrumbPage,
 	BreadcrumbSeparator,
@@ -18,21 +17,32 @@ import { useSneakerPage } from '@/hooks/usePageSneaker'
 import { SneakerDetails } from '@/components/sneaker-details'
 import { SneakerPurchaseInfo } from '@/components/sneaker-purchase-info'
 import { SneakerImages } from '@/components/sneaker-images'
+import { useQuery } from '@tanstack/react-query'
+import { userService } from '@/services/user.service'
 
 export const SneakerSlug = () => {
-	const { sneaker, isLoading, isError, setApi, current, handleThumbnailClick } =
-		useSneakerPage()
+	const {
+		sneaker,
+		isLoading: isSneakerLoading,
+		isError,
+		setApi,
+		current,
+		handleThumbnailClick,
+	} = useSneakerPage()
 
-	if (isLoading) {
+	const { data: profile, isLoading: isProfileLoading } = useQuery({
+		queryKey: ['profile'],
+		queryFn: () => userService.getProfile(),
+	})
+
+	if (isSneakerLoading || isProfileLoading) {
 		return (
 			<Container className="pt-7.5">
 				<Skeleton className="h-5 w-1/3 " />
-
 				<div className="pt-4 grid grid-cols-1 lg:grid-cols-2 items-start gap-x-10 gap-y-10 mb-16">
 					<SneakerImageSkeleton />
 					<SneakerPurchaseInfoSkeleton />
 				</div>
-
 				<SneakerDetailsSkeleton />
 			</Container>
 		)
@@ -44,12 +54,16 @@ export const SneakerSlug = () => {
 				Ошибка при загрузке данных о кроссовке.
 			</Container>
 		)
+
 	if (!sneaker)
 		return (
 			<Container className="pt-7.5">
 				Информация о кроссовке не найдена.
 			</Container>
 		)
+
+	const isFavorite =
+		profile?.favorites.some(fav => fav.id === sneaker.id) ?? false
 
 	return (
 		<Container className="pt-7.5">
@@ -78,6 +92,7 @@ export const SneakerSlug = () => {
 					setApi={setApi}
 				/>
 				<SneakerPurchaseInfo
+					isFavorite={isFavorite}
 					sneaker={sneaker}
 					current={current}
 					onThumbnailClick={handleThumbnailClick}
