@@ -63,7 +63,8 @@ export const ReviewItem: FC<ReviewItemProps> = ({
 
 			<div className="flex-1 min-w-0">
 				<div className="flex justify-between items-start">
-					<div>
+					<div className="flex items-center gap-3">
+						<p className="text-sm font-medium bg-foreground/10 rounded-lg py-1 px-3">{review.user?.name}</p>
 						{isEditing ? (
 							<RatingStars
 								rating={editedRating}
@@ -74,9 +75,6 @@ export const ReviewItem: FC<ReviewItemProps> = ({
 						) : (
 							<RatingStars rating={review.rating} isStatic starSize="h-3 w-3" />
 						)}
-						<p className="text-sm pt-1 text-foreground/50">
-							{review.user?.name}
-						</p>
 					</div>
 					<div className="flex items-center gap-2 text-xs text-muted-foreground">
 						{canEditOrDelete && !isEditing && (
@@ -129,7 +127,7 @@ export const ReviewItem: FC<ReviewItemProps> = ({
 							</div>
 						</div>
 					) : (
-						<p className="break-words">{review.text}</p>
+						<p className="break-words text-foreground/80">{review.text}</p>
 					)}
 				</div>
 			</div>
