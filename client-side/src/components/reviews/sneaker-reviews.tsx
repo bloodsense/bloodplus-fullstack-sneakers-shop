@@ -25,7 +25,7 @@ export const SneakerReviews: FC<SneakerReviewsProps> = ({
 	const canLeaveReview = profile && !hasUserAlreadyReviewed
 
 	return (
-		<div className="pt-5">
+		<div className="mb-15">
 			<h2 className="text-xl font-semibold mb-6">
 				Отзывы {!isLoading && `(${reviews?.length ?? 0})`}
 			</h2>

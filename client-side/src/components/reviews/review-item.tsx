@@ -55,28 +55,17 @@ export const ReviewItem: FC<ReviewItemProps> = ({
 	}
 
 	return (
-		<div className="flex gap-4">
+		<div className="flex gap-4 items-center">
 			<Avatar className="h-9 w-9">
 				<AvatarImage src={review.user?.picture} alt={review.user?.name} />
 				<AvatarFallback>{review.user?.name?.[0]}</AvatarFallback>
 			</Avatar>
-
 			<div className="flex-1 min-w-0">
 				<div className="flex justify-between items-start">
-					<div className="flex items-center gap-3">
-						<p className="text-sm font-medium bg-foreground/10 rounded-lg py-1 px-3">{review.user?.name}</p>
-						{isEditing ? (
-							<RatingStars
-								rating={editedRating}
-								setRating={setEditedRating}
-								hoverRating={hoverRating}
-								setHoverRating={setHoverRating}
-							/>
-						) : (
-							<RatingStars rating={review.rating} isStatic starSize="h-3 w-3" />
-						)}
-					</div>
-					<div className="flex items-center gap-2 text-xs text-muted-foreground">
+					<p className="text-sm font-medium rounded-lg pt-1 break-words">
+						{review.user?.name}
+					</p>
+					<div className="flex items-center gap-3 text-xs text-muted-foreground shrink-0">
 						{canEditOrDelete && !isEditing && (
 							<>
 								<Button
@@ -96,16 +85,26 @@ export const ReviewItem: FC<ReviewItemProps> = ({
 									{isDeleting ? (
 										<Loader2 className="h-4 w-4 animate-spin" />
 									) : (
-										'Удалить отзыв'
+										'Удалить'
 									)}
 								</Button>
 							</>
+						)}
+						{isEditing ? (
+							<RatingStars
+								rating={editedRating}
+								setRating={setEditedRating}
+								hoverRating={hoverRating}
+								setHoverRating={setHoverRating}
+							/>
+						) : (
+							<RatingStars rating={review.rating} isStatic starSize="h-3 w-3" />
 						)}
 						<p>{dayjs(review.createdAt).format('DD.MM.YYYY')}</p>
 					</div>
 				</div>
 
-				<div className="mt-2 text-sm">
+				<div className="pt-1 text-sm">
 					{isEditing ? (
 						<div className="space-y-2">
 							<Textarea
