@@ -2,13 +2,29 @@ import { Skeleton } from '../ui/skeleton'
 
 export const OrderCardSkeleton = () => {
 	return (
-		<li className="flex flex-col rounded-lg border shadow-sm">
+		<li className="flex flex-col rounded-lg border shadow-sm bg-foreground/5">
 			<div className="flex items-center justify-between border-b px-5 pt-5 pb-3">
-				<Skeleton className="h-6 w-[150px]" />
+				<Skeleton className="h-6 w-[400px]" />
 				<Skeleton className="h-4 w-[120px]" />
 			</div>
 
 			<div className="space-y-3 px-5 py-4">
+				<div className="flex items-center gap-4">
+					<Skeleton className="h-16 w-22 rounded-md" />
+					<div className="flex-grow space-y-2">
+						<Skeleton className="h-4 w-full" />
+						<Skeleton className="h-4 w-3/4" />
+						<Skeleton className="h-4 w-1/2" />
+					</div>
+				</div>
+				<div className="flex items-center gap-4">
+					<Skeleton className="h-16 w-22 rounded-md" />
+					<div className="flex-grow space-y-2">
+						<Skeleton className="h-4 w-full" />
+						<Skeleton className="h-4 w-3/4" />
+						<Skeleton className="h-4 w-1/2" />
+					</div>
+				</div>
 				<div className="flex items-center gap-4">
 					<Skeleton className="h-16 w-22 rounded-md" />
 					<div className="flex-grow space-y-2">

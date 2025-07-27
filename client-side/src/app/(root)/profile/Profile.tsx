@@ -3,7 +3,7 @@
 import { useAuthRedirect } from '@/hooks/useAuthRedirect'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { useProfile } from '@/hooks/useProfile'
-import { Loader2, LogOut } from 'lucide-react'
+import { LogOut } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useLogout } from '@/hooks/useLogout'
 import { useIsClient } from '@/hooks/useIsClient'

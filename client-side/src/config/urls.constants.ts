@@ -19,6 +19,7 @@ export const PUBLIC_URL = {
 
 	sneakers: {
 		popular: () => '/watch/popular',
+		favorites: () => '/favorites',
 		similar: (slug: string) => `/similar/${slug}`,
 		search: (query: string) => `/search?q=${query}`,
 	},

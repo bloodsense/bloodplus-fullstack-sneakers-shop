@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import {
 	FormControl,
 	FormField,
@@ -8,6 +9,7 @@ import { Input } from '@/components/ui/form/input'
 import { validateEmail } from '@/lib/regex'
 import { IAuthForm } from '@/shared/types/auth.interface'
 import { UseFormReturn } from 'react-hook-form'
+import { Eye, EyeOff } from 'lucide-react'
 
 interface Props {
 	form: UseFormReturn<IAuthForm, any, undefined>
@@ -20,6 +22,8 @@ export const AuthFields: React.FC<Props> = ({
 	isPending,
 	isRegistration,
 }) => {
+	const [showPassword, setShowPassword] = useState(false)
+
 	return (
 		<>
 			{isRegistration && (
@@ -81,14 +85,29 @@ export const AuthFields: React.FC<Props> = ({
 				}}
 				render={({ field }) => (
 					<FormItem>
-						<FormControl>
-							<Input
-								{...field}
-								placeholder="********"
-								type="password"
-								disabled={isPending}
-							/>
-						</FormControl>
+						<div className="relative">
+							<FormControl>
+								<Input
+									{...field}
+									placeholder="********"
+									type={showPassword ? 'text' : 'password'}
+									disabled={isPending}
+									className="pr-10"
+								/>
+							</FormControl>
+							<button
+								type="button"
+								onClick={() => setShowPassword(!showPassword)}
+								className="absolute inset-y-0 right-0 flex items-center pr-3 text-muted-foreground hover:text-foreground cursor-pointer"
+								aria-label={showPassword ? 'Скрыть пароль' : 'Показать пароль'}
+							>
+								{showPassword ? (
+									<EyeOff className="h-5 w-5" />
+								) : (
+									<Eye className="h-5 w-5" />
+								)}
+							</button>
+						</div>
 						<FormMessage />
 					</FormItem>
 				)}

@@ -5,7 +5,7 @@ import { Heart } from 'lucide-react'
 interface FavoriteToggleButtonProps {
 	isFavorite: boolean
 	isLoading: boolean
-	onClick: () => void
+	onClick: (e: React.MouseEvent) => void
 }
 
 export const FavoriteToggleButton: FC<FavoriteToggleButtonProps> = ({

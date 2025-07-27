@@ -13,7 +13,7 @@ interface CardOrderItemProps {
 
 export const CardOrderItem: React.FC<CardOrderItemProps> = ({ order }) => {
 	return (
-		<li className="flex flex-col rounded-lg border shadow-sm transition-shadow hover:shadow-md">
+		<li className="flex flex-col rounded-lg border shadow-sm transition-shadow hover:shadow-md bg-foreground/5">
 			<div className="flex items-center justify-between border-b px-5 pt-5 pb-3">
 				<h3 className="text-lg">Заказ #{order.id}</h3>
 				<p className="text-sm text-foreground/50">
