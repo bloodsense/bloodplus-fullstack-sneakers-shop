@@ -16,6 +16,7 @@ export const API_URL = {
 		profile: () => API_URL.root('/profile'),
 		favorites: (sneakerSlug: string) =>
 			API_URL.root(`/profile/favorites/${sneakerSlug}`),
+		favoritesSync: () => API_URL.root('/profile/favorites/sync'),
 	},
 
 	sneakers: {
@@ -24,6 +25,8 @@ export const API_URL = {
 		getSimilar: (slug: string) => API_URL.root(`/similar/${slug}`),
 
 		search: (query: string) => API_URL.root(`/search?q=${query}`),
+
+		getBySlugs: () => API_URL.root('/sneakers/by-slugs'),
 
 		browse: {
 			men: () => API_URL.root('/browse/men'),

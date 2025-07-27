@@ -83,6 +83,15 @@ class SneakerService {
 
 		return watchPopularSneakers
 	}
+
+	async getBySlugs(slugs: string[]) {
+		const { data } = await axiosDefault<ISneaker[]>({
+			url: API_URL.sneakers.getBySlugs(),
+			method: 'POST',
+			data: { slugs },
+		})
+		return data
+	}
 }
 
 export const sneakerService = new SneakerService()

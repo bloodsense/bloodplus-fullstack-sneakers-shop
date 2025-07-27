@@ -10,6 +10,7 @@ import { SheetButtonFilter } from './sheet-filters-button'
 import { CaretRightIcon } from '@radix-ui/react-icons'
 import { brandService } from '@/services/brand.service'
 import { seasonService } from '@/services/season.service'
+import { SheetSkeletonList } from './skeletons/sheet-skeleton-list'
 
 interface Props {
 	className?: string
@@ -50,7 +51,7 @@ export const TopBar: React.FC<Props> = ({ className }) => {
 						text="Бренд"
 						link={brand => PUBLIC_URL.browse.brand(brand.slug)}
 						getItemName={brand => brand.name}
-						loadingMessage="Загрузка списка брендов"
+						skeletonComponent={<SheetSkeletonList />}
 						notFoundMessage="Список кроссовок по брендам не найден"
 					/>
 					<SheetButtonFilter<ISeason>
@@ -59,7 +60,7 @@ export const TopBar: React.FC<Props> = ({ className }) => {
 						text="Сезон"
 						link={season => PUBLIC_URL.browse.season(season.slug)}
 						getItemName={season => season.name}
-						loadingMessage="Загрузка списка сезонов"
+						skeletonComponent={<SheetSkeletonList />}
 						notFoundMessage="Список кроссовок по сезонам не найден"
 					/>
 				</div>

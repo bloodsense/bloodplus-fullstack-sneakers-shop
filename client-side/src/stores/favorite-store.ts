@@ -5,6 +5,7 @@ interface FavoriteState {
 	favoriteSlugs: string[]
 	toggleFavorite: (slug: string) => void
 	isFavorite: (slug: string) => boolean
+	clearFavorites: () => void
 }
 
 export const useFavoriteStore = create<FavoriteState>()(
@@ -22,6 +23,7 @@ export const useFavoriteStore = create<FavoriteState>()(
 				set({ favoriteSlugs: newFavoriteSlugs })
 			},
 			isFavorite: slug => get().favoriteSlugs.includes(slug),
+			clearFavorites: () => set({ favoriteSlugs: [] }),
 		}),
 		{
 			name: 'favorite-sneakers-storage',

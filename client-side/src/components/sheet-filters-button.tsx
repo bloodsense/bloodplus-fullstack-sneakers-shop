@@ -20,9 +20,9 @@ interface SheetButtonFilterProps<T> {
 	queryFn: () => Promise<T[]>
 	link: (item: T) => string
 	getItemName: (item: T) => string
-	loadingMessage: string
 	notFoundMessage: string
 	className?: string
+	skeletonComponent: React.ReactNode
 }
 
 export const SheetButtonFilter = <T extends { id: string | number }>({
@@ -31,9 +31,9 @@ export const SheetButtonFilter = <T extends { id: string | number }>({
 	queryFn,
 	link,
 	getItemName,
-	loadingMessage,
 	notFoundMessage,
 	className,
+	skeletonComponent,
 }: SheetButtonFilterProps<T>) => {
 	const [isOpen, setIsOpen] = React.useState(false)
 
@@ -72,7 +72,7 @@ export const SheetButtonFilter = <T extends { id: string | number }>({
 				</SheetHeader>
 				<div className="overflow-y-scroll h-50 mb-4">
 					{isLoading ? (
-						<div>{loadingMessage}</div>
+						skeletonComponent
 					) : items && items.length > 0 ? (
 						items.map(item => (
 							<div

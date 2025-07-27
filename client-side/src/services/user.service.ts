@@ -20,6 +20,14 @@ class UserService {
 
 		return addFavorites
 	}
+
+	async syncFavorites(sneakerSlugs: string[]) {
+		return axiosWithAuth({
+			url: API_URL.users.favoritesSync(),
+			method: 'POST',
+			data: { sneakerSlugs },
+		})
+	}
 }
 
 export const userService = new UserService()

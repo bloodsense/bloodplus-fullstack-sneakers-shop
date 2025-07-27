@@ -5,16 +5,31 @@ import {
 	removeTokenFromStorage,
 	saveTokenInStorage,
 } from './access-token.service'
+import { useFavoriteStore } from '@/stores/favorite-store'
+import { userService } from '../user.service'
 
 class AuthService {
 	async main(type: 'login' | 'register', data: IAuthForm) {
+		const localFavorites = useFavoriteStore.getState().favoriteSlugs
+
 		const response = await axiosDefault<IAuthResponse>({
 			url: API_URL.auth[type](),
 			method: 'POST',
 			data,
 		})
 
-		if (response.data.accessToken) saveTokenInStorage(response.data.accessToken)
+		if (response.data.accessToken) {
+			saveTokenInStorage(response.data.accessToken)
+
+			if (localFavorites && localFavorites.length > 0) {
+				try {
+					await userService.syncFavorites(localFavorites)
+					useFavoriteStore.getState().clearFavorites()
+				} catch (error) {
+					console.error('Не удалось синхронизировать избранное:', error)
+				}
+			}
+		}
 
 		return response
 	}
