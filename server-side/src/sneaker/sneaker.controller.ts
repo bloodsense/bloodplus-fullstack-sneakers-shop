@@ -15,6 +15,7 @@ import { SneakerService } from './sneaker.service';
 import { CreateSneakerDto } from './dto/sneaker.dto';
 import { Auth } from 'src/decorators/auth.decorator';
 import { UserRole } from 'generated/prisma';
+import { GetSneakersBySlugsDto } from './dto/get-sneakers-by-slugs.dto';
 
 @Controller('/')
 export class SneakerController {
@@ -66,6 +67,11 @@ export class SneakerController {
   @Get('similar/:slug')
   async getSimilarSneakersBySlug(@Param('slug') slug: string) {
     return this.sneakerService.getSimilarSneakers(slug);
+  }
+
+  @Post('sneakers/by-slugs')
+  async getSneakersBySlugs(@Body() dto: GetSneakersBySlugsDto) {
+    return this.sneakerService.getBySlugs(dto.slugs);
   }
 
   @UsePipes(new ValidationPipe())

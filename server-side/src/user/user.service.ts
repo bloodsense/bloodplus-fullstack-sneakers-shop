@@ -13,7 +13,12 @@ export class UserService {
         id,
       },
       include: {
-        favorites: true,
+        favorites: {
+          include: {
+            brand: true,
+            color: true,
+          },
+        },
         orders: {
           orderBy: {
             createdAt: 'desc',
@@ -35,6 +40,34 @@ export class UserService {
     });
 
     return user;
+  }
+
+  async syncFavorites(userId: string, sneakerSlugs: string[]) {
+    const user = await this.getById(userId);
+
+    if (!user) {
+      throw new NotFoundException('Пользователь для синхронизации не найден.');
+    }
+    const currentFavoriteSlugs = user.favorites.map(fav => fav.slug);
+
+    const newSlugsToConnect = sneakerSlugs.filter(
+      slug => !currentFavoriteSlugs.includes(slug),
+    );
+
+    if (newSlugsToConnect.length === 0) {
+      return user;
+    }
+
+    await this.prisma.user.update({
+      where: { id: userId },
+      data: {
+        favorites: {
+          connect: newSlugsToConnect.map(slug => ({ slug })),
+        },
+      },
+    });
+
+    return this.getById(userId);
   }
 
   async getByEmail(email: string) {

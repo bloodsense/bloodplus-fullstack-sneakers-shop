@@ -273,6 +273,25 @@ export class SneakerService {
     return sneakers;
   }
 
+  async getBySlugs(slugs: string[]) {
+    if (!slugs || slugs.length === 0) {
+      return [];
+    }
+
+    const sneakers = await this.prisma.sneaker.findMany({
+      where: {
+        slug: {
+          in: slugs,
+        },
+      },
+      include: {
+        brand: true,
+      },
+    });
+
+    return sneakers;
+  }
+
   async createSneaker(dto: CreateSneakerDto) {
     const existingSneakerBySlug = await this.prisma.sneaker.findUnique({
       where: { slug: dto.slug },
