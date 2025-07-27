@@ -1,7 +1,7 @@
 import { sneakerService } from '@/services/sneaker.service'
 import { ISneaker } from '@/shared/types/sneaker.interface'
 import { Container } from '@/components/container'
-import { SneakerCard } from '@/components/sneaker-card'
+import { SearchResultList } from '@/components/search-result-list'
 
 interface SearchPageProps {
 	searchParams: {
@@ -20,34 +20,24 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
 
 	return (
 		<Container className="pt-10 mb-10">
-			<div className="mb-8">
-				<div className="flex items-baseline gap-x-3">
-					<p className="text-2xl font-bold">
+			<div className="mb-10">
+				<div className="flex items-baseline gap-x-1 justify-center">
+					<p>
 						{searchTerm
 							? `Результаты поиска по запросу:`
 							: 'Введите запрос для поиска'}
 					</p>
-					{searchTerm && (
-						<p className="text-2xl text-foreground/80">"{searchTerm}"</p>
-					)}
+					{searchTerm && <p className="text-foreground/80">{searchTerm}</p>}
 				</div>
-
 				{searchTerm && sneakers.length === 0 && (
-					<div className="text-left py-10">
-						<p className="text-lg text-foreground/60">
-							По вашему запросу ничего не найдено
+					<div className="text-left pt-10">
+						<p className="text-foreground/50 text-center p-80 bg-foreground/5 rounded-lg">
+							Ничего не найдено
 						</p>
 					</div>
 				)}
 			</div>
-
-			{sneakers.length > 0 && (
-				<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-y-8 place-items-center">
-					{sneakers.map(sneaker => (
-						<SneakerCard key={sneaker.id} sneaker={sneaker} />
-					))}
-				</div>
-			)}
+			{sneakers.length > 0 && <SearchResultList sneakers={sneakers} />}
 		</Container>
 	)
 }

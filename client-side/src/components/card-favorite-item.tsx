@@ -41,7 +41,7 @@ export const CardFavoriteItem: React.FC<CardFavoriteItemProps> = ({
 					)}
 					className="flex flex-grow items-center space-x-6"
 				>
-					<div className="relative w-24 h-24 flex-shrink-0">
+					<div className="relative w-30 h-24 flex-shrink-0">
 						<Image
 							src={sneaker.images[0]}
 							alt={sneaker.name}
