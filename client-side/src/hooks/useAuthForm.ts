@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 
-export function useAuth(isRegistration: boolean) {
+export function useAuthForm(isRegistration: boolean) {
 	const router = useRouter()
 
 	const form = useForm<IAuthForm>({

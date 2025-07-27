@@ -2,15 +2,18 @@ import { useQuery } from '@tanstack/react-query'
 import { userService } from '@/services/user.service'
 import { getAccessToken } from '@/services/auth/access-token.service'
 
-export const useProfile = () => {
+export const useUser = () => {
 	const accessToken = getAccessToken()
-	
-	const { data, isLoading, isError } = useQuery({
+
+	const {
+		data: user,
+		isLoading,
+		isError,
+	} = useQuery({
 		queryKey: ['profile'],
 		queryFn: () => userService.getProfile(),
-		retry: false,
 		enabled: !!accessToken,
 	})
 
-	return { profile: data, isLoading, isError }
+	return { user, isLoading, isError }
 }

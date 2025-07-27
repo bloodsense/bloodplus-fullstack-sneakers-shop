@@ -83,7 +83,7 @@ export const CartSheet: React.FC<CartSheetProps> = ({
 									{isPlacingOrder || isProfileLoading ? (
 										<Loader2 className="h-4 w-4 animate-spin" />
 									) : !profile ? (
-										'Войдите для оформления'
+										'Войдите или зарегистрируйтесь для оформления заказа'
 									) : (
 										'Перейти к оплате'
 									)}

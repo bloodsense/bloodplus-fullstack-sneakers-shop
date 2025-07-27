@@ -13,33 +13,29 @@ import { useSneakerSizes } from '@/hooks/useSneakerSize'
 import { SneakerSizeSelector } from './sneaker-size-selector'
 import { useFavoriteStatus } from '@/hooks/useFavorite'
 import { FavoriteToggleButton } from './favorite-toggle-button'
-import { useCartStore, CartItem } from '@/stores/cart-store'
+import { useFavoriteStore } from '@/stores/favorite-store'
+import { useProfile } from '@/hooks/useProfile'
+import { useAddToCart } from '@/hooks/useAddToCart'
 
 interface SneakerPurchaseInfoProps {
 	sneaker: ISneaker
 	current: number
 	onThumbnailClick: (index: number) => void
-	isFavorite: boolean
 }
 
 export const SneakerPurchaseInfo: FC<SneakerPurchaseInfoProps> = ({
 	sneaker,
 	current,
-	isFavorite,
 	onThumbnailClick,
 }) => {
 	const [isPopoverOpen, setIsPopoverOpen] = useState(false)
-	const [isAdding, setIsAdding] = useState(false)
-
-	const { addItem, items } = useCartStore()
-
 	const {
 		selectedStock,
-		activeTab,
 		ruSizes,
 		euSizes,
-		handleSizeSelect,
+		activeTab,
 		setActiveTab,
+		handleSizeSelect,
 	} = useSneakerSizes(sneaker.stocks, isPopoverOpen)
 
 	const handleSelectAndClose = (stock: ISneakerSizeStock) => {
@@ -47,29 +43,18 @@ export const SneakerPurchaseInfo: FC<SneakerPurchaseInfoProps> = ({
 		setIsPopoverOpen(false)
 	}
 
+	const { handleAddToCart, isAdding, isAlreadyInCart } = useAddToCart(
+		sneaker,
+		selectedStock
+	)
+
 	const { toggleFavorite, isPending } = useFavoriteStatus(sneaker.slug)
-
-	const handleAddToCart = () => {
-		if (!selectedStock) return
-
-		setIsAdding(true)
-
-		setTimeout(() => {
-			const itemToAdd: CartItem = {
-				...sneaker,
-				selectedSize: `${selectedStock.size.type} ${selectedStock.size.value}`,
-				sizeId: selectedStock.sizeId,
-			}
-			addItem(itemToAdd)
-			setIsAdding(false)
-		}, 300)
-	}
-
-	const isAlreadyInCart = selectedStock
-		? items.some(
-				item => item.id === sneaker.id && item.sizeId === selectedStock.sizeId
-		  )
-		: false
+	const { profile } = useProfile()
+	
+	const { isFavorite: isFavoriteLocally } = useFavoriteStore()
+	const isFavorite = profile
+		? profile.favorites.some(fav => fav.slug === sneaker.slug)
+		: isFavoriteLocally(sneaker.slug)
 
 	return (
 		<div className="w-full bg-foreground/5 p-6 h-full rounded-lg">
@@ -157,7 +142,7 @@ export const SneakerPurchaseInfo: FC<SneakerPurchaseInfoProps> = ({
 				<FavoriteToggleButton
 					isFavorite={isFavorite}
 					isLoading={isPending}
-					onClick={() => toggleFavorite()}
+					onClick={toggleFavorite}
 				/>
 			</div>
 			<div className="bg-foreground/5 rounded-lg p-2">

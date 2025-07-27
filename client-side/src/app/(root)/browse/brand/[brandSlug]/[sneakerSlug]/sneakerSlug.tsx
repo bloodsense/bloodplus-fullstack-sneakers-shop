@@ -48,14 +48,14 @@ export const SneakerSlug = () => {
 	if (isError)
 		return (
 			<Container className="pt-7.5">
-				Ошибка при загрузке данных о кроссовке.
+				Ошибка при загрузке данных о кроссовке
 			</Container>
 		)
 
 	if (!sneaker)
 		return (
 			<Container className="pt-7.5">
-				Информация о кроссовке не найдена.
+				Информация о кроссовках не найдена
 			</Container>
 		)
 
@@ -89,7 +89,6 @@ export const SneakerSlug = () => {
 					setApi={setApi}
 				/>
 				<SneakerPurchaseInfo
-					isFavorite={isFavorite}
 					sneaker={sneaker}
 					current={current}
 					onThumbnailClick={handleThumbnailClick}

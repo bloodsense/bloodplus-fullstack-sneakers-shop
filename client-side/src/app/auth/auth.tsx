@@ -9,7 +9,7 @@ import {
 	CardTitle,
 } from '@/components/ui/card'
 import { Form } from '@/components/ui/form/form'
-import { useAuth } from '@/hooks/useAuth'
+import { useAuthForm } from '@/hooks/useAuthForm'
 import Image from 'next/image'
 import React from 'react'
 import { AuthFields } from './AuthFields'
@@ -18,7 +18,7 @@ import { SocialMedia } from './SocialMedia'
 export const Auth: React.FC = ({}) => {
 	const [isRegistration, setIsRegistration] = React.useState(false)
 
-	const { onSubmit, form, isPending } = useAuth(isRegistration)
+	const { onSubmit, form, isPending } = useAuthForm(isRegistration)
 
 	return (
 		<div className="min-h-screen grid grid-cols-1 lg:grid-cols-2">
