@@ -14,7 +14,23 @@ export class UserService {
       },
       include: {
         favorites: true,
-        orders: true,
+        orders: {
+          orderBy: {
+            createdAt: 'desc',
+          },
+          include: {
+            items: {
+              include: {
+                sneakerSizeStock: {
+                  include: {
+                    sneaker: true,
+                    size: true,
+                  },
+                },
+              },
+            },
+          },
+        },
       },
     });
 
