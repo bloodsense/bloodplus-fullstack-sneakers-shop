@@ -15,7 +15,7 @@ export const FavoriteToggleButton: FC<FavoriteToggleButtonProps> = ({
 }) => {
 	return (
 		<Button
-			variant="outline"
+			variant="secondary"
 			className="w-full flex items-center justify-center gap-2"
 			onClick={onClick}
 			disabled={isLoading}

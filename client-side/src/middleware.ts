@@ -16,13 +16,8 @@ export async function middleware(req: NextRequest) {
 	const accessToken = req.cookies.get(Tokens.ACCESS_TOKEN)?.value
 	const refreshToken = req.cookies.get(Tokens.REFRESH_TOKEN)?.value
 
-	const isAuthPage = req.url.includes(PUBLIC_URL.auth.auth())
-	const isLogoutPage = req.url.includes(PUBLIC_URL.auth.logout())
+	const isAuthPage = req.url.includes(PUBLIC_URL.auth())
 	const isAdminPage = req.url.includes('/admin')
-
-	if (isLogoutPage) {
-		return NextResponse.next()
-	}
 
 	if (isAuthPage) {
 		if (refreshToken) {
@@ -93,7 +88,7 @@ export async function middleware(req: NextRequest) {
 					return response
 				} else {
 					const response = NextResponse.redirect(
-						new URL(PUBLIC_URL.auth.auth(), req.url)
+						new URL(PUBLIC_URL.auth(), req.url)
 					)
 
 					response.cookies.delete(Tokens.REFRESH_TOKEN)
@@ -103,14 +98,14 @@ export async function middleware(req: NextRequest) {
 			} catch (error) {
 				console.error('Ошибка обновления токена в middleware:', error)
 				const response = NextResponse.redirect(
-					new URL(PUBLIC_URL.auth.auth(), req.url)
+					new URL(PUBLIC_URL.auth(), req.url)
 				)
 				response.cookies.delete(Tokens.REFRESH_TOKEN)
 				response.cookies.delete(Tokens.ACCESS_TOKEN)
 				return response
 			}
 		} else {
-			return NextResponse.redirect(new URL(PUBLIC_URL.auth.auth(), req.url))
+			return NextResponse.redirect(new URL(PUBLIC_URL.auth(), req.url))
 		}
 	}
 
@@ -122,5 +117,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-	matcher: ['/profile/:path*', '/auth/:path*', '/admin/:path*'],
+	matcher: ['/profile/:path*', '/auth', '/admin/:path*'],
 }

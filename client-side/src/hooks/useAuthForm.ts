@@ -29,8 +29,8 @@ export function useAuthForm(isRegistration: boolean) {
 			form.reset()
 
 			if (isRegistration) {
-				toast.success('Успешная регистрация!')
-			} else toast.success('Успешная авторизация!')
+				toast.success('Успешная регистрация в системе!')
+			} else toast.success('Успешная авторизация в системе!')
 
 			router.replace(PUBLIC_URL.home())
 		},
@@ -39,7 +39,9 @@ export function useAuthForm(isRegistration: boolean) {
 			if (error?.response?.data?.message) {
 				toast.error(error?.response?.data?.message)
 			} else {
-				toast.error('Возникла ошибка при авторизации')
+				toast.error(
+					'Возникла ошибка при авторизации в системе. Попробуйте позже'
+				)
 			}
 		},
 	})

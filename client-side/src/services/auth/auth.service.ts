@@ -8,11 +8,8 @@ import {
 
 class AuthService {
 	async main(type: 'login' | 'register', data: IAuthForm) {
-		const url =
-			type === 'login' ? API_URL.auth.login() : API_URL.auth.register()
-
 		const response = await axiosDefault<IAuthResponse>({
-			url,
+			url: API_URL.auth[type](),
 			method: 'POST',
 			data,
 		})

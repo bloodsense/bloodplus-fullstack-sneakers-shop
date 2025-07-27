@@ -50,7 +50,7 @@ export const SneakerPurchaseInfo: FC<SneakerPurchaseInfoProps> = ({
 
 	const { toggleFavorite, isPending } = useFavoriteStatus(sneaker.slug)
 	const { profile } = useProfile()
-	
+
 	const { isFavorite: isFavoriteLocally } = useFavoriteStore()
 	const isFavorite = profile
 		? profile.favorites.some(fav => fav.slug === sneaker.slug)
@@ -103,9 +103,10 @@ export const SneakerPurchaseInfo: FC<SneakerPurchaseInfoProps> = ({
 			<div className="flex justify-between items-center">
 				<p className="text-xl">{sneaker.price.toLocaleString('ru-RU')} ₽</p>
 				<Button
+					variant="secondary"
 					onClick={handleAddToCart}
 					disabled={!selectedStock || isAlreadyInCart || isAdding}
-					className="min-w-[150px]"
+					className="min-w-48.5"
 				>
 					{isAdding ? (
 						<Loader2 className="h-4 w-4 animate-spin" />

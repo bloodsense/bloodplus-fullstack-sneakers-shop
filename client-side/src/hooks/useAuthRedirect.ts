@@ -14,7 +14,7 @@ export const useAuthRedirect = () => {
 		}
 
 		if (!user) {
-			router.push(PUBLIC_URL.auth.login())
+			router.push(PUBLIC_URL.auth())
 		}
 	}, [user, isLoading, router])
 }

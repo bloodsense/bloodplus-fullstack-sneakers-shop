@@ -22,7 +22,7 @@ export const AuthButton: React.FC<Props> = ({ className }) => {
 				</Button>
 			) : (
 				<Button variant="outline" asChild className={buttonWidth}>
-					<Link href={PUBLIC_URL.auth.auth()}>Войти</Link>
+					<Link href={PUBLIC_URL.auth()}>Войти</Link>
 				</Button>
 			)}
 		</div>

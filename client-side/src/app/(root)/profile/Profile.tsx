@@ -3,50 +3,59 @@
 import { useAuthRedirect } from '@/hooks/useAuthRedirect'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { useProfile } from '@/hooks/useProfile'
-import { Loader2 } from 'lucide-react'
+import { Loader2, LogOut } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { useLogout } from '@/hooks/useLogout'
+import { useIsClient } from '@/hooks/useIsClient'
+import { Container } from '@/components/container'
+import { CardOrderItem } from '@/components/card-order-item'
+import { ProfileSkeleton } from '@/components/skeletons/profile-skeleton'
 
-export default function ProfilePage() {
+export const Profile = () => {
 	useAuthRedirect()
-
 	const { profile, isLoading } = useProfile()
+	const { logout, isPending } = useLogout()
+	const isClient = useIsClient()
 
-	if (isLoading) {
-		return (
-			<div className="flex h-screen items-center justify-center">
-				<Loader2 className="h-10 w-10 animate-spin" />
-			</div>
-		)
+	const showSkeleton = !isClient || isLoading
+
+	if (showSkeleton) {
+		return <ProfileSkeleton />
 	}
 
 	return (
-		<div className="container mx-auto p-4">
-			<div className="flex items-center space-x-4">
-				<Avatar className="h-9 w-9">
-					<AvatarImage src={profile?.picture} alt={profile?.name} />
-					<AvatarFallback>{profile?.name?.[0]}</AvatarFallback>
-				</Avatar>
-				<div>
-					<h1 className="text-2xl font-bold">{profile?.name}</h1>
-					<p className="text-gray-500">{profile?.email}</p>
+		<Container className="pt-10 mb-10">
+			<div className="mb-8 flex items-center justify-between pb-4 bg-foreground/5 p-4 rounded-lg">
+				<div className="flex items-center space-x-4">
+					<Avatar className="h-11 w-11">
+						<AvatarImage src={profile?.picture} alt={profile?.name} />
+						<AvatarFallback>{profile?.name?.[0]}</AvatarFallback>
+					</Avatar>
+					<div className="space-y-1">
+						<h1 className="text-xl">{profile?.name}</h1>
+						<p className="text-foreground/50 text-sm">{profile?.email}</p>
+						<p className="text-foreground/50 text-sm">ID: {profile?.id}</p>
+					</div>
 				</div>
+				<Button variant="ghost" onClick={() => logout()} disabled={isPending}>
+					<LogOut className="mr-2 h-4 w-4" />
+					Выйти
+				</Button>
 			</div>
 
 			<div className="mt-8">
-				<h2 className="text-xl font-semibold">Мои заказы</h2>
 				{profile?.orders && profile.orders.length > 0 ? (
-					<ul className="mt-4 space-y-4">
+					<ul className="mt-4 space-y-5">
 						{profile.orders.map(order => (
-							<li key={order.id} className="rounded-lg border p-4">
-								<p>Заказ #{order.id}</p>
-								<p>Статус: {order.status}</p>
-								<p>Сумма: {order.totalAmount}</p>
-							</li>
+							<CardOrderItem key={order.id} order={order} />
 						))}
 					</ul>
 				) : (
-					<p className="mt-4">У вас еще нет заказов</p>
+					<p className="text-muted-foreground text-center pt-5">
+						У вас еще нет заказов
+					</p>
 				)}
 			</div>
-		</div>
+		</Container>
 	)
 }

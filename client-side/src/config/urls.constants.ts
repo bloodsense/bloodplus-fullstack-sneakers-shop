@@ -5,12 +5,7 @@ export const PUBLIC_URL = {
 
 	profile: () => '/profile',
 
-	auth: {
-		auth: () => '/auth',
-		login: () => '/auth/login',
-		register: () => '/auth/register',
-		logout: () => '/auth/logout',
-	},
+	auth: () => '/auth',
 
 	browse: {
 		all: () => '/',

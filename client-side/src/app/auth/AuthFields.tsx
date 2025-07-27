@@ -5,7 +5,7 @@ import {
 	FormMessage,
 } from '@/components/ui/form/form'
 import { Input } from '@/components/ui/form/input'
-import { validateEmail } from '@/shared/regex'
+import { validateEmail } from '@/lib/regex'
 import { IAuthForm } from '@/shared/types/auth.interface'
 import { UseFormReturn } from 'react-hook-form'
 

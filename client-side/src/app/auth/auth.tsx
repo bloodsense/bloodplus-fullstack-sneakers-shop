@@ -14,6 +14,8 @@ import Image from 'next/image'
 import React from 'react'
 import { AuthFields } from './AuthFields'
 import { SocialMedia } from './SocialMedia'
+import { PUBLIC_URL } from '@/config/urls.constants'
+import Link from 'next/link'
 
 export const Auth: React.FC = ({}) => {
 	const [isRegistration, setIsRegistration] = React.useState(false)
@@ -73,10 +75,18 @@ export const Auth: React.FC = ({}) => {
 								onClick={() => setIsRegistration(!isRegistration)}
 								className="cursor-pointer font-medium"
 							>
-								{isRegistration ? 'Войдите' : 'Регистрация'}
+								{isRegistration ? 'Войти' : 'Регистрация'}
 							</Button>
 						</div>
 					</CardFooter>
+					{!isRegistration ? (
+						<Link
+							href={PUBLIC_URL.home()}
+							className="text-center text-foreground/50 text-sm"
+						>
+							Продолжить без учетной записи
+						</Link>
+					) : null}
 				</Card>
 			</div>
 		</div>
