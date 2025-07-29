@@ -3,12 +3,12 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { MoreHorizontal } from 'lucide-react'
+import { useAdminBrands } from '@/hooks/admin/brands/useAdminBrands'
 import { Button } from '@/components/ui/button'
 import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
-	DropdownMenuLabel,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import {
@@ -31,25 +31,24 @@ import {
 } from '@/components/ui/alert-dialog'
 import { ADMIN_URL } from '@/config/urls.constants'
 import { Container } from '@/components/container'
-import { useAdminSeasons } from '@/hooks/admin/season/useAdminSeasons'
 
-const Seasons = () => {
-	const { seasons, isLoading, deleteSeason } = useAdminSeasons()
+const Brands = () => {
+	const { brands, isLoading, deleteBrand } = useAdminBrands()
 	const [isDialogOpen, setIsDialogOpen] = useState(false)
-	const [seasonToDelete, setSeasonToDelete] = useState<{
+	const [brandToDelete, setBrandToDelete] = useState<{
 		slug: string
 		name: string
 	} | null>(null)
 
 	const handleOpenDeleteDialog = (slug: string, name: string) => {
-		setSeasonToDelete({ slug, name })
+		setBrandToDelete({ slug, name })
 		setIsDialogOpen(true)
 	}
 
 	const confirmDelete = () => {
-		if (seasonToDelete) {
-			deleteSeason(seasonToDelete.slug)
-			setSeasonToDelete(null)
+		if (brandToDelete) {
+			deleteBrand(brandToDelete.slug)
+			setBrandToDelete(null)
 		}
 	}
 
@@ -57,9 +56,9 @@ const Seasons = () => {
 		<Container>
 			<div className="p-4 md:p-8">
 				<div className="flex items-center justify-between mb-4">
-					<h1 className="text-2xl font-bold">Управление сезонами</h1>
-					<Link href={ADMIN_URL.seasons.create()}>
-						<Button>Создать новый сезон</Button>
+					<h1 className="text-2xl font-bold">Управление брендами</h1>
+					<Link href={ADMIN_URL.brands.create()}>
+						<Button>Создать новый бренд</Button>
 					</Link>
 				</div>
 
@@ -78,13 +77,13 @@ const Seasons = () => {
 								</TableRow>
 							</TableHeader>
 							<TableBody>
-								{seasons?.length ? (
-									seasons.map(season => (
-										<TableRow key={season.id}>
+								{brands?.length ? (
+									brands.map(brand => (
+										<TableRow key={brand.id}>
 											<TableCell className="font-medium">
-												{season.name}
+												{brand.name}
 											</TableCell>
-											<TableCell>{season.slug}</TableCell>
+											<TableCell>{brand.slug}</TableCell>
 											<TableCell>
 												<DropdownMenu>
 													<DropdownMenuTrigger asChild>
@@ -97,7 +96,7 @@ const Seasons = () => {
 														</Button>
 													</DropdownMenuTrigger>
 													<DropdownMenuContent align="end">
-														<Link href={ADMIN_URL.seasons.put(season.slug)}>
+														<Link href={ADMIN_URL.brands.put(brand.slug)}>
 															<DropdownMenuItem className="cursor-pointer">
 																Изменить
 															</DropdownMenuItem>
@@ -106,7 +105,7 @@ const Seasons = () => {
 															className="text-red-600 cursor-pointer"
 															onSelect={e => {
 																e.preventDefault()
-																handleOpenDeleteDialog(season.slug, season.name)
+																handleOpenDeleteDialog(brand.slug, brand.name)
 															}}
 														>
 															Удалить
@@ -119,7 +118,7 @@ const Seasons = () => {
 								) : (
 									<TableRow>
 										<TableCell colSpan={3} className="h-24 text-center">
-											Нет результатов
+											Нет результатов.
 										</TableCell>
 									</TableRow>
 								)}
@@ -135,14 +134,14 @@ const Seasons = () => {
 						<AlertDialogTitle>Вы уверены?</AlertDialogTitle>
 						<AlertDialogDescription>
 							Это действие невозможно отменить. Вы собираетесь удалить с базы
-							данных сезон -{' '}
+							данных бренд -{' '}
 							<strong className="text-foreground/80">
-								{seasonToDelete?.name.toLowerCase()}
+								{brandToDelete?.name.toLowerCase()}
 							</strong>
 						</AlertDialogDescription>
 					</AlertDialogHeader>
 					<AlertDialogFooter>
-						<AlertDialogCancel onClick={() => setSeasonToDelete(null)}>
+						<AlertDialogCancel onClick={() => setBrandToDelete(null)}>
 							Отмена
 						</AlertDialogCancel>
 						<AlertDialogAction onClick={confirmDelete}>
@@ -155,4 +154,4 @@ const Seasons = () => {
 	)
 }
 
-export default Seasons
+export default Brands

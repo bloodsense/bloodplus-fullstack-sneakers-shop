@@ -8,6 +8,7 @@ import { toast } from 'sonner'
 import type { ISeason, ISeasonCreate } from '@/shared/types/season.interface'
 import { adminSeasonService } from '@/services/admin/admin.season.service'
 import { generateSlug } from '@/lib/generate-slug'
+import { ADMIN_URL } from '@/config/urls.constants'
 
 export type ISeasonFormData = Omit<ISeason, 'id' | 'slug'>
 
@@ -46,7 +47,7 @@ export const useAdminSeasonForm = (seasonSlug?: string) => {
 		onSuccess: () => {
 			toast.success('Сезон успешно создан!')
 			queryClient.invalidateQueries({ queryKey: ['get all admin seasons'] })
-			router.push('/admin/seasons')
+			router.push(ADMIN_URL.seasons.page())
 		},
 		onError: () => {
 			toast.error('Ошибка при создании сезона')
@@ -63,7 +64,7 @@ export const useAdminSeasonForm = (seasonSlug?: string) => {
 			queryClient.invalidateQueries({
 				queryKey: ['get admin season by slug', seasonSlug],
 			})
-			router.push('/admin/seasons')
+			router.push(ADMIN_URL.seasons.page())
 		},
 		onError: () => {
 			toast.error('Ошибка при сохранении изменений')
