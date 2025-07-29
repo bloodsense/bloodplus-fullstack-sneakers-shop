@@ -7,7 +7,7 @@ import { CardFavoriteItem } from '@/components/card-favorite-item'
 import { FavoritesListSkeleton } from '@/components/skeletons/favorites-list-skeleton'
 import { useFavoriteStore } from '@/stores/favorite-store'
 import Link from 'next/link'
-import { useQuery } from '@tanstack/react-query' 
+import { useQuery } from '@tanstack/react-query'
 import { sneakerService } from '@/services/sneaker.service'
 import { PUBLIC_URL } from '@/config/urls.constants'
 
@@ -57,19 +57,23 @@ export const Favorites = () => {
 		<Container className="pt-14 mb-10">
 			<div>
 				{(localFavoritesData?.length ?? 0) === 0 ? (
-					<div className="bg-foreground/5 py-81 rounded-lg">
+					<div className="bg-foreground/5 py-78 rounded-lg">
 						<p className="text-center text-foreground/50 text-lg mb-1">
 							Вы пока ничего не добавили в избранное.
 						</p>
 						<p className="text-center text-foreground/50">
-							Для синхронизации избранного,{' '}
+							Для синхронизации избранного, {' '}
 							<Link
 								href={PUBLIC_URL.auth()}
 								className="text-foreground/50 hover:underline"
 							>
-								нажмите сюда
+								нажмите здесь
 							</Link>
-							, чтобы войти или зарегистрироваться в системе
+							, чтобы авторизоваться или зарегистрироваться в системе
+						</p>
+						<p className="text-center text-foreground/50">
+							(синхронизация через Google и Яндекс временно не работает, только
+							через нашу систему)
 						</p>
 					</div>
 				) : (
@@ -91,9 +95,13 @@ export const Favorites = () => {
 								href={PUBLIC_URL.auth()}
 								className="text-foreground/50 hover:underline"
 							>
-								авторизируйтесь или зарегистрируйтесь {' '}
+								авторизуйтесь или зарегистрируйтесь {' '}
 							</Link>
 							в системе
+						</p>
+						<p className="text-center text-foreground/50">
+							(синхронизация через Google и Яндекс временно не работает, только
+							через нашу систему)
 						</p>
 					</div>
 				)}

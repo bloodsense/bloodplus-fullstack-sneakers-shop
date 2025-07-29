@@ -1,9 +1,9 @@
 'use client'
 
 import Link from 'next/link'
-import { Button } from './ui/button'
 import { useUser } from '@/hooks/useUser'
 import { PUBLIC_URL } from '@/config/urls.constants'
+import { Button } from '../ui/button'
 
 interface Props {
 	className?: string

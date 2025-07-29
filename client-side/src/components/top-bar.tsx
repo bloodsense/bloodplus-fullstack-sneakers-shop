@@ -6,11 +6,11 @@ import { Container } from './container'
 import { PUBLIC_URL } from '@/config/urls.constants'
 import { IBrand } from '@/shared/types/brand.interface'
 import { ISeason } from '@/shared/types/season.interface'
-import { SheetButtonFilter } from './sheet-filters-button'
 import { CaretRightIcon } from '@radix-ui/react-icons'
 import { brandService } from '@/services/brand.service'
 import { seasonService } from '@/services/season.service'
 import { SheetSkeletonList } from './skeletons/sheet-skeleton-list'
+import { SheetButtonFilter } from './buttons/sheet-filters-button'
 
 interface Props {
 	className?: string

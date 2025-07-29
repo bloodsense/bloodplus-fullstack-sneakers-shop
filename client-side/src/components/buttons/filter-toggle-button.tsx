@@ -1,8 +1,8 @@
 'use client'
 
 import { PanelLeftClose, PanelRightClose } from 'lucide-react'
-import { Button } from './ui/button'
 import { cn } from '@/lib/utils'
+import { Button } from '../ui/button'
 
 interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 	isOpen: boolean

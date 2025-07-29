@@ -19,6 +19,7 @@ import { SneakerPurchaseInfo } from '@/components/sneaker-purchase-info'
 import { SneakerImages } from '@/components/sneaker-images'
 import { useProfile } from '@/hooks/useProfile'
 import { SneakerReviews } from '@/components/reviews/sneaker-reviews'
+import { SimilarSneakers } from '@/components/similar-sneakers'
 
 export const SneakerSlug = () => {
 	const {
@@ -97,6 +98,7 @@ export const SneakerSlug = () => {
 
 			<SneakerDetails sneaker={sneaker} />
 			<SneakerReviews sneaker={sneaker} profile={profile} />
+			<SimilarSneakers currentSneakerSlug={sneaker.slug} />
 		</Container>
 	)
 }

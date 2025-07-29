@@ -3,7 +3,6 @@
 import { Container } from './container'
 import Link from 'next/link'
 import { SearchInput } from './search-input'
-import { AuthButton } from './auth-button'
 import { Favorites } from './favorites'
 import { Logo } from './logo'
 import { useCartStore } from '@/stores/cart-store'
@@ -11,6 +10,7 @@ import React from 'react'
 import { CartSheet } from './cart/cart-sheet'
 import { useUser } from '@/hooks/useUser'
 import { HeaderButtonsSkeleton } from './skeletons/header-buttons-skeleton'
+import { AuthButton } from './buttons/auth-button'
 
 interface Props {
 	className?: string

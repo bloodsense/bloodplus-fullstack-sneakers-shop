@@ -11,7 +11,7 @@ import { Container } from '@/components/container'
 import { CardOrderItem } from '@/components/card-order-item'
 import { ProfileSkeleton } from '@/components/skeletons/profile-skeleton'
 
-export const Profile = () => {
+export default function ProfilePage() {
 	useAuthRedirect()
 	const { profile, isLoading } = useProfile()
 	const { logout, isPending } = useLogout()
@@ -25,7 +25,7 @@ export const Profile = () => {
 
 	return (
 		<Container className="pt-10 mb-10">
-			<div className="mb-8 flex items-center justify-between pb-4 bg-foreground/5 p-4 rounded-lg">
+			<div className="mb-8 flex items-center justify-between pb-4 bg-foreground/5 p-5 rounded-lg">
 				<div className="flex items-center space-x-4">
 					<Avatar className="h-11 w-11">
 						<AvatarImage src={profile?.picture} alt={profile?.name} />

@@ -12,7 +12,7 @@ import type { ISneakerSizeStock } from '@/shared/types/sneaker-size-stock.interf
 import { useSneakerSizes } from '@/hooks/useSneakerSize'
 import { SneakerSizeSelector } from './sneaker-size-selector'
 import { useFavoriteStatus } from '@/hooks/useFavorite'
-import { FavoriteToggleButton } from './favorite-toggle-button'
+import { FavoriteToggleButton } from './buttons/favorite-toggle-button'
 import { useFavoriteStore } from '@/stores/favorite-store'
 import { useProfile } from '@/hooks/useProfile'
 import { useAddToCart } from '@/hooks/useAddToCart'
