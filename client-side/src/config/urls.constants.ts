@@ -27,6 +27,7 @@ export const PUBLIC_URL = {
 
 export const ADMIN_URL = {
 	brands: {
+		page: () => '/admin/brands',
 		create: () => '/admin/brands/create',
 		put: (slug: string) => `/admin/brands/put/${slug}`,
 		delete: (slug: string) => `/admin/brands/delete/${slug}`,
@@ -34,12 +35,14 @@ export const ADMIN_URL = {
 	},
 
 	seasons: {
+		page: () => '/admin/seasons',
 		create: () => '/admin/seasons/create',
 		delete: (slug: string) => `/admin/seasons/delete/${slug}`,
 		getBySlug: (slug: string) => `/admin/seasons/getBySlug/${slug}`,
 	},
 
 	colors: {
+		page: () => '/admin/colors',
 		create: () => '/admin/colors/create',
 		put: (slug: string) => `/admin/colors/put/${slug}`,
 		delete: (slug: string) => `/admin/colors/delete/${slug}`,
@@ -47,6 +50,7 @@ export const ADMIN_URL = {
 	},
 
 	sizes: {
+		page: () => '/admin/sizes',
 		getAll: () => '/admin/sizes/getAll',
 		create: () => '/admin/sizes/create',
 		put: (id: string) => `/admin/sizes/put/${id}`,
@@ -55,6 +59,7 @@ export const ADMIN_URL = {
 	},
 
 	sneakers: {
+		page: () => '/admin/sneakers',
 		create: () => '/admin/sneakers/create',
 		put: (slug: string) => `/admin/sneakers/put/${slug}`,
 		delete: (slug: string) => `/admin/sneakers/delete/${slug}`,

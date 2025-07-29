@@ -2,6 +2,8 @@ import { axiosWithAuth } from '@/api/api.interceptors'
 import { API_URL } from '@/config/api.constants'
 import { IColor } from '@/shared/types/color.interface'
 
+export type IColorFields = Omit<IColor, 'id'>
+
 class AdminColorService {
 	async getColorBySlug(slug: string) {
 		const { data: getColorBySlug } = await axiosWithAuth<IColor>({
@@ -12,7 +14,7 @@ class AdminColorService {
 		return getColorBySlug
 	}
 
-	async createColor(data: IColor) {
+	async createColor(data: IColorFields) {
 		const { data: createColor } = await axiosWithAuth<IColor>({
 			url: API_URL.colors.admin.create(),
 			method: 'POST',
@@ -22,7 +24,7 @@ class AdminColorService {
 		return createColor
 	}
 
-	async updateColor(data: IColor, slug: string) {
+	async updateColor(data: IColorFields, slug: string) {
 		const { data: updateColor } = await axiosWithAuth<IColor>({
 			url: API_URL.colors.admin.update(slug),
 			method: 'PUT',
