@@ -1,6 +1,9 @@
 import { useQuery } from '@tanstack/react-query'
 import { userService } from '@/services/user.service'
-import { getAccessToken } from '@/services/auth/access-token.service'
+import {
+	getAccessToken,
+	isUserAdmin,
+} from '@/services/auth/access-token.service'
 
 export const useUser = () => {
 	const accessToken = getAccessToken()
@@ -15,5 +18,7 @@ export const useUser = () => {
 		enabled: !!accessToken,
 	})
 
-	return { user, isLoading, isError }
+	const isAdmin = isUserAdmin()
+
+	return { user, isLoading, isError, isAdmin }
 }

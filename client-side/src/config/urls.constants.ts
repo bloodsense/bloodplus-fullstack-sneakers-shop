@@ -26,6 +26,8 @@ export const PUBLIC_URL = {
 }
 
 export const ADMIN_URL = {
+	page: () => '/admin',
+
 	brands: {
 		page: () => '/admin/brands',
 		create: () => '/admin/brands/create',

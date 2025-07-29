@@ -3,7 +3,7 @@
 import { cn } from '@/lib/utils'
 import React from 'react'
 import { Button } from './ui/button'
-import { FiltersAccordion } from './filters-accordion'
+import { FiltersAccordion } from './accordions/filters-accordion'
 import { useProductFilters } from '@/hooks/filters/useProductFilters'
 import useLocalStorageState from '@/hooks/useLocalStorage'
 import { MAX_PRICE, MIN_PRICE } from '@/constants/filter-price-constants'

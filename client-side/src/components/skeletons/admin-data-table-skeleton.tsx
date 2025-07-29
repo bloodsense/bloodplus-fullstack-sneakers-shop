@@ -23,7 +23,7 @@ export const AdminDataTableSkeleton = ({
 				<TableHeader>
 					<TableRow>
 						{Array.from({ length: columnCount }).map((_, i) => (
-							<TableHead key={i}>
+							<TableHead key={i} className="p-4">
 								<Skeleton className="h-5 w-24" />
 							</TableHead>
 						))}
@@ -36,7 +36,7 @@ export const AdminDataTableSkeleton = ({
 					{Array.from({ length: rowCount }).map((_, rowIndex) => (
 						<TableRow key={rowIndex}>
 							{Array.from({ length: columnCount }).map((_, cellIndex) => (
-								<TableCell key={cellIndex}>
+								<TableCell key={cellIndex} className="p-4">
 									<Skeleton className="h-5 w-full" />
 								</TableCell>
 							))}

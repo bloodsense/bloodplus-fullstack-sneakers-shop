@@ -1,8 +1,8 @@
-import { AccordionBrand } from './accordions/accordion-brand'
-import { AccordionColor } from './accordions/accordion-color'
-import { AccordionPrice } from './accordions/accordion-price'
-import { AccordionSeason } from './accordions/accordion-season'
-import { Accordion } from './ui/accordion'
+import { AccordionBrand } from './accordion-brand'
+import { AccordionColor } from './accordion-color'
+import { AccordionPrice } from './accordion-price'
+import { AccordionSeason } from './accordion-season'
+import { Accordion } from '../ui/accordion'
 import React from 'react'
 
 interface Props {

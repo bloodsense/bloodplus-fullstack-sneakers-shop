@@ -53,7 +53,9 @@ export const AdminDataTable = <
 				<TableHeader>
 					<TableRow>
 						{columns.map(col => (
-							<TableHead key={String(col.key)}>{col.header}</TableHead>
+							<TableHead className="p-4" key={String(col.key)}>
+								{col.header}
+							</TableHead>
 						))}
 						<TableHead>
 							<span className="sr-only">Действия</span>
@@ -65,7 +67,7 @@ export const AdminDataTable = <
 						data.map(item => (
 							<TableRow key={item.id}>
 								{columns.map(col => (
-									<TableCell key={`${item.id}-${String(col.key)}`}>
+									<TableCell key={`${item.id}-${String(col.key)}`} className='p-4'>
 										{col.cell(item)}
 									</TableCell>
 								))}

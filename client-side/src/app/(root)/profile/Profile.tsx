@@ -3,19 +3,23 @@
 import { useAuthRedirect } from '@/hooks/useAuthRedirect'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { useProfile } from '@/hooks/useProfile'
-import { LogOut } from 'lucide-react'
+import { LogOut, LayoutDashboard } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useLogout } from '@/hooks/useLogout'
 import { useIsClient } from '@/hooks/useIsClient'
 import { Container } from '@/components/container'
 import { CardOrderItem } from '@/components/card-order-item'
 import { ProfileSkeleton } from '@/components/skeletons/profile-skeleton'
+import Link from 'next/link'
+import { ADMIN_URL } from '@/config/urls.constants'
+import { useUser } from '@/hooks/useUser'
 
 export default function ProfilePage() {
 	useAuthRedirect()
 	const { profile, isLoading } = useProfile()
 	const { logout, isPending } = useLogout()
 	const isClient = useIsClient()
+	const { isAdmin } = useUser()
 
 	const showSkeleton = !isClient || isLoading
 
@@ -24,7 +28,7 @@ export default function ProfilePage() {
 	}
 
 	return (
-		<Container className="pt-10 mb-10">
+		<Container className="pt-10 mb-10 relative">
 			<div className="mb-8 flex items-center justify-between pb-4 bg-foreground/5 p-5 rounded-lg">
 				<div className="flex items-center space-x-4">
 					<Avatar className="h-11 w-11">
@@ -37,10 +41,22 @@ export default function ProfilePage() {
 						<p className="text-foreground/50 text-sm">ID: {profile?.id}</p>
 					</div>
 				</div>
-				<Button variant="ghost" onClick={() => logout()} disabled={isPending}>
-					<LogOut className="mr-2 h-4 w-4" />
-					Выйти
-				</Button>
+
+				<div className="flex items-center gap-4">
+					{isAdmin && (
+						<Button variant="outline" asChild>
+							<Link href={ADMIN_URL.page()}>
+								<LayoutDashboard className="mr-2 h-4 w-4" />
+								Админ панель
+							</Link>
+						</Button>
+					)}
+
+					<Button variant="ghost" onClick={() => logout()} disabled={isPending}>
+						<LogOut className="mr-2 h-4 w-4" />
+						Выйти
+					</Button>
+				</div>
 			</div>
 
 			<div className="mt-8">
