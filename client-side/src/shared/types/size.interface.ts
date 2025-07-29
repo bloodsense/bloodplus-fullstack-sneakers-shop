@@ -4,6 +4,7 @@ export enum SizeType {
 }
 
 export interface ISize {
+	id: string
 	value: string
 	type: SizeType
 }

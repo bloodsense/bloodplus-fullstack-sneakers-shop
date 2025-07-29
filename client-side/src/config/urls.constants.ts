@@ -55,7 +55,7 @@ export const ADMIN_URL = {
 		getAll: () => '/admin/sizes/getAll',
 		create: () => '/admin/sizes/create',
 		put: (id: string) => `/admin/sizes/put/${id}`,
-		delete: (slug: string) => `/admin/sizes/delete/${slug}`,
+		delete: (id: string) => `/admin/sizes/delete/${id}`,
 		getById: (id: string) => `/admin/sizes/getById/${id}`,
 	},
 
