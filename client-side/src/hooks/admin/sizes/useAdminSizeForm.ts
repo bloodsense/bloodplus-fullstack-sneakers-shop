@@ -6,8 +6,8 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { useEffect } from 'react'
 import { toast } from 'sonner'
 import { ISize, ISizeCreate, SizeType } from '@/shared/types/size.interface'
-import { sizeService } from '@/services/admin/admin.size.service'
 import { ADMIN_URL } from '@/config/urls.constants'
+import { adminSizeService } from '@/services/admin/admin.size.service'
 
 export const useAdminSizeForm = (sizeId?: string) => {
 	const queryClient = useQueryClient()
@@ -30,7 +30,7 @@ export const useAdminSizeForm = (sizeId?: string) => {
 
 	const { data: sizeData, isLoading: isGetLoading } = useQuery({
 		queryKey: ['get admin size by id', sizeId],
-		queryFn: () => sizeService.getSizeById(sizeId!),
+		queryFn: () => adminSizeService.getSizeById(sizeId!),
 		enabled: isEditMode,
 	})
 
@@ -43,7 +43,7 @@ export const useAdminSizeForm = (sizeId?: string) => {
 
 	const { mutate: createSize, isPending: isCreatePending } = useMutation({
 		mutationKey: ['create size'],
-		mutationFn: (data: ISizeCreate) => sizeService.createSize(data),
+		mutationFn: (data: ISizeCreate) => adminSizeService.createSize(data),
 		onSuccess: () => {
 			toast.success('Размер успешно создан!')
 			queryClient.invalidateQueries({ queryKey: ['get all admin sizes'] })
@@ -56,7 +56,8 @@ export const useAdminSizeForm = (sizeId?: string) => {
 
 	const { mutate: updateSize, isPending: isUpdatePending } = useMutation({
 		mutationKey: ['update size', sizeId],
-		mutationFn: (data: ISizeCreate) => sizeService.updateSize(data, sizeId!),
+		mutationFn: (data: ISizeCreate) =>
+			adminSizeService.updateSize(data, sizeId!),
 		onSuccess: () => {
 			toast.success('Изменения успешно сохранены!')
 			queryClient.invalidateQueries({ queryKey: ['get all admin sizes'] })

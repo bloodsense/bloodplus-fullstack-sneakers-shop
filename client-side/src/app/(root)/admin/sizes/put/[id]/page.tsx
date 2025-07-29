@@ -1,7 +1,7 @@
 import { SizeForm } from '@/components/admin/size-form'
-import { Container } from '@/components/container'
-import type { Metadata } from 'next'
+import { AdminFormPageLayout } from '@/components/ui/admin/admin-form-page-layout'
 import { NO_INDEX_PAGE } from '@/constants/seo-constants'
+import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
 	title: 'Редактировать размер',
@@ -9,20 +9,13 @@ export const metadata: Metadata = {
 }
 
 interface IEditPageProps {
-	params: {
-		id: string
-	}
+	params: { id: string }
 }
 
-const EditSizePage = ({ params }: IEditPageProps) => {
+export default function EditSizePage({ params }: IEditPageProps) {
 	return (
-		<Container>
-			<div className="p-4 md:p-8">
-				<h1 className="text-2xl font-bold mb-6">Редактировать размер</h1>
-				<SizeForm sizeId={params.id} />
-			</div>
-		</Container>
+		<AdminFormPageLayout title="Редактировать размер">
+			<SizeForm sizeId={params.id} />
+		</AdminFormPageLayout>
 	)
 }
-
-export default EditSizePage

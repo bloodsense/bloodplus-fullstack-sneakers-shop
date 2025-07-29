@@ -13,6 +13,7 @@ import {
 import { SizeType } from '@/shared/types/size.interface'
 import { Label } from '../ui/form/label'
 import { Input } from '../ui/form/input'
+import { AdminFormSkeleton } from '../skeletons/admin-form-skeleton'
 
 interface ISizeFormProps {
 	sizeId?: string
@@ -33,7 +34,7 @@ export const SizeForm = ({ sizeId }: ISizeFormProps) => {
 	return (
 		<form onSubmit={handleSubmit(onSubmit)} className="max-w-xl">
 			{isLoading ? (
-				<p>Загрузка данных...</p>
+				<AdminFormSkeleton />
 			) : (
 				<div className="space-y-6">
 					<div className="space-y-2">

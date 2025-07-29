@@ -1,17 +1,17 @@
-import { SizeForm } from '@/components/admin/size-form'
+import { SneakerForm } from '@/components/admin/sneaker-form'
 import { AdminFormPageLayout } from '@/components/ui/admin/admin-form-page-layout'
 import { NO_INDEX_PAGE } from '@/constants/seo-constants'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-	title: 'Создать размер',
+	title: 'Создать кроссовки',
 	...NO_INDEX_PAGE,
 }
 
-export default function CreateSizePage() {
+export default function CreateSneakerPage() {
 	return (
-		<AdminFormPageLayout title="Создать новый размер">
-			<SizeForm />
+		<AdminFormPageLayout title="Создать новые кроссовки">
+			<SneakerForm />
 		</AdminFormPageLayout>
 	)
 }

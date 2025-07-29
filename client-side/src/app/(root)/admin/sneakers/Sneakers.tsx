@@ -2,40 +2,49 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { useAdminColors } from '@/hooks/admin/colors/useAdminColors'
+import Image from 'next/image'
+import { useAdminSneakers } from '@/hooks/admin/sneakers/useAdminSneakers'
 import { ADMIN_URL } from '@/config/urls.constants'
 import { Container } from '@/components/container'
-import { IColor } from '@/shared/types/color.interface'
+import { ISneaker } from '@/shared/types/sneaker.interface'
 import { AdminDataTable, IColumn } from '@/components/ui/admin/admin-data-table'
 import { AdminPageHeader } from '@/components/ui/admin/admin-page-header'
 import { AdminDeleteAlert } from '@/components/ui/admin/admin-delete-alert'
 
-const columns: IColumn<IColor>[] = [
+const columns: IColumn<ISneaker>[] = [
 	{
-		key: 'color',
-		header: 'Цвет',
+		key: 'images',
+		header: 'Фото',
 		cell: item => (
-			<div
-				style={{ backgroundColor: item.hex }}
-				className="w-8 h-8 rounded-full border"
+			<Image
+				src={item.images[0] || '/placeholder.png'}
+				alt={item.name}
+				width={64}
+				height={64}
+				className="rounded-md object-cover"
 			/>
 		),
 	},
 	{
-		key: 'value',
+		key: 'name',
 		header: 'Название',
-		cell: item => <span className="font-medium">{item.value}</span>,
+		cell: item => <span className="font-medium">{item.name}</span>,
 	},
 	{
-		key: 'hex',
-		header: 'HEX код',
-		cell: item => <span>{item.hex}</span>,
+		key: 'brand',
+		header: 'Бренд',
+		cell: item => <span>{item.brand.name}</span>,
+	},
+	{
+		key: 'price',
+		header: 'Цена',
+		cell: item => <span>{item.price} ₽</span>,
 	},
 ]
 
-const Colors = () => {
+const Sneakers = () => {
 	const router = useRouter()
-	const { colors, isLoading, deleteColor } = useAdminColors()
+	const { sneakers, isLoading, deleteSneaker } = useAdminSneakers()
 
 	const [isDialogOpen, setIsDialogOpen] = useState(false)
 	const [itemToDelete, setItemToDelete] = useState<{
@@ -50,7 +59,7 @@ const Colors = () => {
 
 	const confirmDelete = () => {
 		if (itemToDelete) {
-			deleteColor(itemToDelete.slug)
+			deleteSneaker(itemToDelete.slug)
 			setItemToDelete(null)
 			setIsDialogOpen(false)
 		}
@@ -60,17 +69,17 @@ const Colors = () => {
 		<Container>
 			<div className="p-4 md:p-8">
 				<AdminPageHeader
-					title="Управление цветами"
-					createUrl={ADMIN_URL.colors.create()}
-					buttonText="Создать новый цвет"
+					title="Управление кроссовками"
+					createUrl={ADMIN_URL.sneakers.create()}
+					buttonText="Создать новые кроссовки"
 				/>
 
 				<AdminDataTable
-					data={colors}
+					data={sneakers}
 					columns={columns}
 					isLoading={isLoading}
 					uniqueKey="slug"
-					onEdit={slug => router.push(ADMIN_URL.colors.put(slug))}
+					onEdit={slug => router.push(ADMIN_URL.sneakers.put(slug))}
 					onDelete={handleOpenDeleteDialog}
 				/>
 			</div>
@@ -85,4 +94,4 @@ const Colors = () => {
 	)
 }
 
-export default Colors
+export default Sneakers

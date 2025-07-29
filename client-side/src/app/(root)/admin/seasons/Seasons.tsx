@@ -1,156 +1,76 @@
 'use client'
 
 import { useState } from 'react'
-import Link from 'next/link'
-import { MoreHorizontal } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuItem,
-	DropdownMenuLabel,
-	DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import {
-	Table,
-	TableBody,
-	TableCell,
-	TableHead,
-	TableHeader,
-	TableRow,
-} from '@/components/ui/table'
-import {
-	AlertDialog,
-	AlertDialogAction,
-	AlertDialogCancel,
-	AlertDialogContent,
-	AlertDialogDescription,
-	AlertDialogFooter,
-	AlertDialogHeader,
-	AlertDialogTitle,
-} from '@/components/ui/alert-dialog'
+import { useRouter } from 'next/navigation'
+import { useAdminSeasons } from '@/hooks/admin/season/useAdminSeasons'
 import { ADMIN_URL } from '@/config/urls.constants'
 import { Container } from '@/components/container'
-import { useAdminSeasons } from '@/hooks/admin/season/useAdminSeasons'
+import { ISeason } from '@/shared/types/season.interface'
+import { AdminDataTable, IColumn } from '@/components/ui/admin/admin-data-table'
+import { AdminPageHeader } from '@/components/ui/admin/admin-page-header'
+import { AdminDeleteAlert } from '@/components/ui/admin/admin-delete-alert'
+
+const columns: IColumn<ISeason>[] = [
+	{
+		key: 'name',
+		header: 'Название',
+		cell: item => <span className="font-medium">{item.name}</span>,
+	},
+	{
+		key: 'slug',
+		header: 'URL',
+		cell: item => <span>{item.slug}</span>,
+	},
+]
 
 const Seasons = () => {
+	const router = useRouter()
 	const { seasons, isLoading, deleteSeason } = useAdminSeasons()
+
 	const [isDialogOpen, setIsDialogOpen] = useState(false)
-	const [seasonToDelete, setSeasonToDelete] = useState<{
+	const [itemToDelete, setItemToDelete] = useState<{
 		slug: string
 		name: string
 	} | null>(null)
 
 	const handleOpenDeleteDialog = (slug: string, name: string) => {
-		setSeasonToDelete({ slug, name })
+		setItemToDelete({ slug, name })
 		setIsDialogOpen(true)
 	}
 
 	const confirmDelete = () => {
-		if (seasonToDelete) {
-			deleteSeason(seasonToDelete.slug)
-			setSeasonToDelete(null)
+		if (itemToDelete) {
+			deleteSeason(itemToDelete.slug)
+			setItemToDelete(null)
+			setIsDialogOpen(false)
 		}
 	}
 
 	return (
 		<Container>
 			<div className="p-4 md:p-8">
-				<div className="flex items-center justify-between mb-4">
-					<h1 className="text-2xl font-bold">Управление сезонами</h1>
-					<Link href={ADMIN_URL.seasons.create()}>
-						<Button>Создать новый сезон</Button>
-					</Link>
-				</div>
+				<AdminPageHeader
+					title="Управление сезонами"
+					createUrl={ADMIN_URL.seasons.create()}
+					buttonText="Создать новый сезон"
+				/>
 
-				{isLoading ? (
-					<p>Загрузка данных...</p>
-				) : (
-					<div className="rounded-md border">
-						<Table>
-							<TableHeader>
-								<TableRow>
-									<TableHead>Название</TableHead>
-									<TableHead>URL</TableHead>
-									<TableHead>
-										<span className="sr-only">Действия</span>
-									</TableHead>
-								</TableRow>
-							</TableHeader>
-							<TableBody>
-								{seasons?.length ? (
-									seasons.map(season => (
-										<TableRow key={season.id}>
-											<TableCell className="font-medium">
-												{season.name}
-											</TableCell>
-											<TableCell>{season.slug}</TableCell>
-											<TableCell>
-												<DropdownMenu>
-													<DropdownMenuTrigger asChild>
-														<Button
-															aria-haspopup="true"
-															size="icon"
-															variant="ghost"
-														>
-															<MoreHorizontal className="h-4 w-4" />
-														</Button>
-													</DropdownMenuTrigger>
-													<DropdownMenuContent align="end">
-														<Link href={ADMIN_URL.seasons.put(season.slug)}>
-															<DropdownMenuItem className="cursor-pointer">
-																Изменить
-															</DropdownMenuItem>
-														</Link>
-														<DropdownMenuItem
-															className="text-red-600 cursor-pointer"
-															onSelect={e => {
-																e.preventDefault()
-																handleOpenDeleteDialog(season.slug, season.name)
-															}}
-														>
-															Удалить
-														</DropdownMenuItem>
-													</DropdownMenuContent>
-												</DropdownMenu>
-											</TableCell>
-										</TableRow>
-									))
-								) : (
-									<TableRow>
-										<TableCell colSpan={3} className="h-24 text-center">
-											Нет результатов
-										</TableCell>
-									</TableRow>
-								)}
-							</TableBody>
-						</Table>
-					</div>
-				)}
+				<AdminDataTable
+					data={seasons}
+					columns={columns}
+					isLoading={isLoading}
+					uniqueKey="slug"
+					onEdit={slug => router.push(ADMIN_URL.seasons.put(slug))}
+					onDelete={handleOpenDeleteDialog}
+				/>
 			</div>
 
-			<AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-				<AlertDialogContent>
-					<AlertDialogHeader>
-						<AlertDialogTitle>Вы уверены?</AlertDialogTitle>
-						<AlertDialogDescription>
-							Это действие невозможно отменить. Вы собираетесь удалить с базы
-							данных сезон -{' '}
-							<strong className="text-foreground/80">
-								{seasonToDelete?.name.toLowerCase()}
-							</strong>
-						</AlertDialogDescription>
-					</AlertDialogHeader>
-					<AlertDialogFooter>
-						<AlertDialogCancel onClick={() => setSeasonToDelete(null)}>
-							Отмена
-						</AlertDialogCancel>
-						<AlertDialogAction onClick={confirmDelete}>
-							Удалить
-						</AlertDialogAction>
-					</AlertDialogFooter>
-				</AlertDialogContent>
-			</AlertDialog>
+			<AdminDeleteAlert
+				isOpen={isDialogOpen}
+				onOpenChange={setIsDialogOpen}
+				onConfirm={confirmDelete}
+				entityName={itemToDelete?.name.toLowerCase()}
+			/>
 		</Container>
 	)
 }

@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button'
 import { useAdminSeasonForm } from '@/hooks/admin/season/useAdminSeasonForm'
 import { Label } from '../ui/form/label'
 import { Input } from '../ui/form/input'
+import { AdminFormSkeleton } from '../skeletons/admin-form-skeleton'
 
 interface ISeasonFormProps {
 	seasonSlug?: string
@@ -23,7 +24,7 @@ export const SeasonForm = ({ seasonSlug }: ISeasonFormProps) => {
 	return (
 		<form onSubmit={handleSubmit(onSubmit)} className="max-w-xl">
 			{isLoading ? (
-				<p>Загрузка данных...</p>
+				<AdminFormSkeleton />
 			) : (
 				<div className="space-y-6">
 					<div className="space-y-2">

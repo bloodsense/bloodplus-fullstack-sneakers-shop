@@ -4,6 +4,7 @@ import { useAdminColorForm } from '@/hooks/admin/colors/useAdminColorForm'
 import { Label } from '@radix-ui/react-label'
 import { Input } from '../ui/form/input'
 import { Button } from '../ui/button'
+import { AdminFormSkeleton } from '../skeletons/admin-form-skeleton'
 
 interface IColorFormProps {
 	colorSlug?: string
@@ -27,7 +28,7 @@ export const ColorForm = ({ colorSlug }: IColorFormProps) => {
 	return (
 		<form onSubmit={handleSubmit(onSubmit)} className="max-w-xl">
 			{isLoading ? (
-				<p>Загрузка данных...</p>
+				<AdminFormSkeleton />
 			) : (
 				<div className="space-y-6">
 					<div className="space-y-2">

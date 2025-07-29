@@ -1,22 +1,17 @@
 import { BrandForm } from '@/components/admin/brand-form'
-import { Container } from '@/components/container'
-import type { Metadata } from 'next'
+import { AdminFormPageLayout } from '@/components/ui/admin/admin-form-page-layout'
 import { NO_INDEX_PAGE } from '@/constants/seo-constants'
+import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
 	title: 'Создать бренд',
 	...NO_INDEX_PAGE,
 }
 
-const CreateBrandPage = () => {
+export default function CreateBrandPage() {
 	return (
-		<Container>
-			<div className="p-4 md:p-8">
-				<h1 className="text-2xl font-bold mb-6">Создать новый бренд</h1>
-				<BrandForm />
-			</div>
-		</Container>
+		<AdminFormPageLayout title="Создать новый бренд">
+			<BrandForm />
+		</AdminFormPageLayout>
 	)
 }
-
-export default CreateBrandPage
