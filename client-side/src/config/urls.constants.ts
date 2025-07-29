@@ -36,6 +36,7 @@ export const ADMIN_URL = {
 
 	seasons: {
 		page: () => '/admin/seasons',
+		put: (slug: string) => `/admin/seasons/put/${slug}`,
 		create: () => '/admin/seasons/create',
 		delete: (slug: string) => `/admin/seasons/delete/${slug}`,
 		getBySlug: (slug: string) => `/admin/seasons/getBySlug/${slug}`,

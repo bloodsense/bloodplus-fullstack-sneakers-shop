@@ -1,12 +1,12 @@
 import type { Metadata } from 'next'
 import { NO_INDEX_PAGE } from '@/constants/seo-constants'
-import Colors from './Colors'
+import Seasons from './Seasons'
 
 export const metadata: Metadata = {
-	title: 'Админ-панель | Цвета',
+	title: 'Админ-панель | Сезоны',
 	...NO_INDEX_PAGE,
 }
 
-export default function ColorsPage() {
-	return <Colors />
+export default function SeasonsPage() {
+	return <Seasons />
 }
