@@ -1,139 +1,489 @@
-## NESTJS
 
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
+  
+
+<br>
+
+<p  align="center">
+<img  src="./client-side/public/bloodplus-logo-light.svg"  alt="bloodplus logo"  width="270"/>
 </p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+<p  align="center">
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
+Фуллстек-проект онлайн-магазина кроссовок с панелью администратора и интеграцией платежной системы ЮКаssа.
+
 </p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
+## **Стек приложения**
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+  
 
-## Project setup
+### **Backend**
 
-```bash
-$ yarn install
+  
+
+-  **Фреймворк**: [NestJS](https://www.google.com/url?sa=E&q=https%3A%2F%2Fnestjs.com%2F) — прогрессивный Node.js фреймворк для построения эффективных и масштабируемых серверных приложений.
+
+-  **База данных и ORM**: [PostgreSQL](https://www.google.com/url?sa=E&q=https%3A%2F%2Fwww.postgresql.org%2F) с [Prisma](https://www.google.com/url?sa=E&q=https%3A%2F%2Fwww.prisma.io%2F) для типобезопасного взаимодействия с базой данных.
+
+-  **Аутентификация**: [Passport.js](https://www.google.com/url?sa=E&q=http%3A%2F%2Fwww.passportjs.org%2F) с реализацией:
+
+-  **JWT-стратегии** (access и refresh токены).
+
+-  **OAuth 2.0** для входа через Google и Yandex.
+
+-  **Хеширование паролей**: [Argon2](https://www.google.com/url?sa=E&q=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FArgon2) — современный и безопасный алгоритм хеширования.
+
+-  **Работа с файлами**: Загрузка и отдача статических файлов (@nestjs/serve-static, fs-extra).
+
+-  **Валидация**: class-validator и class-transformer для надежной валидации входящих данных.
+
+-  **Платежи**: Интеграция с [YooKassa](https://www.google.com/url?sa=E&q=https%3A%2F%2Fyookassa.ru%2F).
+
+-  **Окружение**: [Docker](https://www.google.com/url?sa=E&q=https%3A%2F%2Fwww.docker.com%2F) для контейнеризации приложения и базы данных.
+
+### **Frontend**
+
+  
+
+-  **Фреймворк**: [Next.js](https://www.google.com/url?sa=E&q=https%3A%2F%2Fnextjs.org%2F) (с [Turbopack](https://www.google.com/url?sa=E&q=https%3A%2F%2Fturbo.build%2Fpack)) — React-фреймворк, который позволяет строить высокопроизводительные веб-приложения.
+
+-  **Управление состоянием**:
+
+- [Zustand](https://www.google.com/url?sa=E&q=https%3A%2F%2Fzustand-demo.pmnd.rs%2F) для глобального состояния.
+
+- [TanStack Query (React Query)](https://www.google.com/url?sa=E&q=https%3A%2F%2Ftanstack.com%2Fquery%2Flatest) для управления серверным состоянием, кэширования и синхронизации данных.
+
+-  **Стилизация**: [Tailwind CSS](https://www.google.com/url?sa=E&q=https%3A%2F%2Ftailwindcss.com%2F) — utility-first CSS-фреймворк.
+
+-  **UI-компоненты**: [Shadcn/ui](https://www.google.com/url?sa=E&q=https%3A%2F%2Fui.shadcn.com%2F) — коллекция переиспользуемых компонентов на основе [Radix UI](https://www.google.com/url?sa=E&q=https%3A%2F%2Fwww.radix-ui.com%2F).
+
+-  **Формы**: [React Hook Form](https://www.google.com/url?sa=E&q=https%3A%2F%2Freact-hook-form.com%2F) с валидацией через [Zod](https://www.google.com/url?sa=E&q=https%3A%2F%2Fzod.dev%2F).
+
+-  **HTTP-клиент**: [Axios](https://www.google.com/url?sa=E&q=https%3A%2F%2Faxios-http.com%2F) для выполнения запросов к API.
+
+-   **Аутентификация на клиенте**:
+    
+    -   Работа с JWT (jwt-decode) и хранение токенов в cookie (js-cookie).
+        
+    -   **Middleware для защиты роутов**: Реализован механизм на базе Next.js Middleware для управления доступом к страницам. Он решает следующие задачи:
+        
+        -   **Защита роутов**: Ограничивает доступ к страницам профиля (/profile/*) и панели администратора (/admin/*) только для авторизованных пользователей.
+            
+        -   **Управление доступом по ролям**: Доступ к панели администратора разрешен только пользователям с ролью ADMIN.
+            
+        -   **Автоматическое обновление токенов**: При истечении accessToken middleware автоматически запрашивает новый, используя refreshToken, обеспечивая бесшовный пользовательский опыт без необходимости повторной авторизации.
+            
+        -   **Редиректы**: Автоматически перенаправляет пользователей со страниц, требующих авторизации, на страницу входа, и наоборот, если пользователь уже авторизован и пытается зайти на страницу входа/регистрации.
+-   **UX/UI**:
+    
+    -   **Скелетоны (Skeletons)**: Для улучшения пользовательского опыта во время загрузки данных используются скелетоны. Они отображаются в каталоге, при фильтрации, в профиле, избранном и в формах панели администратора.
+    -   **Страница 404**: Для всех несуществующих маршрутов отображается кастомная страница "Не найдено", которая поддерживает светлую и темную темы.
+
+  
+
+### **Возможности пользователя**
+
+----------
+
+- Интерфейс с возможностью переключения между светлой и темной темами (изначально устанавливается системная).
+
+- Поиск по названию товара, фильтрация по полу, бренду, сезону, цвету и цене.
+
+- Регистрация и вход через email, а также через Google и Yandex.
+
+- Добавление/удаление товаров в корзине с синхронизацией для неавторизованных пользователей при их последующей регистрации.
+
+- Возможность добавления/удаления товаров в избранное с синхронизацией для неавторизованных пользователей при их последующей регистрации.
+
+- Интеграция с платежной системой ЮКаssа для безопасной оплаты.
+
+- Возможность оставлять отзывы и ставить оценки товарам.
+
+- Просмотр истории и полной информации о своих заказах в личном кабинете.
+
+  
+
+### **Возможности администратора**
+
+----------
+
+- Полное управление каталогом кроссовок на клиенте (создание, чтение, обновление, удаление).
+
+- Полное управление и редактирование сущностей на клиенте: бренды, цвета, сезоны и размеры.
+
+  
+
+----------
+
+## **Скриншоты приложения**
+
+  
+  
+
+<details>
+
+<summary><strong>Аутентификация</strong></summary>
+
+<p  align="center">
+<a  href="https://iimg.su/i/hHqArE"><img  src="https://s.iimg.su/s/02/bfLuaSrge9BXp8LIXbn94EWZ8nKNZpdmLxP5xKwF.png"></a>
+<br>
+<em>Регистрация (Светлая тема)</em>
+<p  align="center">
+<a  href="https://iimg.su/i/o2IvSj"><img  src="https://s.iimg.su/s/02/3HPV4qrsYKOhAgmYW4sNufjZPaA08lmBb90TVG9W.png"></a>
+<br>
+<em>Авторизация (Темная тема)</em>
+</p>
+</details>
+<details>
+<summary><strong>Каталог, фильтрация и поиск</strong></summary>
+<p  align="center">
+<a  href="https://iimg.su/i/X2IzIY"><img  src="https://s.iimg.su/s/02/cBrrEgbdrawvQl3fUacmgFsA4T0nU9ep2zbINT1a.png"></a>
+<em>Результаты поиска (Светлая тема)</em>
+</p>
+<p  align="center">
+<a  href="https://iimg.su/i/F2Pbnh"><img  src="https://s.iimg.su/s/02/LBJwRYRqZG1O5dBuOTSqLHpOhLg3a8T4Am8EgX9G.png"></a>
+<br>
+<em>Каталог (Темная тема)</em>
+</p>
+<p  align="center">
+<a  href="https://iimg.su/i/GY8lrm"><img  src="https://s.iimg.su/s/02/9rRjf9LWZfwcg4e5jR0lRQz818X8oGk3bbpikxD1.png"></a>
+<br>
+<em>Фильтрация с одним из выпадающих окон в топ-баре (Светлая тема)</em>
+</p>
+<p  align="center">
+<a  href="https://iimg.su/i/1Bduhl"><img  src="https://s.iimg.su/s/02/15sMSwtnVHgQC9i5SzDqtysUzCluzkbVSm8nWz0E.png"></a>
+<br>
+<em>Фильтрация с переходом по ссылке (Темная тема)</em>
+</p>
+</details>
+<details>
+<summary><strong>Страница товара и отзывы</strong></summary>
+<p  align="center">
+<a  href="https://iimg.su/i/Lx78Hq"><img  src="https://s.iimg.su/s/02/vCsClBF4JDxCPKWYVFS0tDuKvlxH3FGH6YdKASg4.png"></a>
+<br>
+<em>Страница товара (Светлая тема)</em>
+</p>
+<p  align="center">
+<a  href="https://iimg.su/i/uiK1ob"><img  src="https://s.iimg.su/s/02/4VgfEbJwVp71DZoIIMQZxlmivTZROMn58ldiKhCx.png"></a>
+<br>
+<em>Страница товара с выбором размера и демонстрация работы информирования пользователя "тостерами" (Темная тема)</em>
+</p>
+<p  align="center">
+<a  href="https://iimg.su/i/ssggFR"><img  src="https://s.iimg.su/s/02/iqCxwjhiyqzsCt7Sf4ysrjefGUWRNhPyNI9YlOV5.png"></a>
+<br>
+<em>Отзывы и форма для создания (Светлая тема)</em>
+</p>
+<p  align="center">
+<a  href="https://iimg.su/i/xwGqJ1"><img  src="https://s.iimg.su/s/02/ViuJdjqY687v6NkDhBWgjXc7cZ8ljuGG2ekDafk2.png"></a>
+<br>
+<em>Отзывы и редактирование оставленного отзыва, демонстрация работы информирования пользователя "тостерами" (Темная тема)</em>
+</p>
+</details>
+<details>
+<summary><strong>Корзина и оформление заказа</strong></summary>
+<p  align="center">
+<a  href="https://iimg.su/i/y3jOom"><img  src="https://s.iimg.su/s/02/KRWhl2vd7oJjRsOXUojwzyP2YhqP6QhqF430AV0c.png"></a>
+<br>
+<em>Корзина у авторизованного пользователя (Светлая тема)</em>
+</p>
+<p  align="center">
+<a  href="https://iimg.su/i/21Hr40"><img  src="https://s.iimg.su/s/02/M9PC9z0Zx2SeDKq4NAyssidssDwqRK3Q6jjgaVvx.png"></a>
+<br>
+<em>Корзина у неавторизованного пользователя (Темная тема)</em>
+</p>
+<p  align="center">
+<a  href="https://iimg.su/i/ZfOuay"><img  src="https://s.iimg.su/s/02/NOzIJxaSi42w1aIRuYFbb78UGSVI7bSQEJNiF7yM.png"></a>
+<br>
+<em>Интеграция с платежной системой ЮКасса</em>
+</p>
+<p  align="center">
+<a  href="https://iimg.su/i/rqGGJ7"><img  src="https://s.iimg.su/s/02/vu28RJOkQE7HBukXobUTUdXPth2eb0vuEQSkfXK3.png"></a>
+<br>
+<em>Сообщение об успешном заказе (Темная тема)</em>
+</p>
+</details>
+<details>
+<summary><strong>Профиль пользователя: заказы и избранное</strong></summary>
+<p  align="center">
+<a  href="https://iimg.su/i/zYV4m2"><img  src="https://s.iimg.su/s/02/yJoUIZhmNl8PEaXiDKoYMFJB7W4RvNKW5pAtbFJm.png"></a>
+<br>
+<em>Пустая история заказов и отображение кнопки панели администратора (Светлая тема)</em>
+</p>
+<p  align="center">
+<a  href="https://iimg.su/i/BgEjAb"><img  src="https://s.iimg.su/s/02/ZmleJWhrHAXDyIIAFd34vp9bqyRebPhx7TLZsp6i.png"></a>
+<br>
+<em>История с выполненными заказами и отображение кнопки панели администратора (Темная тема)</em>
+</p>
+<p  align="center">
+<a  href="https://iimg.su/i/tM7i1P"><img  src="https://s.iimg.su/s/02/2IEosMQYTbhtvWXXj6eICbEvHVuWVrzz5kb4qEjh.png"></a>
+<br>
+<em>Избранное у авторизованного пользователя (Светлая тема)</em>
+</p>
+<p  align="center">
+<a  href="https://iimg.su/i/q5jyVV"><img  src="https://s.iimg.su/s/02/OKMWuBCWIDSHBbX0h67HVztZdLOCZj8nxaMH3wpT.png"></a>
+<br>
+<em>Избранное у неавторизованного пользователя, с возможностью последующей синхронизацией товаров на сервер (Темная тема)</em>
+</p>
+</details>
+<details>
+<summary><strong>Панель администратора</strong></summary>
+<p  align="center">
+<a  href="https://iimg.su/i/x2Lk24"><img  src="https://s.iimg.su/s/02/SsSk5MicBUuQpv2iD1urekvxz4ZESG9bvMi3LD1Z.png"></a>
+<br>
+<em>Главная страница админ-панели (Темная тема)</em>
+</p>
+<p  align="center">
+<a  href="https://iimg.su/i/yUMax1"><img  src="https://s.iimg.su/s/02/BpkHdBZ5cmQxEeSlzygq22AmLc0LPU3VO4qFzCkw.png"></a>
+<br>
+<em>Управление товарами (Светлая тема)</em>
+</p>
+<p  align="center">
+<a  href="https://iimg.su/i/ZSLzJg"><img  src="https://s.iimg.su/s/02/lw8d0A4DMcY2x31HXSkwa2p17dvKUdmusFCKVYb5.png"></a>
+<br>
+<em>Управление другими сущностями (Темная тема)</em>
+</p>
+<p  align="center">
+<a  href="https://iimg.su/i/P2aDQD"><img  src="https://s.iimg.su/s/02/VKGg5m7vMqCHT5fsAr90NFYGroGa6cDbJoyLNJcQ.png"></a>
+<br>
+<em>Форма создания/редактирования товара (Светлая тема)</em>
+</p>
+</details>
+<details>
+<summary><strong>Скелетоны</strong></summary>
+<p  align="center">
+<a href="https://iimg.su/i/mf26AU"><img src="https://s.iimg.su/s/03/bQPHssgSFHpadMiqzw70U4poXjafs62pfIVd6mnz.png"></a>
+<br>
+<em>Скелетоны каталога (Темная тема)</em>
+</p>
+<p  align="center">
+<a href="https://iimg.su/i/Pk6G6r"><img src="https://s.iimg.su/s/03/qJqPVxVp4PRPpoBpRdPCdzlQq5mHMNdWr5znl70t.png"></a>
+<br>
+<em>Скелетоны фильтрации (Светлая тема)</em>
+</p>
+<p  align="center">
+<a href="https://iimg.su/i/mcFfmp"><img src="https://s.iimg.su/s/03/Nnt6h7cXMKydfI8BDx7d60qP6uIHypzyViBVUFae.png"></a>
+<br>
+<em>Скелетоны профиля (Светлая тема)</em>
+</p>
+</details>
+<details>
+<summary><strong>Страница 404</strong></summary>
+<p  align="center">
+<a href="https://iimg.su/i/nnlmU9"><img src="https://s.iimg.su/s/03/N9faJmqAR73NH1kO7nOeSC45LKvdgoeR4spCzLzJ.png"></a>
+<br>
+<em>Страница 404 (Темная тема)</em>
+</p>
+<p  align="center">
+<a href="https://iimg.su/i/CJ5bm9"><img src="https://s.iimg.su/s/03/Amcouu8qhEZykfMqAhLmmwSY1sDGhfAQFHkV1Nlo.png"></a>
+<br>
+<em>Страница 404 (Светлая тема)</em>
+</p>
+</details>
+
+  
+
+----------
+
+  
+
+## **Установка и запуск**
+
+  
+  
+
+### **Предварительные требования**
+
+  
+
+-  **Node.js** (версия 18.x или выше)
+
+-  **Docker** и **Docker Compose**
+
+  
+
+-  **Yarn** и **Bun** в качестве менеджеров пакетов.
+
+  
+
+#### **Шаг 1: Клонирование репозитория**
+
 ```
 
-## Compile and run the project
+git clone https://github.com/tramalretard/bloodplus-fullstack-sneakers-shop.git
 
-```bash
-# development
-$ yarn run start
+cd bloodplus-fullstack-sneakers-shop
 
-# watch mode
-$ yarn run start:dev
-
-# production mode
-$ yarn run start:prod
 ```
 
-## Run tests
+  
+  
 
-```bash
-# unit tests
-$ yarn run test
+#### **Шаг 2: Настройка бэкенда**
 
-# e2e tests
-$ yarn run test:e2e
+  
 
-# test coverage
-$ yarn run test:cov
+1. Перейдите в директорию серверной части.
+
+  
+
 ```
 
-## Deployment
+cd server-side
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
-```bash
-$ yarn install -g @nestjs/mau
-$ mau deploy
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+  
 
-## Resources
+2. Создайте файл .env на основе примера.
 
-Check out a few resources that may come in handy when working with NestJS:
+```
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+cp .env.example .env
 
-## Support
+```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+3. Заполните переменные окружения в файле .env своими данными (данные для подключения к БД, JWT-секреты, OAuth-ключи).
 
-## Stay in touch
+```
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+DATABASE_URL="postgresql://USER:PASSWORD@HOST:PORT/DATABASE"
 
-## License
+JWT_SECRET=your_jwt_secret
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+... и другие переменные
 
-## NEXTJS
+```
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+4. Запустите контейнер с базой данных PostgreSQL.
 
-## Getting Started
+```
 
-First, run the development server:
+docker-compose up -d
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
+```
+
+5. Установите зависимости с помощью Yarn.
+
+```
+
+yarn install
+
+```
+
+6. Примените миграции базы данных.
+
+```
+
+npx prisma migrate dev
+
+```
+
+7. Запустите сервер в режиме разработки.
+
+```
+
+yarn start:dev
+
+```
+
+Сервер будет доступен по адресу http://localhost:4200.
+
+  
+
+#### **Шаг 3: Настройка Frontend**
+
+  
+
+1. В **новом окне терминала** перейдите в директорию клиентской части.
+
+```
+
+cd client-side
+
+```
+
+2. Создайте файл .env.local и укажите в нем адрес вашего бэкенд-сервера.
+
+```
+
+echo "NEXT_PUBLIC_SERVER_URL=http://localhost:4200" > .env.local
+
+```
+
+3. Установите зависимости с помощью Bun.
+
+```
+
+bun install
+
+```
+
+4. Запустите приложение.
+
+```
+
 bun dev
+
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Приложение будет доступно по адресу http://localhost:3000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+  
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+#### **Шаг 4: Наполнение контентом**
 
-## Learn More
+  
 
-To learn more about Next.js, take a look at the following resources:
+**Важно:** после первого запуска база данных будет пуста. Чтобы сайт заработал, наполните его контентом через панель администратора.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+  
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1.  **Зарегистрируйте нового пользователя** на сайте.
 
-## Deploy on Vercel
+2.  **Сделайте этого пользователя администратором.** Для этого вручную измените его роль в базе данных (например, через TablePlus):
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Подключитесь к вашей Docker-базе данных.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Найдите таблицу User.
+
+- У вашего пользователя измените значение поля **role** на **ADMIN**.
+
+3.  **Перезайдите в аккаунт** на сайте, чтобы роль в токенах изменилась. В профиле появится кнопка **"Админ-панель"**.
+
+4.  **Через админ-панель** добавьте бренды, сезоны, цвета, размеры и сами кроссовки.
+
+  
+
+----------
+
+  
+
+## **Доступные скрипты**
+
+  
+
+### **Backend** **(в качестве пакетного менеджера используется Yarn)**
+
+  
+
+- yarn start:dev — запуск сервера в режиме разработки.
+
+- yarn build — сборка проекта для продакшена.
+
+- yarn format — форматирование кода.
+
+- yarn lint — проверка кода.
+
+  
+
+### **Frontend** **(в качестве пакетного менеджера используется Bun)**
+
+  
+
+- bun dev — запуск приложения в режиме разработки.
+
+- bun build — сборка проекта для продакшена.
+
+- bun start — запуск продакшн-сборки.
+
+- bun lint — проверка кода.
