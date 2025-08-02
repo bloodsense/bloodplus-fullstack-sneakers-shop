@@ -9,6 +9,7 @@ import { ButtonToggleTheme } from '@/components/ui/button-toggle-theme'
 
 const montserrat = Montserrat({
 	variable: '--font-geist-sans',
+	subsets: ['cyrillic', 'latin'],
 })
 
 export const metadata: Metadata = {

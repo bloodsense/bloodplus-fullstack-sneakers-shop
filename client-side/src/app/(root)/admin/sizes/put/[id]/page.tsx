@@ -8,11 +8,7 @@ export const metadata: Metadata = {
 	...NO_INDEX_PAGE,
 }
 
-interface IEditPageProps {
-	params: { id: string }
-}
-
-export default function EditSizePage({ params }: IEditPageProps) {
+export default function EditSizePage({ params }: { params: { id: string } }) {
 	return (
 		<AdminFormPageLayout title="Редактировать размер">
 			<SizeForm sizeId={params.id} />

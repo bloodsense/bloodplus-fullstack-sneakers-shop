@@ -8,11 +8,11 @@ export const metadata: Metadata = {
 	...NO_INDEX_PAGE,
 }
 
-interface IEditPageProps {
+export default function EditColorPage({
+	params,
+}: {
 	params: { slug: string }
-}
-
-export default function EditColorPage({ params }: IEditPageProps) {
+}) {
 	return (
 		<AdminFormPageLayout title="Редактировать цвет">
 			<ColorForm colorSlug={params.slug} />

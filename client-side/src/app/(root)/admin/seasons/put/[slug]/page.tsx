@@ -8,11 +8,11 @@ export const metadata: Metadata = {
 	...NO_INDEX_PAGE,
 }
 
-interface IEditPageProps {
+export default function EditSeasonPage({
+	params,
+}: {
 	params: { slug: string }
-}
-
-export default function EditSeasonPage({ params }: IEditPageProps) {
+}) {
 	return (
 		<AdminFormPageLayout title="Редактировать сезон">
 			<SeasonForm seasonSlug={params.slug} />

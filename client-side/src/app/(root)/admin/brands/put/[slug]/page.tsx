@@ -8,14 +8,14 @@ export const metadata: Metadata = {
 	...NO_INDEX_PAGE,
 }
 
-interface IEditPageProps {
-	params: { slug: string }
-}
+const EditBrandPage = ({ params }: { params: { slug: string } }) => {
+	const { slug } = params
 
-export default function EditBrandPage({ params }: IEditPageProps) {
 	return (
 		<AdminFormPageLayout title="Редактировать бренд">
-			<BrandForm brandSlug={params.slug} />
+			<BrandForm brandSlug={slug} />
 		</AdminFormPageLayout>
 	)
 }
+
+export default EditBrandPage

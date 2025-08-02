@@ -8,11 +8,11 @@ export const metadata: Metadata = {
 	...NO_INDEX_PAGE,
 }
 
-interface IEditPageProps {
+export default function EditSneakerPage({
+	params,
+}: {
 	params: { slug: string }
-}
-
-export default function EditSneakerPage({ params }: IEditPageProps) {
+}) {
 	return (
 		<AdminFormPageLayout title="Редактировать кроссовки">
 			<SneakerForm sneakerSlug={params.slug} />
