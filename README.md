@@ -1,127 +1,127 @@
-
-  
-
 <br>
-
 <p  align="center">
 <img  src="./client-side/public/bloodplus-logo-light.svg"  alt="bloodplus logo"  width="270"/>
 </p>
-
 <p  align="center">
-
 Фуллстек-проект онлайн-магазина кроссовок с панелью администратора и интеграцией платежной системы ЮКаssа.
-
 </p>
 
 ## **Стек приложения**
-
-  
-
-### **Backend**
-
-  
+### **Backend (серверная часть)**
 
 -  **Фреймворк**: [NestJS](https://www.google.com/url?sa=E&q=https%3A%2F%2Fnestjs.com%2F) — прогрессивный Node.js фреймворк для построения эффективных и масштабируемых серверных приложений.
-
 -  **База данных и ORM**: [PostgreSQL](https://www.google.com/url?sa=E&q=https%3A%2F%2Fwww.postgresql.org%2F) с [Prisma](https://www.google.com/url?sa=E&q=https%3A%2F%2Fwww.prisma.io%2F) для типобезопасного взаимодействия с базой данных.
-
 -  **Аутентификация**: [Passport.js](https://www.google.com/url?sa=E&q=http%3A%2F%2Fwww.passportjs.org%2F) с реализацией:
-
--  **JWT-стратегии** (access и refresh токены).
-
--  **OAuth 2.0** для входа через Google и Yandex.
-
+   -  **JWT-стратегии** (access и refresh токены).
+   -  **OAuth 2.0** для входа через Google и Yandex.
+   -   **Кастомные декораторы для авторизации**: Для защиты эндпоинтов сервера и реализации ролевой модели доступа был создан кастомный декоратор Auth, который объединяет в себе гварды аутентификации и ролей.
 -  **Хеширование паролей**: [Argon2](https://www.google.com/url?sa=E&q=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FArgon2) — современный и безопасный алгоритм хеширования.
-
 -  **Работа с файлами**: Загрузка и отдача статических файлов (@nestjs/serve-static, fs-extra).
-
 -  **Валидация**: class-validator и class-transformer для надежной валидации входящих данных.
-
 -  **Платежи**: Интеграция с [YooKassa](https://www.google.com/url?sa=E&q=https%3A%2F%2Fyookassa.ru%2F).
-
 -  **Окружение**: [Docker](https://www.google.com/url?sa=E&q=https%3A%2F%2Fwww.docker.com%2F) для контейнеризации приложения и базы данных.
+### **Frontend (клиентская часть)**
+-  **Фреймворк**: [Next.js](https://www.google.com/url?sa=E&q=https%3A%2F%2Fnextjs.org%2F) (с [Turbopack](https://www.google.com/url?sa=E&q=https%3A%2F%2Fturbo.build%2Fpack)) — React-фреймворк, который позволяет строить высокопроизводительные веб-приложения.
+-  **Управление состоянием**:
+   - [Zustand](https://www.google.com/url?sa=E&q=https%3A%2F%2Fzustand-demo.pmnd.rs%2F) для глобального состояния.
+   - [TanStack Query (React Query)](https://www.google.com/url?sa=E&q=https%3A%2F%2Ftanstack.com%2Fquery%2Flatest) для управления серверным состоянием, кэширования и синхронизации данных.
+-  **Стилизация**: [Tailwind CSS](https://www.google.com/url?sa=E&q=https%3A%2F%2Ftailwindcss.com%2F) — utility-first CSS-фреймворк.
+-  **UI-компоненты**: [Shadcn/ui](https://www.google.com/url?sa=E&q=https%3A%2F%2Fui.shadcn.com%2F) — коллекция переиспользуемых компонентов на основе [Radix UI](https://www.google.com/url?sa=E&q=https%3A%2F%2Fwww.radix-ui.com%2F).
+-  **Формы**: [React Hook Form](https://www.google.com/url?sa=E&q=https%3A%2F%2Freact-hook-form.com%2F) с валидацией через [Zod](https://www.google.com/url?sa=E&q=https%3A%2F%2Fzod.dev%2F).
+-  **HTTP-клиент**: [Axios](https://www.google.com/url?sa=E&q=https%3A%2F%2Faxios-http.com%2F) для выполнения запросов к API.
+-  **Аутентификация на клиенте**:
+   - Работа с JWT (jwt-decode) и хранение токенов в cookie (js-cookie).
+   -  **Middleware для защиты роутов**: Реализован механизм на базе Next.js Middleware для управления доступом к страницам. Он решает следующие задачи:
 
-### **Frontend**
+      -  **Защита роутов**: Ограничивает доступ к страницам профиля (/profile/*) и панели администратора (/admin/*) только для авторизованных пользователей.
+
+      -  **Управление доступом по ролям**: Доступ к панели администратора разрешен только пользователям с ролью ADMIN.
+
+      -  **Автоматическое обновление токенов**: При истечении accessToken middleware автоматически запрашивает новый, используя refreshToken, обеспечивая бесшовный пользовательский опыт без необходимости повторной авторизации.
+
+      -  **Редиректы**: Автоматически перенаправляет пользователей со страниц, требующих авторизации, на страницу входа, и наоборот, если пользователь уже авторизован и пытается зайти на страницу входа/регистрации.
+
+-  **UX/UI**:
+
+   -  **Скелетоны (Skeletons)**: Для улучшения пользовательского опыта во время загрузки данных используются скелетоны. Они отображаются в каталоге, при фильтрации, в профиле, избранном и в формах панели администратора.
+
+   -  **Страница 404**: Для всех несуществующих маршрутов отображается кастомная страница "Не найдено", которая поддерживает светлую и темную темы.
 
   
-
--  **Фреймворк**: [Next.js](https://www.google.com/url?sa=E&q=https%3A%2F%2Fnextjs.org%2F) (с [Turbopack](https://www.google.com/url?sa=E&q=https%3A%2F%2Fturbo.build%2Fpack)) — React-фреймворк, который позволяет строить высокопроизводительные веб-приложения.
-
--  **Управление состоянием**:
-
-- [Zustand](https://www.google.com/url?sa=E&q=https%3A%2F%2Fzustand-demo.pmnd.rs%2F) для глобального состояния.
-
-- [TanStack Query (React Query)](https://www.google.com/url?sa=E&q=https%3A%2F%2Ftanstack.com%2Fquery%2Flatest) для управления серверным состоянием, кэширования и синхронизации данных.
-
--  **Стилизация**: [Tailwind CSS](https://www.google.com/url?sa=E&q=https%3A%2F%2Ftailwindcss.com%2F) — utility-first CSS-фреймворк.
-
--  **UI-компоненты**: [Shadcn/ui](https://www.google.com/url?sa=E&q=https%3A%2F%2Fui.shadcn.com%2F) — коллекция переиспользуемых компонентов на основе [Radix UI](https://www.google.com/url?sa=E&q=https%3A%2F%2Fwww.radix-ui.com%2F).
-
--  **Формы**: [React Hook Form](https://www.google.com/url?sa=E&q=https%3A%2F%2Freact-hook-form.com%2F) с валидацией через [Zod](https://www.google.com/url?sa=E&q=https%3A%2F%2Fzod.dev%2F).
-
--  **HTTP-клиент**: [Axios](https://www.google.com/url?sa=E&q=https%3A%2F%2Faxios-http.com%2F) для выполнения запросов к API.
-
--   **Аутентификация на клиенте**:
-    
-    -   Работа с JWT (jwt-decode) и хранение токенов в cookie (js-cookie).
-        
-    -   **Middleware для защиты роутов**: Реализован механизм на базе Next.js Middleware для управления доступом к страницам. Он решает следующие задачи:
-        
-        -   **Защита роутов**: Ограничивает доступ к страницам профиля (/profile/*) и панели администратора (/admin/*) только для авторизованных пользователей.
-            
-        -   **Управление доступом по ролям**: Доступ к панели администратора разрешен только пользователям с ролью ADMIN.
-            
-        -   **Автоматическое обновление токенов**: При истечении accessToken middleware автоматически запрашивает новый, используя refreshToken, обеспечивая бесшовный пользовательский опыт без необходимости повторной авторизации.
-            
-        -   **Редиректы**: Автоматически перенаправляет пользователей со страниц, требующих авторизации, на страницу входа, и наоборот, если пользователь уже авторизован и пытается зайти на страницу входа/регистрации.
--   **UX/UI**:
-    
-    -   **Скелетоны (Skeletons)**: Для улучшения пользовательского опыта во время загрузки данных используются скелетоны. Они отображаются в каталоге, при фильтрации, в профиле, избранном и в формах панели администратора.
-    -   **Страница 404**: Для всех несуществующих маршрутов отображается кастомная страница "Не найдено", которая поддерживает светлую и темную темы.
 
   
 
 ### **Возможности пользователя**
 
+  
+
 ----------
+
+  
 
 - Интерфейс с возможностью переключения между светлой и темной темами (изначально устанавливается системная).
 
+  
+
 - Поиск по названию товара, фильтрация по полу, бренду, сезону, цвету и цене.
+
+  
 
 - Регистрация и вход через email, а также через Google и Yandex.
 
+  
+
 - Добавление/удаление товаров в корзине с синхронизацией для неавторизованных пользователей при их последующей регистрации.
+
+  
 
 - Возможность добавления/удаления товаров в избранное с синхронизацией для неавторизованных пользователей при их последующей регистрации.
 
+  
+
 - Интеграция с платежной системой ЮКаssа для безопасной оплаты.
 
+  
+
 - Возможность оставлять отзывы и ставить оценки товарам.
+
+  
 
 - Просмотр истории и полной информации о своих заказах в личном кабинете.
 
   
 
+  
+
 ### **Возможности администратора**
+
+  
 
 ----------
 
+  
+
 - Полное управление каталогом кроссовок на клиенте (создание, чтение, обновление, удаление).
+
+  
 
 - Полное управление и редактирование сущностей на клиенте: бренды, цвета, сезоны и размеры.
 
   
 
+  
+
 ----------
+
+  
 
 ## **Скриншоты приложения**
 
   
+
   
 
 <details>
-
 <summary><strong>Аутентификация</strong></summary>
 
 <p  align="center">
@@ -251,17 +251,17 @@
 <details>
 <summary><strong>Скелетоны</strong></summary>
 <p  align="center">
-<a href="https://iimg.su/i/mf26AU"><img src="https://s.iimg.su/s/03/bQPHssgSFHpadMiqzw70U4poXjafs62pfIVd6mnz.png"></a>
+<a  href="https://iimg.su/i/mf26AU"><img  src="https://s.iimg.su/s/03/bQPHssgSFHpadMiqzw70U4poXjafs62pfIVd6mnz.png"></a>
 <br>
 <em>Скелетоны каталога (Темная тема)</em>
 </p>
 <p  align="center">
-<a href="https://iimg.su/i/Pk6G6r"><img src="https://s.iimg.su/s/03/qJqPVxVp4PRPpoBpRdPCdzlQq5mHMNdWr5znl70t.png"></a>
+<a  href="https://iimg.su/i/Pk6G6r"><img  src="https://s.iimg.su/s/03/qJqPVxVp4PRPpoBpRdPCdzlQq5mHMNdWr5znl70t.png"></a>
 <br>
 <em>Скелетоны фильтрации (Светлая тема)</em>
 </p>
 <p  align="center">
-<a href="https://iimg.su/i/mcFfmp"><img src="https://s.iimg.su/s/03/Nnt6h7cXMKydfI8BDx7d60qP6uIHypzyViBVUFae.png"></a>
+<a  href="https://iimg.su/i/mcFfmp"><img  src="https://s.iimg.su/s/03/Nnt6h7cXMKydfI8BDx7d60qP6uIHypzyViBVUFae.png"></a>
 <br>
 <em>Скелетоны профиля (Светлая тема)</em>
 </p>
@@ -269,221 +269,101 @@
 <details>
 <summary><strong>Страница 404</strong></summary>
 <p  align="center">
-<a href="https://iimg.su/i/nnlmU9"><img src="https://s.iimg.su/s/03/N9faJmqAR73NH1kO7nOeSC45LKvdgoeR4spCzLzJ.png"></a>
+<a  href="https://iimg.su/i/nnlmU9"><img  src="https://s.iimg.su/s/03/N9faJmqAR73NH1kO7nOeSC45LKvdgoeR4spCzLzJ.png"></a>
 <br>
 <em>Страница 404 (Темная тема)</em>
 </p>
 <p  align="center">
-<a href="https://iimg.su/i/CJ5bm9"><img src="https://s.iimg.su/s/03/Amcouu8qhEZykfMqAhLmmwSY1sDGhfAQFHkV1Nlo.png"></a>
+<a  href="https://iimg.su/i/CJ5bm9"><img  src="https://s.iimg.su/s/03/Amcouu8qhEZykfMqAhLmmwSY1sDGhfAQFHkV1Nlo.png"></a>
 <br>
 <em>Страница 404 (Светлая тема)</em>
 </p>
 </details>
 
-  
-
 ----------
-
-  
-
 ## **Установка и запуск**
 
-  
-  
-
 ### **Предварительные требования**
-
-  
 
 -  **Node.js** (версия 18.x или выше)
 
 -  **Docker** и **Docker Compose**
 
-  
-
 -  **Yarn** и **Bun** в качестве менеджеров пакетов.
 
-  
-
 #### **Шаг 1: Клонирование репозитория**
-
 ```
-
 git clone https://github.com/tramalretard/bloodplus-fullstack-sneakers-shop.git
-
 cd bloodplus-fullstack-sneakers-shop
-
 ```
-
-  
-  
-
 #### **Шаг 2: Настройка бэкенда**
-
-  
-
 1. Перейдите в директорию серверной части.
-
-  
-
 ```
-
 cd server-side
-
 ```
-
-  
-
 2. Создайте файл .env на основе примера.
-
 ```
-
 cp .env.example .env
-
 ```
-
 3. Заполните переменные окружения в файле .env своими данными (данные для подключения к БД, JWT-секреты, OAuth-ключи).
-
 ```
-
 DATABASE_URL="postgresql://USER:PASSWORD@HOST:PORT/DATABASE"
-
 JWT_SECRET=your_jwt_secret
-
 ... и другие переменные
-
 ```
-
 4. Запустите контейнер с базой данных PostgreSQL.
-
 ```
-
 docker-compose up -d
-
 ```
-
 5. Установите зависимости с помощью Yarn.
-
 ```
-
 yarn install
-
 ```
-
 6. Примените миграции базы данных.
-
 ```
-
 npx prisma migrate dev
-
 ```
-
 7. Запустите сервер в режиме разработки.
-
 ```
-
 yarn start:dev
-
 ```
-
 Сервер будет доступен по адресу http://localhost:4200.
-
-  
-
 #### **Шаг 3: Настройка Frontend**
-
-  
-
 1. В **новом окне терминала** перейдите в директорию клиентской части.
-
 ```
-
 cd client-side
-
 ```
-
 2. Создайте файл .env.local и укажите в нем адрес вашего бэкенд-сервера.
-
 ```
-
 echo "NEXT_PUBLIC_SERVER_URL=http://localhost:4200" > .env.local
-
 ```
-
 3. Установите зависимости с помощью Bun.
-
 ```
-
 bun install
-
 ```
-
 4. Запустите приложение.
-
 ```
-
 bun dev
-
 ```
-
 Приложение будет доступно по адресу http://localhost:3000.
-
-  
-
 #### **Шаг 4: Наполнение контентом**
-
-  
-
 **Важно:** после первого запуска база данных будет пуста. Чтобы сайт заработал, наполните его контентом через панель администратора.
-
-  
-
 1.  **Зарегистрируйте нового пользователя** на сайте.
-
 2.  **Сделайте этого пользователя администратором.** Для этого вручную измените его роль в базе данных (например, через TablePlus):
-
 - Подключитесь к вашей Docker-базе данных.
-
 - Найдите таблицу User.
-
 - У вашего пользователя измените значение поля **role** на **ADMIN**.
-
 3.  **Перезайдите в аккаунт** на сайте, чтобы роль в токенах изменилась. В профиле появится кнопка **"Админ-панель"**.
-
 4.  **Через админ-панель** добавьте бренды, сезоны, цвета, размеры и сами кроссовки.
-
-  
-
 ----------
-
-  
-
 ## **Доступные скрипты**
-
-  
-
 ### **Backend** **(в качестве пакетного менеджера используется Yarn)**
-
-  
-
 - yarn start:dev — запуск сервера в режиме разработки.
-
 - yarn build — сборка проекта для продакшена.
-
 - yarn format — форматирование кода.
-
 - yarn lint — проверка кода.
-
-  
-
 ### **Frontend** **(в качестве пакетного менеджера используется Bun)**
-
-  
-
 - bun dev — запуск приложения в режиме разработки.
-
 - bun build — сборка проекта для продакшена.
-
 - bun start — запуск продакшн-сборки.
-
 - bun lint — проверка кода.
